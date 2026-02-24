@@ -1,17 +1,34 @@
 import { Resend } from "resend";
 import { NextRequest, NextResponse } from "next/server";
-
-const resend = new Resend(process.env.RESEND_API_KEY);
+import { generateRefId } from "../../lib/refid";
 
 export async function POST(req: NextRequest) {
-    try {
-        const body = await req.json();
-        const {
-            organization, dispatcherName, email,
-            mcDot, taxId, equipment, referenceId
-        } = body;
+  try {
+    const resendApiKey = process.env.RESEND_API_KEY;
 
-        const getEmailLayout = (title: string, refId: string, content: string) => `
+    if (!resendApiKey) {
+      console.error("Missing RESEND_API_KEY");
+      return NextResponse.json(
+        { error: "Email service is not configured yet." },
+        { status: 500 }
+      );
+    }
+
+    const resend = new Resend(resendApiKey);
+
+    const body = await req.json();
+    const {
+      organization,
+      dispatcherName,
+      email,
+      mcDot,
+      taxId,
+      equipment,
+    } = body;
+
+    const referenceId = generateRefId('C');
+
+    const getEmailLayout = (title: string, refId: string, content: string) => `
       <!DOCTYPE html>
       <html>
       <head>
@@ -44,7 +61,7 @@ export async function POST(req: NextRequest) {
       </html>
     `;
 
-        const adminContent = `
+    const adminContent = `
       <div class="field-label">CARRIER ENTITY</div>
       <div class="field-value">${organization}</div>
       <div class="field-label">AUTHORITY & TAX ID</div>
@@ -55,37 +72,42 @@ export async function POST(req: NextRequest) {
       <div class="field-value">${dispatcherName}<br/>${email}</div>
     `;
 
-        const userReceiptContent = `
+    const userReceiptContent = `
       <p style="font-size:16px; color:#4B5563; line-height:1.6;">
         Your application to join the Apex Freight Brokerage network has been successfully received and logged under Reference ID: <strong>${referenceId}</strong>. 
       </p>
       <p style="font-size:16px; color:#4B5563; line-height:1.6;">
-        Our compliance team is currently verifying your authority (MC/DOT: <strong>${mcDot}</strong>). You will receive an status update via <strong>${email}</strong> shortly.
+        Our compliance team is currently verifying your authority (MC/DOT: <strong>${mcDot}</strong>). You will receive a status update via <strong>${email}</strong> shortly.
       </p>
     `;
 
-        // 1. Send Admin Notification
-        const { error: adminError } = await resend.emails.send({
-            from: process.env.RESEND_FROM_EMAIL || "noreply@apexfreightbrokerage.com",
-            to: "info@apexfreightbrokerage.com",
-            replyTo: email,
-            subject: `[CARRIER APP] ${referenceId} | ${mcDot}`,
-            html: getEmailLayout("NEW CARRIER APPLICATION", referenceId, adminContent),
-        });
+    const fromEmail =
+      process.env.RESEND_FROM_EMAIL || "noreply@apexfreightbrokerage.com";
 
-        if (adminError) throw adminError;
+    // 1) Admin notification
+    const { error: adminError } = await resend.emails.send({
+      from: fromEmail,
+      to: "info@apexfreightbrokerage.com",
+      replyTo: email,
+      subject: `[CARRIER APP] ${referenceId} | ${mcDot}`,
+      html: getEmailLayout("NEW CARRIER APPLICATION", referenceId, adminContent),
+    });
 
-        // 2. Send User Receipt
-        await resend.emails.send({
-            from: process.env.RESEND_FROM_EMAIL || "noreply@apexfreightbrokerage.com",
-            to: email,
-            subject: `RECEIPT: Apex Carrier Application [${referenceId}]`,
-            html: getEmailLayout("APPLICATION RECEIVED", referenceId, userReceiptContent),
-        });
+    if (adminError) throw adminError;
 
-        return NextResponse.json({ success: true, refId: referenceId });
-    } catch (err) {
-        console.error("API error:", err);
-        return NextResponse.json({ error: "Transmission failed." }, { status: 500 });
-    }
+    // 2) User receipt
+    const { error: userError } = await resend.emails.send({
+      from: fromEmail,
+      to: email,
+      subject: `RECEIPT: Apex Carrier Application [${referenceId}]`,
+      html: getEmailLayout("APPLICATION RECEIVED", referenceId, userReceiptContent),
+    });
+
+    if (userError) throw userError;
+
+    return NextResponse.json({ success: true, refId: referenceId });
+  } catch (err) {
+    console.error("API error:", err);
+    return NextResponse.json({ error: "Transmission failed." }, { status: 500 });
+  }
 }

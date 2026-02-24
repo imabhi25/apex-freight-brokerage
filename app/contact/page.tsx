@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import FadeInUpBox from "../components/FadeInUpBox";
 import SuccessMessage from "../components/SuccessMessage";
-import { generateRefId } from "../lib/utils";
 
 const SPRING = { type: "spring", stiffness: 260, damping: 20, mass: 1 } as const;
 const ELASTIC = [0.16, 1, 0.3, 1] as const;
@@ -16,7 +15,7 @@ function SendMessageButton({ sendState }: { sendState: SendState }) {
     const isIdle = sendState === "idle";
 
     const label =
-        sendState === "loading" ? "UPLOADING TO SERVER..." :
+        sendState === "loading" ? "SUBMITTING..." :
             sendState === "success" ? "MESSAGE DELIVERED" :
                 sendState === "error" ? "RETRY TRANSMISSION" :
                     "Send Message";
@@ -32,10 +31,10 @@ function SendMessageButton({ sendState }: { sendState: SendState }) {
                 onMouseEnter={() => isIdle && setHovered(true)}
                 onMouseLeave={() => setHovered(false)}
                 disabled={sendState === "loading"}
-                className={`flex items-center gap-4 py-6 px-12 transition-all duration-300 min-w-[320px] bg-[var(--maroon)] shadow-lg hover:bg-[var(--maroon-hover)] ${sendState === "success" ? "!bg-green-600" :
+                className={`premium-btn flex items-center gap-4 py-8 px-16 min-w-[320px] ${sendState === "success" ? "!bg-green-600" :
                     sendState === "error" ? "!bg-red-600" :
                         "text-white"
-                    } disabled:opacity-50 disabled:cursor-not-allowed uppercase font-bold font-mono tracking-[0.2em] text-[15px]`}
+                    } disabled:opacity-50 disabled:cursor-not-allowed uppercase font-bold font-mono tracking-[0.2em] text-[15px] shadow-2xl`}
             >
                 <div className="flex items-center gap-3 h-6 w-full justify-center">
                     {sendState === "loading" && (
@@ -80,17 +79,19 @@ export default function Contact() {
 
         setErrors({});
         setSendState("loading");
-        const refId = generateRefId('C');
-        setCurrentRefId(refId);
 
         try {
             const res = await fetch("/api/contact", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ name, email, message, referenceId: refId }),
+                body: JSON.stringify({ name, email, message }),
             });
 
-            if (!res.ok) throw new Error("Transmission failed");
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.error || "Transmission failed");
+
+            const refId = data.refId;
+            setCurrentRefId(refId);
 
             setSendState("success");
             window.scrollTo({ top: 0, behavior: "smooth" });
@@ -114,8 +115,19 @@ export default function Contact() {
                     {sendState === "success" ? (
                         <SuccessMessage
                             key="success"
+                            variant="contact"
                             headline={"TRANSMISSION\nSUCCESSFUL."}
                             subtext="Your message has been received and logged. A specialist will respond within one business day."
+                            referenceId={currentRefId}
+                            onReset={() => {
+                                setSendState("idle");
+                                setName("");
+                                setEmail("");
+                                setMessage("");
+                                setErrors({});
+                                setCurrentRefId("");
+                                window.scrollTo({ top: 0, behavior: "smooth" });
+                            }}
                         />
                     ) : (
                         <motion.div
@@ -259,6 +271,9 @@ export default function Contact() {
                                                     )}
                                                 </AnimatePresence>
                                             </div>
+                                            <p className="mt-8 text-center md:text-left text-[10px] font-mono tracking-widest text-[var(--charcoal)]/40 uppercase">
+                                                Inquiries monitored 24/7 • Response within 15 mins
+                                            </p>
                                         </FadeInUpBox>
                                     </div>
                                 </form>

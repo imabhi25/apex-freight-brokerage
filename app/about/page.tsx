@@ -16,7 +16,7 @@ function WorkWithUsButton() {
                 <motion.button
                     onMouseEnter={() => setHovered(true)}
                     onMouseLeave={() => setHovered(false)}
-                    className="px-12 py-6 bg-[var(--maroon)] shadow-xl hover:bg-[var(--maroon-hover)] text-white text-[15px] font-bold uppercase font-mono flex items-center gap-4 h-[80px] min-w-[320px] justify-center transition-all rounded-xl"
+                    className="premium-btn px-16 py-8 text-white text-[15px] font-bold uppercase font-mono flex items-center gap-4 h-[80px] min-w-[320px] justify-center shadow-2xl"
                 >
                     <motion.span
                         animate={{ letterSpacing: hovered ? "0.2em" : "0.2em" }}
@@ -41,13 +41,13 @@ export default function About() {
                 <FadeInUpBox delay={0.1}>
                     <div className="mb-16 md:mb-24">
                         <h1
-                            className="text-6xl md:text-8xl lg:text-[120px] font-extralight text-[var(--charcoal)] tracking-tight leading-[0.9] uppercase mb-12"
+                            className="text-6xl md:text-8xl lg:text-[140px] font-extralight text-[var(--charcoal)] tracking-[-0.05em] leading-[0.85] uppercase mb-16"
                             style={{ fontFamily: 'var(--font-didone), "Bodoni MT", "Didot", serif' }}
                         >
                             Logistics,<br />Redefined.
                         </h1>
-                        <p className="text-[var(--charcoal)]/40 text-lg md:text-2xl font-light tracking-[0.2em] uppercase font-mono max-w-3xl leading-relaxed">
-                            "ABSOLUTE CERTAINTY IN AN UNCERTAIN WORLD."
+                        <p className="text-[var(--charcoal)]/30 text-lg md:text-xl font-light tracking-[0.3em] uppercase font-mono max-w-2xl leading-relaxed">
+                            "Absolute certainty in an uncertain world."
                         </p>
                     </div>
                 </FadeInUpBox>
@@ -73,9 +73,9 @@ export default function About() {
                                     Precision
                                 </h2>
                                 <p className="text-[var(--text-charcoal)]/60 text-base md:text-lg leading-relaxed tracking-wide font-light">
-                                    Every movement is engineered for absolute accuracy. We leverage advanced predictive
-                                    analytics and live data streams to orchestrate complex supply chains with surgical
-                                    attention to detail.
+                                    Every movement is coordinated for absolute accuracy. We leverage deep industry
+                                    insights and live data streams to orchestrate complex supply chains with
+                                    meticulous attention to detail.
                                 </p>
                             </div>
                         </motion.div>
@@ -95,9 +95,9 @@ export default function About() {
                                     Transparency
                                 </h2>
                                 <p className="text-[var(--text-charcoal)]/60 text-base md:text-lg leading-relaxed tracking-wide font-light">
-                                    Trust is built through visibility. Our platform provides uncompromising clarity
+                                    Trust is built through visibility. Our workflow provides uncompromising clarity
                                     into every mile, milestone, and cost, ensuring that performance is measurable
-                                    and data is indisputable.
+                                    and data is reliable.
                                 </p>
                             </div>
                         </motion.div>
@@ -135,8 +135,8 @@ export default function About() {
                         >
                             Built for the Bold.
                         </h2>
-                        <div className="max-w-4xl">
-                            <p className="text-[var(--text-charcoal)]/70 text-lg md:text-2xl leading-[1.8] font-light tracking-wide font-light">
+                        <div className="max-w-3xl">
+                            <p className="text-[var(--text-charcoal)]/60 text-lg md:text-2xl leading-[1.7] font-light tracking-wide">
                                 We don't just move freight; we move economies. Apex was founded on the belief that logistics
                                 should be a competitive advantage, not a secondary concern. Our partners are visionaries
                                 who demand more than just transportation—they demand a standard of excellence that scales

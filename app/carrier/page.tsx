@@ -5,7 +5,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Check } from "lucide-react";
 import FadeInUpBox from "../components/FadeInUpBox";
 import SuccessMessage from "../components/SuccessMessage";
-import { generateRefId } from "../lib/utils";
 
 export default function Carrier() {
     const [organization, setOrganization] = useState("");
@@ -122,8 +121,6 @@ export default function Carrier() {
 
         setIsSubmitting(true);
         setErrors({});
-        const refId = generateRefId('I');
-        setCurrentRefId(refId);
         try {
             const res = await fetch("/api/carrier", {
                 method: "POST",
@@ -135,11 +132,14 @@ export default function Carrier() {
                     mcDot,
                     taxId,
                     equipment: selectedEquipment,
-                    referenceId: refId,
                 }),
             });
 
-            if (!res.ok) throw new Error("Transmission failed");
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.error || "Transmission failed");
+
+            const refId = data.refId;
+            setCurrentRefId(refId);
 
             // Cycle through loading phases for UX
             await new Promise<void>((resolve) => {
@@ -196,12 +196,19 @@ export default function Carrier() {
                             key="success"
                             variant="carrier"
                             headline="APPLICATION Received"
-                            subtext="Your credentials have been successfully injected into our System. Our team is currently verifying your safety ratings and operating authority. Expect an onboarding package via email once your profile is validated."
+                            subtext="Your credentials have been successfully injected into our system. Our compliance team is verifying your authority and safety ratings. You will receive an onboarding package via email shortly."
+                            referenceId={currentRefId}
                             onReset={() => {
                                 setIsSubmitted(false);
                                 setOrganization("");
+                                setDispatcherName("");
+                                setEmail("");
                                 setMcDot("");
+                                setTaxId("");
                                 setSelectedEquipment([]);
+                                setErrors({});
+                                setCurrentRefId("");
+                                window.scrollTo({ top: 0, behavior: "smooth" });
                             }}
                         />
                     ) : (
@@ -391,22 +398,21 @@ export default function Carrier() {
                                         <motion.button
                                             type="submit"
                                             disabled={isSubmitting}
-                                            whileHover={{ scale: 1.1 }}
-                                            transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                                            className={`text-left transition-all duration-300 text-[var(--charcoal)] font-bold uppercase tracking-[0.2em] text-[15px] font-mono origin-left inline-block ${isSubmitting
-                                                ? 'opacity-30 cursor-not-allowed'
-                                                : 'hover:text-[var(--maroon)]'}`}
+                                            className={`premium-btn py-6 px-16 text-white font-bold uppercase tracking-[0.2em] text-[15px] font-mono shadow-2xl ${isSubmitting ? 'opacity-30 cursor-not-allowed' : ''}`}
                                         >
                                             {isSubmitting ? (
                                                 <span className="flex items-center gap-3">
-                                                    <span className="w-1.5 h-1.5 bg-[var(--maroon)] animate-ping rounded-full" />
-                                                    {loadingMessages[loadingPhase]}
+                                                    <span className="w-1.5 h-1.5 bg-white animate-ping rounded-full" />
+                                                    SUBMITTING...
                                                 </span>
                                             ) : (
-                                                'SUBMIT'
+                                                'SUBMIT APPLICATION'
                                             )}
                                         </motion.button>
                                     </div>
+                                    <p className="mt-8 text-center text-[10px] font-mono tracking-widest text-[var(--charcoal)]/40 uppercase">
+                                        Compliance Review Typically &lt; 24h • Secure Data Transmission
+                                    </p>
                                 </FadeInUpBox>
                             </form>
                         </motion.div>

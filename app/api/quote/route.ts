@@ -1,19 +1,22 @@
 import { Resend } from "resend";
 import { NextRequest, NextResponse } from "next/server";
+import { generateRefId } from "../../lib/refid";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(req: NextRequest) {
-    try {
-        const body = await req.json();
-        const {
-            organization, email, originCity, originZip,
-            destinationCity, destinationZip, commodity,
-            equipment, weight, cargoValue, contactName,
-            phone, notes, referenceId
-        } = body;
+  try {
+    const body = await req.json();
+    const {
+      organization, email, originCity, originZip,
+      destinationCity, destinationZip, commodity,
+      equipment, weight, cargoValue, contactName,
+      phone, notes
+    } = body;
 
-        const getEmailLayout = (title: string, refId: string, content: string) => `
+    const referenceId = generateRefId('Q');
+
+    const getEmailLayout = (title: string, refId: string, content: string) => `
       <!DOCTYPE html>
       <html>
       <head>
@@ -46,7 +49,7 @@ export async function POST(req: NextRequest) {
       </html>
     `;
 
-        const adminContent = `
+    const adminContent = `
       <div class="field-label">ORGANIZATION</div>
       <div class="field-value">${organization}</div>
       <div class="field-label">LANE DETAILS</div>
@@ -58,7 +61,7 @@ export async function POST(req: NextRequest) {
       ${notes ? `<div class="field-label">NOTES</div><div class="field-value">${notes}</div>` : ''}
     `;
 
-        const userReceiptContent = `
+    const userReceiptContent = `
       <p style="font-size:16px; color:#4B5563; line-height:1.6;">
         Our proprietary analysis engine is currently processing your quote request for the lane: <strong>${originCity} to ${destinationCity}</strong>. 
       </p>
@@ -67,28 +70,28 @@ export async function POST(req: NextRequest) {
       </p>
     `;
 
-        // 1. Send Admin Notification
-        const { error: adminError } = await resend.emails.send({
-            from: process.env.RESEND_FROM_EMAIL || "noreply@apexfreightbrokerage.com",
-            to: "info@apexfreightbrokerage.com",
-            replyTo: email,
-            subject: `[NEW QUOTE] ${referenceId} | ${originCity} to ${destinationCity}`,
-            html: getEmailLayout("NEW QUOTE REQUEST", referenceId, adminContent),
-        });
+    // 1. Send Admin Notification
+    const { error: adminError } = await resend.emails.send({
+      from: process.env.RESEND_FROM_EMAIL || "noreply@apexfreightbrokerage.com",
+      to: "info@apexfreightbrokerage.com",
+      replyTo: email,
+      subject: `[NEW QUOTE] ${referenceId} | ${originCity} to ${destinationCity}`,
+      html: getEmailLayout("NEW QUOTE REQUEST", referenceId, adminContent),
+    });
 
-        if (adminError) throw adminError;
+    if (adminError) throw adminError;
 
-        // 2. Send User Receipt
-        await resend.emails.send({
-            from: process.env.RESEND_FROM_EMAIL || "noreply@apexfreightbrokerage.com",
-            to: email,
-            subject: `RECEIPT: Apex Quote Request [${referenceId}]`,
-            html: getEmailLayout("QUOTE REQUEST RECEIVED", referenceId, userReceiptContent),
-        });
+    // 2. Send User Receipt
+    await resend.emails.send({
+      from: process.env.RESEND_FROM_EMAIL || "noreply@apexfreightbrokerage.com",
+      to: email,
+      subject: `RECEIPT: Apex Quote Request [${referenceId}]`,
+      html: getEmailLayout("QUOTE REQUEST RECEIVED", referenceId, userReceiptContent),
+    });
 
-        return NextResponse.json({ success: true, refId: referenceId });
-    } catch (err) {
-        console.error("API error:", err);
-        return NextResponse.json({ error: "Transmission failed." }, { status: 500 });
-    }
+    return NextResponse.json({ success: true, refId: referenceId });
+  } catch (err) {
+    console.error("API error:", err);
+    return NextResponse.json({ error: "Transmission failed." }, { status: 500 });
+  }
 }

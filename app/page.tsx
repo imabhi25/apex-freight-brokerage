@@ -32,7 +32,7 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col bg-[var(--background)] text-[var(--foreground)]">
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center pt-24 overflow-hidden">
+      <section className="relative min-h-[90vh] flex items-center justify-center pt-32 pb-20 overflow-hidden bg-noise">
         {/* Background Overlay */}
         <div className="absolute inset-0 z-0 bg-white">
           {/* Subtle grid or noise could go here */}
@@ -44,22 +44,22 @@ export default function Home() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.2 }}
           >
-            <span className="text-[var(--charcoal)] font-mono text-[12px] uppercase tracking-[0.2em] mb-6 block opacity-60">
+            <span className="text-[var(--charcoal)] font-mono text-[12px] uppercase tracking-[0.2em] mb-6 block opacity-80">
               Now onboarding carrier partners for active operations
             </span>
             <h1 className="mb-8 text-5xl md:text-7xl lg:text-8xl leading-tight text-[var(--charcoal)]" style={{ fontFamily: 'var(--font-didone), "Bodoni MT", "Didot", serif' }}>
               Connecting Shippers<br className="hidden md:block" /> and Carriers Seamlessly
             </h1>
             <p className="text-[var(--charcoal)]/60 text-lg md:text-xl font-light max-w-2xl mx-auto mb-12">
-              State-of-the-art brokerage powered by proprietary AI. We connect premium shippers with elite carriers through intelligent route optimization and real-time data analysis.
+              Technology-enabled freight brokerage providing seamless coordination between elite shippers and premium carriers through data-informed routing and real-time execution.
             </p>
-            <div className="flex flex-col sm:sm:flex-row items-center justify-center gap-6">
-              <a href="/quote" className="group relative px-10 py-5 bg-[var(--maroon)] text-white font-bold uppercase tracking-[0.2em] text-[12px] overflow-hidden w-full sm:w-auto shadow-xl transition-all hover:bg-[var(--maroon-hover)]">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mt-16">
+              <a href="/quote" className="premium-btn px-12 py-6 text-white font-bold uppercase tracking-[0.2em] text-[12px] w-full sm:w-auto shadow-2xl">
                 <span className="relative z-10 flex items-center justify-center gap-2">
-                  Get a Quote <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  Request a Quote <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </span>
               </a>
-              <a href="/carrier" className="px-10 py-5 border border-[var(--charcoal)]/20 text-[var(--charcoal)] font-bold uppercase tracking-[0.2em] text-[12px] hover:bg-[var(--maroon)] hover:border-[var(--maroon)] hover:text-white transition-all duration-300 w-full sm:w-auto">
+              <a href="/carrier" className="px-12 py-6 border border-[var(--charcoal)]/10 text-[var(--charcoal)] font-bold uppercase tracking-[0.2em] text-[12px] hover:bg-[var(--maroon)] hover:border-[var(--maroon)] hover:text-white transition-all duration-500 w-full sm:w-auto">
                 Join Carrier Network
               </a>
             </div>
@@ -74,31 +74,32 @@ export default function Home() {
             <div>
               <div className="flex items-center gap-2 mb-4">
                 <div className="w-2 h-2 rounded-full animate-pulse bg-[var(--maroon)]" />
-                <span className="text-[10px] font-mono tracking-[0.2em] uppercase text-[var(--maroon)]/80">AI-DRIVEN CAPACITY</span>
+                <span className="text-[10px] font-mono tracking-[0.2em] uppercase text-[var(--maroon)]/80">Data-driven Logistics</span>
               </div>
-              <h2 className="mb-4 uppercase text-[var(--charcoal)]">Intelligent Services</h2>
-              <p className="text-[var(--charcoal)]/60 text-lg max-w-lg font-light">Comprehensive logistics solutions engineered with deep machine learning for the modern supply chain.</p>
+              <h2 className="mb-4 uppercase text-[var(--charcoal)]">Precision Services</h2>
+              <p className="text-[var(--charcoal)]/60 text-lg max-w-lg font-light">Comprehensive logistics solutions engineered with streamlined coordination for the modern supply chain.</p>
             </div>
             <a href="/services" className="hidden md:flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.2em] opacity-70 hover:opacity-100 transition-opacity mt-8 md:mt-0 text-[var(--maroon)]">
               Explore Services <ArrowRight className="w-4 h-4" />
             </a>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {services.map((service, idx) => (
               <motion.div
                 key={idx}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: idx * 0.1 }}
-                className="p-10 group hover:-translate-y-2 transition-all duration-500 border border-[var(--light-gray)] hover:border-[var(--maroon)]/30 cursor-pointer bg-white"
+                transition={{ duration: 0.6, delay: idx * 0.1, ease: [0.16, 1, 0.3, 1] }}
+                className="p-12 group hover:-translate-y-2 transition-all duration-700 border border-[var(--light-gray)]/50 hover:border-[var(--maroon)]/20 cursor-default bg-white relative overflow-hidden"
               >
-                <div className="text-[var(--maroon)] mb-8 group-hover:scale-110 transition-transform duration-300">
+                <div className="absolute top-0 left-0 w-1 h-0 bg-[var(--maroon)] group-hover:h-full transition-all duration-700" />
+                <div className="text-[var(--maroon)] mb-10 group-hover:scale-110 transition-transform duration-500 origin-left">
                   {service.icon}
                 </div>
-                <h3 className="text-xl mb-4 text-[var(--charcoal)]">{service.title}</h3>
-                <p className="text-[var(--muted-gray)] font-light text-[15px] leading-relaxed">{service.desc}</p>
+                <h3 className="text-xl mb-4 text-[var(--charcoal)] tracking-tight font-light">{service.title}</h3>
+                <p className="text-[var(--muted-gray)] font-light text-[14px] leading-relaxed opacity-80 group-hover:opacity-100 transition-opacity">{service.desc}</p>
               </motion.div>
             ))}
           </div>
@@ -112,7 +113,7 @@ export default function Home() {
             <div>
               <div className="flex items-center gap-2 mb-6">
                 <div className="w-2 h-2 rounded-full animate-pulse bg-[var(--maroon)]/30" />
-                <span className="text-[10px] font-mono tracking-[0.2em] uppercase text-[var(--maroon)]/60">PROPRIETARY ENGINE</span>
+                <span className="text-[10px] font-mono tracking-[0.2em] uppercase text-[var(--maroon)]/60">Modern Logistics Network</span>
               </div>
               <h2 className="mb-6 text-[var(--charcoal)]" style={{ letterSpacing: '-0.02em' }}>THE APEX <br /> ADVANTAGE.</h2>
               <p className="text-[var(--charcoal)]/60 text-lg font-light mb-8 max-w-md">
@@ -121,8 +122,8 @@ export default function Home() {
               <div className="space-y-6">
                 {[
                   { title: "24/7 Monitoring", desc: "Round-the-clock tracking and support." },
-                  { title: "Vetted Carriers", desc: "Top 5% of industry carriers active in our network." },
-                  { title: "Data-Driven Pricing", desc: "Fair, market-accurate rates instantly." }
+                  { title: "Vetted Carriers", desc: "Access to elite, compliance-verified carriers." },
+                  { title: "Market-Informed Pricing", desc: "Fair, transparent rates based on real-time data." }
                 ].map((item, i) => (
                   <div key={i} className="flex gap-4">
                     <div className="w-1.5 h-1.5 mt-2 bg-[var(--maroon)]/20"></div>
@@ -135,9 +136,10 @@ export default function Home() {
               </div>
             </div>
             <div className="grid grid-cols-1 gap-8 max-w-sm mx-auto lg:mx-0">
-              <div className="p-10 flex flex-col justify-center items-center text-center bg-white border border-[var(--light-gray)] shadow-sm">
-                <span className="text-[10px] font-mono tracking-[0.4em] text-[var(--maroon)] uppercase font-bold mb-4">ONBOARDING STATUS</span>
-                <span className="text-2xl font-bold text-[var(--charcoal)] leading-tight uppercase">Now accepting quote & carrier inquiries</span>
+              <div className="p-12 flex flex-col justify-center items-center text-center bg-white border border-[var(--light-gray)]/30 shadow-2xl relative overflow-hidden bg-noise">
+                <div className="absolute top-0 right-0 w-24 h-24 bg-[var(--maroon)]/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+                <span className="text-[10px] font-mono tracking-[0.4em] text-[var(--maroon)] uppercase font-bold mb-4 opacity-60">ONBOARDING STATUS</span>
+                <span className="text-2xl font-light text-[var(--charcoal)] leading-tight uppercase tracking-tight">Now accepting quote & carrier inquiries</span>
               </div>
             </div>
           </div>
@@ -198,10 +200,13 @@ export default function Home() {
                     <input type="date" required className={inputStyle} value={formData.date} onChange={(e) => setFormData({ ...formData, date: e.target.value })} />
                   </div>
 
-                  <div className="col-span-1 md:col-span-2 mt-4">
-                    <button type="submit" className="w-full group relative px-8 py-5 bg-[var(--maroon)] text-white font-bold uppercase tracking-widest text-[11px] overflow-hidden rounded-xl shadow-lg hover:bg-[var(--maroon-hover)] transition-all">
-                      <span className="relative z-10 text-white transition-colors duration-300">GET MY QUOTE</span>
+                  <div className="col-span-1 md:col-span-2 mt-8">
+                    <button type="submit" className="premium-btn w-full px-12 py-6 text-white font-bold uppercase tracking-[0.2em] text-[12px] shadow-2xl">
+                      <span className="relative z-10 text-white transition-colors duration-300">REQUEST QUOTE</span>
                     </button>
+                    <p className="mt-6 text-center text-[10px] font-mono tracking-widest text-[var(--charcoal)]/30 uppercase font-medium">
+                      Typical response time &lt; 15 mins • Data secure & encrypted
+                    </p>
                   </div>
                 </form>
               </div>

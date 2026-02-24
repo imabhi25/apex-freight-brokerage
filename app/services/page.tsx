@@ -61,18 +61,18 @@ function RequestRateButton() {
                 <motion.button
                     onMouseEnter={() => setHovered(true)}
                     onMouseLeave={() => setHovered(false)}
-                    className="inline-flex items-center gap-3 px-6 py-3 bg-[var(--maroon)] shadow-lg hover:bg-[var(--maroon-hover)] text-white text-[11px] font-bold uppercase font-mono transition-all"
+                    className="premium-btn inline-flex items-center gap-3 px-8 py-4 text-white text-[12px] font-bold uppercase font-mono shadow-xl transition-all"
                 >
                     <motion.span
-                        animate={{ letterSpacing: hovered ? "0.25em" : "0.15em" }}
+                        animate={{ letterSpacing: hovered ? "0.2em" : "0.15em" }}
                         transition={{ duration: 0.5, ease: ELASTIC }}
                     >
-                        Request Rate
+                        Request a Quote
                     </motion.span>
                     <motion.span
-                        animate={{ x: hovered ? 6 : 0, scaleX: hovered ? 1.5 : 1 }}
+                        animate={{ x: hovered ? 4 : 0 }}
                         transition={SPRING}
-                        className="inline-block origin-left"
+                        className="inline-block"
                     >
                         →
                     </motion.span>
@@ -94,7 +94,7 @@ function StartQuoteButton() {
             <motion.button
                 onMouseEnter={() => setHovered(true)}
                 onMouseLeave={() => setHovered(false)}
-                className="px-10 py-5 bg-[var(--maroon)] shadow-xl hover:bg-[var(--maroon-hover)] text-white text-[13px] font-bold uppercase font-mono transition-all"
+                className="premium-btn px-16 py-8 text-white text-[15px] font-bold uppercase font-mono shadow-2xl"
             >
                 <motion.span
                     animate={{ letterSpacing: hovered ? "0.25em" : "0.15em" }}
@@ -117,15 +117,15 @@ export default function ServicesPage() {
 
                 {/* Hero */}
                 <FadeInUpBox delay={0.1}>
-                    <div className="mb-12 md:mb-16 bg-white px-6 pt-24 pb-16 mt-[-160px] relative">
+                    <div className="mb-24 bg-white px-6 pt-24 pb-16 mt-[-160px] relative">
                         <h1
-                            className="text-6xl md:text-8xl lg:text-[120px] font-extralight text-[var(--charcoal)] tracking-tight leading-[0.9] uppercase mb-12"
+                            className="text-6xl md:text-8xl lg:text-[140px] font-extralight text-[var(--charcoal)] tracking-[-0.05em] leading-[0.85] uppercase mb-12"
                             style={{ fontFamily: 'var(--font-didone), "Bodoni MT", "Didot", serif' }}
                         >
                             Capabilities.
                         </h1>
-                        <p className="text-[var(--charcoal)]/40 text-lg md:text-2xl font-light tracking-[0.2em] uppercase font-mono max-w-3xl leading-relaxed">
-                            "Three disciplines. One standard: Absolute precision."
+                        <p className="text-[var(--charcoal)]/30 text-lg md:text-xl font-light tracking-[0.3em] uppercase font-mono max-w-2xl leading-relaxed">
+                            "Absolute precision across every discipline."
                         </p>
                     </div>
                 </FadeInUpBox>

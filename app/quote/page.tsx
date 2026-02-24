@@ -7,7 +7,6 @@ import CityAutocomplete from "../components/CityAutocomplete";
 import ZipAutocomplete from "../components/ZipAutocomplete";
 import type { USCity } from "../data/us-cities";
 import SuccessMessage from "../components/SuccessMessage";
-import { generateRefId } from "../lib/utils";
 
 export default function Quote() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -192,20 +191,24 @@ export default function Quote() {
       return;
     }
 
-    const refId = generateRefId('Q');
-    setCurrentRefId(refId);
-
-    // Log full payload with Ref ID
-    console.log(`APEX QUOTE SUBMISSION [${refId}]:`, JSON.stringify(formData, null, 2));
+    setIsSubmitting(true);
+    setErrors({});
 
     try {
       const res = await fetch("/api/quote", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...formData, referenceId: refId }),
+        body: JSON.stringify(formData),
       });
 
-      if (!res.ok) throw new Error("Transmission failed");
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Transmission failed");
+
+      const refId = data.refId;
+      setCurrentRefId(refId);
+
+      // Log full payload with Ref ID
+      console.log(`APEX QUOTE SUBMISSION [${refId}]:`, JSON.stringify(formData, null, 2));
 
       // Simulate the analysis phases for UI/UX
       await new Promise<void>((resolve) => {
@@ -253,7 +256,28 @@ export default function Quote() {
             onReset={() => {
               setIsSubmitted(false);
               setCurrentStep(1);
-              // Reset other state as needed
+              setFormData({
+                organization: "",
+                email: "",
+                originCity: "",
+                originZip: "",
+                destinationCity: "",
+                destinationZip: "",
+                commodity: "",
+                serviceType: "",
+                cargoValue: "",
+                equipment: "",
+                weight: "",
+                dateReady: new Date().toISOString().split('T')[0],
+                isHazardous: false,
+                contactName: "",
+                phone: "",
+                jobTitle: "",
+                notes: "",
+              });
+              setErrors({});
+              setCurrentRefId("");
+              window.scrollTo({ top: 0, behavior: "smooth" });
             }}
           />
         ) : (
@@ -683,26 +707,27 @@ export default function Quote() {
                       BACK
                     </button>
                     <motion.div
-                      whileHover={!(isSubmitting || !(formData.contactName.trim() && formData.phone.trim() && formData.jobTitle.trim())) ? { scale: 1.03 } : {}}
-                      transition={{ type: "spring", stiffness: 260, damping: 20, mass: 1 }}
                       className="inline-block"
                     >
                       <motion.button
                         onClick={handleSubmit}
                         disabled={isSubmitting || !(formData.contactName.trim() && formData.phone.trim() && formData.jobTitle.trim())}
-                        className={`flex items-center gap-4 py-4 px-10 transition-all duration-300 min-w-[280px] bg-[var(--maroon)] rounded-xl shadow-lg hover:bg-[var(--maroon-hover)] text-white font-bold uppercase tracking-[0.2em] text-[12px] font-mono origin-right inline-block ${isSubmitting || !(formData.contactName.trim() && formData.phone.trim() && formData.jobTitle.trim()) ? 'opacity-50 cursor-not-allowed' : ''}`}
+                        className={`premium-btn py-6 px-16 text-white font-bold uppercase tracking-[0.2em] text-[15px] font-mono shadow-2xl ${isSubmitting || !(formData.contactName.trim() && formData.phone.trim() && formData.jobTitle.trim()) ? 'opacity-50 cursor-not-allowed' : ''}`}
                       >
                         {isSubmitting ? (
                           <span className="flex items-center gap-3">
                             <span className="w-1.5 h-1.5 bg-white animate-ping rounded-full" />
-                            {loadingMessages[loadingPhase]}
+                            SUBMITTING...
                           </span>
                         ) : (
-                          'GENERATE QUOTE'
+                          'REQUEST QUOTE'
                         )}
                       </motion.button>
                     </motion.div>
                   </div>
+                  <p className="mt-8 text-center text-[10px] font-mono tracking-widest text-[var(--charcoal)]/40 uppercase">
+                    Typical response time &lt; 15 mins • Data secure & encrypted
+                  </p>
                 </motion.div>
               )}
             </AnimatePresence>

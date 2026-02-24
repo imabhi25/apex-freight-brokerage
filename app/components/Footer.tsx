@@ -27,23 +27,22 @@ const Footer = () => {
                             </p>
                         </div>
 
-                        {/* Index Column */}
+                        {/* Platform Column */}
                         <div className="space-y-8 md:text-center flex flex-col md:items-center">
-                            <h3 className="text-[12px] font-bold tracking-[0.4em] font-mono uppercase">
-                                INDEX
+                            <h3 className="text-[11px] font-bold tracking-[0.4em] font-mono uppercase text-white/30">
+                                PLATFORM
                             </h3>
                             <nav className="flex flex-col gap-4">
                                 {[
-                                    { name: "HOME", href: "/" },
-                                    { name: "SERVICES", href: "/#services" },
-                                    { name: "CARRIER", href: "/carrier" },
-                                    { name: "QUOTE", href: "/quote" },
-                                    { name: "CONTACT", href: "/contact" }
+                                    { name: "DASHBOARD", href: "/" },
+                                    { name: "CARRIER LOGIN", href: "/carrier" },
+                                    { name: "SHIPPER PORTAL", href: "/quote" },
+                                    { name: "SYSTEM STATUS", href: "/contact" }
                                 ].map((link) => (
                                     <a
                                         key={link.name}
                                         href={link.href}
-                                        className="text-[14px] text-white/60 hover:text-[var(--maroon)] font-mono tracking-[0.2em] transition-colors w-fit md:mx-auto"
+                                        className="text-[13px] text-white/50 hover:text-[var(--maroon)] font-mono tracking-[0.2em] transition-colors w-fit md:mx-auto"
                                     >
                                         {link.name}
                                     </a>
@@ -51,35 +50,69 @@ const Footer = () => {
                             </nav>
                         </div>
 
-                        {/* Connect Column */}
+                        {/* Solutions & Legal Column */}
                         <div className="space-y-8 md:text-right flex flex-col md:items-end">
-                            <h3 className="text-[12px] font-bold tracking-[0.4em] font-mono uppercase">
-                                CONNECT
+                            <h3 className="text-[11px] font-bold tracking-[0.4em] font-mono uppercase text-white/30">
+                                SOLUTIONS
                             </h3>
-                            <div className="space-y-8">
-                                <div className="space-y-3">
-                                    <p className="text-[11px] font-mono tracking-[0.2em] text-white/30 uppercase">LOCATION</p>
+                            <nav className="flex flex-col gap-4 mb-8">
+                                {[
+                                    { name: "FULL TRUCKLOAD", href: "/services" },
+                                    { name: "LTL STRATEGY", href: "/services" },
+                                    { name: "SPECIALIZED", href: "/services" }
+                                ].map((link) => (
                                     <a
-                                        href="https://www.google.com/maps/search/?api=1&query=4670+N+El+Capitan+Ave,+Fresno,+CA+93722"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="text-[14px] text-white/60 hover:text-[var(--maroon)] font-sans block leading-relaxed transition-colors"
+                                        key={link.name}
+                                        href={link.href}
+                                        className="text-[13px] text-white/50 hover:text-[var(--maroon)] font-mono tracking-[0.15em] transition-colors"
                                     >
-                                        4670 N El Capitan Ave,<br />Fresno, CA 93722
+                                        {link.name}
                                     </a>
-                                </div>
-                                <div className="space-y-4">
-                                    <a href="mailto:info@apexfreightbrokerage.com" className="text-[14px] text-white/60 hover:text-[var(--maroon)] font-sans block transition-colors">
-                                        info@apexfreightbrokerage.com
+                                ))}
+                            </nav>
+                            <h3 className="text-[11px] font-bold tracking-[0.4em] font-mono uppercase text-white/30">
+                                LEGAL
+                            </h3>
+                            <nav className="flex flex-col gap-4">
+                                {[
+                                    { name: "PRIVACY POLICY", href: "/privacy" },
+                                    { name: "TERMS OF SERVICE", href: "/terms" }
+                                ].map((link) => (
+                                    <a
+                                        key={link.name}
+                                        href={link.href}
+                                        className="text-[13px] text-white/50 hover:text-[var(--maroon)] font-mono tracking-[0.15em] transition-colors"
+                                    >
+                                        {link.name}
                                     </a>
-                                    <a href="tel:8885550199" className="text-[14px] text-white/60 hover:text-[var(--maroon)] font-sans block transition-colors">
-                                        888-555-0199
-                                    </a>
-                                </div>
-                            </div>
+                                ))}
+                            </nav>
                         </div>
                     </div>
                 </FadeInUpBox>
+
+                {/* Contact row */}
+                <div className="border-t border-white/5 py-12 flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
+                    <div className="space-y-2">
+                        <p className="text-[10px] font-mono tracking-[0.2em] text-white/20 uppercase">HEADQUARTERS</p>
+                        <a
+                            href="https://www.google.com/maps/search/?api=1&query=4670+N+El+Capitan+Ave,+Fresno,+CA+93722"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-[14px] text-white/60 hover:text-[var(--maroon)] font-sans block leading-relaxed transition-colors"
+                        >
+                            4670 N El Capitan Ave, Fresno, CA 93722
+                        </a>
+                    </div>
+                    <div className="flex flex-col md:items-end gap-2">
+                        <a href="mailto:info@apexfreightbrokerage.com" className="text-[14px] text-white/60 hover:text-[var(--maroon)] font-sans block transition-colors">
+                            info@apexfreightbrokerage.com
+                        </a>
+                        <a href="tel:8885550199" className="text-[14px] text-white/60 hover:text-[var(--maroon)] font-sans block transition-colors">
+                            888-555-0199
+                        </a>
+                    </div>
+                </div>
 
                 {/* Compliance row - Hidden until authority active */}
                 <div className="border-t border-white/5 pt-6 pb-2 flex flex-col md:flex-row justify-between items-center gap-3">

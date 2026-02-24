@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 
 interface SuccessMessageProps {
-    variant?: 'carrier' | 'quote';
+    variant?: 'carrier' | 'quote' | 'contact';
     headline: string;
     subtext: string;
     referenceId?: string;
@@ -33,6 +33,14 @@ export default function SuccessMessage({
     }, [referenceId]);
 
     const isCarrier = variant === 'carrier';
+    const isContact = variant === 'contact';
+    const isQuote = variant === 'quote';
+
+    const resetLabel = isCarrier
+        ? "Submit Another Application"
+        : isQuote
+            ? "Request Another Quote"
+            : "Send Another Message";
 
     return (
         <motion.div
@@ -43,14 +51,14 @@ export default function SuccessMessage({
         >
             {/* Pulsing Emerald Green Dot for Carrier */}
             <div className="flex items-center gap-4 mb-10">
-                {isCarrier && (
+                {(isCarrier || isContact || isQuote) && (
                     <div className="relative flex items-center justify-center">
-                        <div className="w-3 h-3 bg-emerald-500 rounded-full animate-pulse" />
-                        <div className="absolute w-6 h-6 border-2 border-emerald-500/30 rounded-full animate-ping" />
+                        <div className={`w-3 h-3 ${isCarrier ? "bg-emerald-500" : "bg-[var(--maroon)]"} rounded-full animate-pulse`} />
+                        <div className={`absolute w-6 h-6 border-2 ${isCarrier ? "border-emerald-500/30" : "border-[var(--maroon)]/30"} rounded-full animate-ping`} />
                     </div>
                 )}
                 <span className="text-[10px] font-mono tracking-[0.4em] uppercase text-[var(--text-secondary-label)]">
-                    {isCarrier ? "AI-ENGINE: PROCESSING" : "ROUTING ENGINE: SUCCESS"}
+                    {isCarrier ? "AI-ENGINE: PROCESSING" : isQuote ? "ROUTING ENGINE: SUCCESS" : "MESSAGE TERMINAL: LOGGED"}
                 </span>
             </div>
 
@@ -65,8 +73,8 @@ export default function SuccessMessage({
                 {headline}
             </motion.h2>
 
-            {/* Monospaced Receipt ID for Quote */}
-            {variant === 'quote' && referenceId && (
+            {/* Monospaced Receipt ID */}
+            {referenceId && (
                 <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
@@ -104,9 +112,9 @@ export default function SuccessMessage({
             >
                 <button
                     onClick={onReset}
-                    className="min-w-[320px] bg-[var(--maroon)] text-white py-6 px-12 uppercase font-bold font-mono tracking-[0.2em] text-[15px] transition-all duration-300 hover:bg-[var(--maroon-hover)] hover:scale-105 shadow-xl"
+                    className="premium-btn min-w-[320px] text-white py-6 px-12 uppercase font-bold font-mono tracking-[0.2em] text-[15px] shadow-xl"
                 >
-                    {isCarrier ? "New Application" : "[ + CREATE NEW QUOTE ]"}
+                    {resetLabel}
                 </button>
 
                 <Link

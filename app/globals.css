@@ -94,20 +94,24 @@ body {
   h4,
   h5,
   h6 {
-    @apply font-light tracking-tight leading-tight uppercase font-didone;
+    @apply font-light leading-tight uppercase font-didone;
+    letter-spacing: -0.04em;
     color: inherit;
   }
 
   h1 {
-    @apply text-6xl md:text-8xl lg:text-9xl;
+    @apply text-6xl md:text-8xl lg:text-[120px];
+    line-height: 0.9;
   }
 
   h2 {
-    @apply text-4xl md:text-6xl;
+    @apply text-4xl md:text-7xl;
+    letter-spacing: -0.03em;
   }
 
   h3 {
-    @apply text-2xl md:text-4xl;
+    @apply text-xl md:text-3xl;
+    letter-spacing: -0.02em;
   }
 }
 
@@ -161,6 +165,58 @@ body {
 
   .floating-3d {
     filter: drop-shadow(0 10px 20px rgba(10, 15, 28, 0.15));
+  }
+
+  /* Noise Overlay */
+  .bg-noise {
+    position: relative;
+  }
+
+  .bg-noise::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    opacity: 0.03;
+    pointer-events: none;
+    background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+    filter: contrast(150%) brightness(100%);
+  }
+
+  /* Premium Button Shell */
+  .premium-btn {
+    @apply relative overflow-hidden transition-all duration-500;
+    transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+    background-color: var(--maroon);
+    border: 1px solid transparent;
+    cursor: pointer;
+  }
+
+  .premium-btn:hover {
+    @apply scale-[1.02] -translate-y-1;
+    background-color: var(--maroon-hover);
+    box-shadow: 0 20px 40px rgba(128, 0, 0, 0.12);
+  }
+
+  .premium-btn::after {
+    content: "";
+    @apply absolute inset-0 opacity-0 transition-opacity duration-500;
+    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.1), transparent);
+  }
+
+  .premium-btn:hover::after {
+    @apply opacity-100;
+    animation: shine 1.5s infinite;
+  }
+
+  @keyframes shine {
+    0% {
+      transform: translateX(-100%);
+    }
+
+    100% {
+      transform: translateX(100%);
+    }
   }
 }
 
