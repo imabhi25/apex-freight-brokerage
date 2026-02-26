@@ -73,7 +73,7 @@ export async function POST(req: NextRequest) {
     // 1. Send Admin Notification
     const { error: adminError } = await resend.emails.send({
       from: process.env.RESEND_FROM_EMAIL || "noreply@apexfreightbrokerage.com",
-      to: "info@apexfreightbrokerage.com",
+      to: process.env.RESEND_TO_EMAIL || "info@apexfreightbrokerage.com",
       replyTo: email,
       subject: `[NEW QUOTE] ${referenceId} | ${originCity} to ${destinationCity}`,
       html: getEmailLayout("NEW QUOTE REQUEST", referenceId, adminContent),
@@ -81,13 +81,17 @@ export async function POST(req: NextRequest) {
 
     if (adminError) throw adminError;
 
-    // 2. Send User Receipt
-    await resend.emails.send({
-      from: process.env.RESEND_FROM_EMAIL || "noreply@apexfreightbrokerage.com",
-      to: email,
-      subject: `RECEIPT: Apex Quote Request [${referenceId}]`,
-      html: getEmailLayout("QUOTE REQUEST RECEIVED", referenceId, userReceiptContent),
-    });
+    // 2. Send User Receipt (May fail in Resend test mode)
+    try {
+      await resend.emails.send({
+        from: process.env.RESEND_FROM_EMAIL || "noreply@apexfreightbrokerage.com",
+        to: email,
+        subject: `RECEIPT: Apex Quote Request [${referenceId}]`,
+        html: getEmailLayout("QUOTE REQUEST RECEIVED", referenceId, userReceiptContent),
+      });
+    } catch (userErr) {
+      console.warn("User receipt skip:", userErr);
+    }
 
     return NextResponse.json({ success: true, refId: referenceId });
   } catch (err) {

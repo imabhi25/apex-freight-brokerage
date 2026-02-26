@@ -57,8 +57,8 @@ export default function SuccessMessage({
                         <div className={`absolute w-6 h-6 border-2 ${isCarrier ? "border-emerald-500/30" : "border-[var(--maroon)]/30"} rounded-full animate-ping`} />
                     </div>
                 )}
-                <span className="text-[10px] font-mono tracking-[0.4em] uppercase text-[var(--text-secondary-label)]">
-                    {isCarrier ? "AI-ENGINE: PROCESSING" : isQuote ? "ROUTING ENGINE: SUCCESS" : "MESSAGE TERMINAL: LOGGED"}
+                <span className="text-[11px] font-mono font-bold tracking-[0.4em] uppercase text-[var(--text-secondary-label)]">
+                    {isCarrier ? "ONBOARDING STATUS: RECEIVED" : isQuote ? "QUOTE STATUS: RECEIVED" : "INQUIRY STATUS: RECEIVED"}
                 </span>
             </div>
 
@@ -67,7 +67,7 @@ export default function SuccessMessage({
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.15, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                className="text-5xl md:text-7xl lg:text-8xl font-bold text-[var(--charcoal)] mb-12 leading-none uppercase"
+                className="text-5xl md:text-6xl lg:text-7xl font-bold text-[var(--charcoal)] mb-8 leading-none uppercase"
                 style={{ fontFamily: 'var(--font-didone), "Bodoni MT", "Didot", serif' }}
             >
                 {headline}
@@ -79,16 +79,11 @@ export default function SuccessMessage({
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.3 }}
-                    className="mb-12"
+                    className="mb-10 w-full flex flex-col items-center"
                 >
-                    <span className="text-[11px] font-mono tracking-[0.4em] uppercase text-[var(--charcoal)]/40 block mb-2">DIGITAL RECEIPT</span>
-                    <span className="text-2xl md:text-3xl font-mono tracking-tighter text-[var(--charcoal)] bg-[var(--maroon)]/5 px-6 py-3 border border-[var(--maroon)]/10">
+                    <span className="text-[12px] font-bold font-mono tracking-[0.3em] md:tracking-[0.4em] uppercase text-[var(--charcoal)]/60 block mb-3">REFERENCE ID</span>
+                    <span className="text-3xl md:text-4xl font-mono tracking-tight text-[var(--charcoal)] bg-[var(--maroon)]/5 px-8 py-4 border-2 border-[var(--maroon)]/20 shadow-sm inline-flex items-center">
                         {typedRefId}
-                        <motion.span
-                            animate={{ opacity: [1, 0] }}
-                            transition={{ duration: 0.5, repeat: Infinity }}
-                            className="inline-block w-1.5 h-6 ml-2 bg-[var(--maroon)] vertical-middle"
-                        />
                     </span>
                 </motion.div>
             )}
@@ -98,7 +93,7 @@ export default function SuccessMessage({
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.4, duration: 0.6 }}
-                className="text-[var(--charcoal)]/60 text-lg md:text-xl font-sans leading-relaxed max-w-2xl mb-16 tracking-wide"
+                className="text-[var(--charcoal)]/80 text-base md:text-lg font-sans leading-relaxed md:leading-[1.8] max-w-xl mx-auto mb-16 tracking-wide whitespace-pre-line"
             >
                 {subtext}
             </motion.p>
@@ -108,18 +103,18 @@ export default function SuccessMessage({
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.6, type: "spring" }}
-                className="flex flex-col items-center gap-8"
+                className="flex flex-col items-center gap-6 w-full max-w-sm mx-auto"
             >
                 <button
                     onClick={onReset}
-                    className="premium-btn min-w-[320px] text-white py-6 px-12 uppercase font-bold font-mono tracking-[0.2em] text-[15px] shadow-xl"
+                    className="premium-btn w-full text-white py-5 px-8 uppercase font-bold font-mono tracking-[0.15em] md:tracking-[0.2em] text-[14px] shadow-xl hover:shadow-2xl transition-all"
                 >
                     {resetLabel}
                 </button>
 
                 <Link
                     href="/"
-                    className="text-[11px] font-mono font-bold tracking-[0.4em] uppercase text-[var(--charcoal)]/40 hover:text-[var(--maroon)] transition-colors"
+                    className="text-[12px] font-mono font-bold tracking-[0.2em] md:tracking-[0.3em] uppercase text-[var(--charcoal)]/50 hover:text-[var(--maroon)] hover:underline underline-offset-[6px] transition-all pt-2 block"
                 >
                     Return to Home
                 </Link>

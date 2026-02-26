@@ -250,8 +250,8 @@ export default function Quote() {
         {isSubmitted ? (
           <SuccessMessage
             variant="quote"
-            headline="REQUEST Received"
-            subtext="Your shipment details have been successfully uploaded to our routing engine. A logistics specialist is currently analyzing market capacity and will provide your rate within 15 minutes."
+            headline="REQUEST RECEIVED"
+            subtext={"Your quote request has been received and logged.\nOur team will review lane and capacity conditions and respond shortly.\nPlease keep your reference ID for follow-up."}
             referenceId={currentRefId}
             onReset={() => {
               setIsSubmitted(false);

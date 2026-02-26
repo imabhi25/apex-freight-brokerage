@@ -116,8 +116,8 @@ export default function Contact() {
                         <SuccessMessage
                             key="success"
                             variant="contact"
-                            headline={"TRANSMISSION\nSUCCESSFUL."}
-                            subtext="Your message has been received and logged. A specialist will respond within one business day."
+                            headline="MESSAGE RECEIVED"
+                            subtext={"Your message has been sent successfully.\nOur team will review your inquiry and get back to you shortly.\nPlease keep your reference ID for follow-up."}
                             referenceId={currentRefId}
                             onReset={() => {
                                 setSendState("idle");

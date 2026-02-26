@@ -21,7 +21,11 @@ export default function Carrier() {
     const [errors, setErrors] = useState<Record<string, string>>({});
     const [currentRefId, setCurrentRefId] = useState("");
 
-    const equipmentTypes = ["DRY VAN", "REEFER", "FLATBED", "STEP DECK", "HOTSHOT"];
+    const rawEquipmentTypes = ["DRY VAN", "REEFER", "FLATBED", "STEP DECK", "HOTSHOT"];
+    const equipmentTypes = rawEquipmentTypes
+        .map(t => (t || "").trim())
+        .filter(t => t.length > 0)
+        .filter((t, i, arr) => arr.indexOf(t) === i);
 
     const loadingMessages = [
         "Analyzing market capacity...",
@@ -114,7 +118,12 @@ export default function Carrier() {
             newErrors.taxId = "INVALID EIN";
         }
 
+        if (selectedEquipment.length === 0) {
+            newErrors.equipment = "AT LEAST ONE EQUIPMENT TYPE REQUIRED";
+        }
+
         if (Object.keys(newErrors).length > 0) {
+            console.warn("Validation errors:", newErrors);
             setErrors(newErrors);
             return;
         }
@@ -141,6 +150,8 @@ export default function Carrier() {
             const refId = data.refId;
             setCurrentRefId(refId);
 
+            console.log(`[CARRIER SUCCESS] Payload sent. Response:`, data);
+
             // Cycle through loading phases for UX
             await new Promise<void>((resolve) => {
                 let phase = 0;
@@ -157,9 +168,9 @@ export default function Carrier() {
 
             setIsSubmitted(true);
             window.scrollTo({ top: 0, behavior: "smooth" });
-        } catch (err) {
+        } catch (err: any) {
             console.error("Submission error:", err);
-            setErrors(prev => ({ ...prev, submit: "TRANSMISSION FAILED. PLEASE RETRY." }));
+            setErrors(prev => ({ ...prev, submit: err.message || "TRANSMISSION FAILED. PLEASE RETRY." }));
         } finally {
             setIsSubmitting(false);
         }
@@ -192,25 +203,32 @@ export default function Carrier() {
             <div className="w-full max-w-6xl px-6 relative z-10">
                 <AnimatePresence mode="wait">
                     {isSubmitted ? (
-                        <SuccessMessage
+                        <motion.div
                             key="success"
-                            variant="carrier"
-                            headline="APPLICATION Received"
-                            subtext="Your credentials have been successfully injected into our system. Our compliance team is verifying your authority and safety ratings. You will receive an onboarding package via email shortly."
-                            referenceId={currentRefId}
-                            onReset={() => {
-                                setIsSubmitted(false);
-                                setOrganization("");
-                                setDispatcherName("");
-                                setEmail("");
-                                setMcDot("");
-                                setTaxId("");
-                                setSelectedEquipment([]);
-                                setErrors({});
-                                setCurrentRefId("");
-                                window.scrollTo({ top: 0, behavior: "smooth" });
-                            }}
-                        />
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0 }}
+                            className="bg-white"
+                        >
+                            <SuccessMessage
+                                variant="carrier"
+                                headline="APPLICATION RECEIVED"
+                                subtext={"Your carrier application has been received and logged.\nOur team will review your details and contact you with next steps shortly.\nPlease keep your reference ID for follow-up."}
+                                referenceId={currentRefId}
+                                onReset={() => {
+                                    setIsSubmitted(false);
+                                    setOrganization("");
+                                    setDispatcherName("");
+                                    setEmail("");
+                                    setMcDot("");
+                                    setTaxId("");
+                                    setSelectedEquipment([]);
+                                    setErrors({});
+                                    setCurrentRefId("");
+                                    window.scrollTo({ top: 0, behavior: "smooth" });
+                                }}
+                            />
+                        </motion.div>
                     ) : (
                         <motion.div
                             key="form"
@@ -350,7 +368,7 @@ export default function Carrier() {
 
                                 <FadeInUpBox delay={0.18}>
                                     <div className="space-y-6">
-                                        <label className="text-[12px] font-bold text-[var(--charcoal)]/40 uppercase tracking-[0.2em] font-mono">
+                                        <label className={`text-[12px] font-bold uppercase tracking-[0.2em] font-mono ${errors.equipment ? 'text-red-500' : 'text-[var(--charcoal)]/40'}`}>
                                             EQUIPMENT TYPE *
                                         </label>
                                         <div className="flex flex-wrap gap-4">
@@ -358,7 +376,10 @@ export default function Carrier() {
                                                 <motion.button
                                                     key={type}
                                                     type="button"
-                                                    onClick={() => toggleEquipment(type)}
+                                                    onClick={() => {
+                                                        toggleEquipment(type);
+                                                        if (errors.equipment) setErrors(prev => ({ ...prev, equipment: "" }));
+                                                    }}
                                                     whileHover={{ scale: 1.05 }}
                                                     className={`px-6 py-3 text-[11px] font-bold tracking-[0.2em] font-mono transition-all duration-300 border rounded-lg ${selectedEquipment.includes(type)
                                                         ? 'bg-[var(--maroon)] text-white border-[var(--maroon)] shadow-lg'
@@ -369,6 +390,13 @@ export default function Carrier() {
                                                 </motion.button>
                                             ))}
                                         </div>
+                                        <AnimatePresence>
+                                            {errors.equipment && (
+                                                <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="text-[10px] text-red-500 font-mono tracking-widest block uppercase mt-2">
+                                                    {errors.equipment}
+                                                </motion.span>
+                                            )}
+                                        </AnimatePresence>
                                     </div>
                                 </FadeInUpBox>
 
@@ -394,14 +422,14 @@ export default function Carrier() {
                                 </FadeInUpBox>
 
                                 <FadeInUpBox delay={0.25}>
-                                    <div className="pt-8 md:pt-12 flex justify-end">
+                                    <div className="pt-8 md:pt-12 flex flex-col items-end gap-4 w-full">
                                         <motion.button
                                             type="submit"
                                             disabled={isSubmitting}
                                             className={`premium-btn py-5 md:py-6 px-8 md:px-16 w-full md:w-auto text-white font-bold uppercase tracking-[0.15em] md:tracking-[0.2em] text-[13px] md:text-[15px] font-mono shadow-2xl ${isSubmitting ? 'opacity-30 cursor-not-allowed' : ''}`}
                                         >
                                             {isSubmitting ? (
-                                                <span className="flex items-center gap-3">
+                                                <span className="flex items-center justify-center gap-3">
                                                     <span className="w-1.5 h-1.5 bg-white animate-ping rounded-full" />
                                                     SUBMITTING...
                                                 </span>
@@ -409,6 +437,20 @@ export default function Carrier() {
                                                 'SUBMIT APPLICATION'
                                             )}
                                         </motion.button>
+                                        <AnimatePresence>
+                                            {errors.submit && (
+                                                <motion.div
+                                                    initial={{ opacity: 0, y: -4 }}
+                                                    animate={{ opacity: 1, y: 0 }}
+                                                    exit={{ opacity: 0 }}
+                                                    className="w-full text-right"
+                                                >
+                                                    <span className="text-[10px] font-mono tracking-[0.15em] uppercase text-red-500 bg-red-50 px-3 py-2 rounded border border-red-100 inline-block">
+                                                        {errors.submit}
+                                                    </span>
+                                                </motion.div>
+                                            )}
+                                        </AnimatePresence>
                                     </div>
                                     <p className="mt-6 md:mt-8 text-center md:text-right text-[9px] md:text-[10px] font-mono tracking-[0.15em] md:tracking-widest text-[var(--charcoal)]/40 uppercase">
                                         Compliance Review Typically &lt; 24h • Secure Data Transmission

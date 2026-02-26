@@ -87,7 +87,7 @@ export async function POST(req: NextRequest) {
     // 1) Admin notification
     const { error: adminError } = await resend.emails.send({
       from: fromEmail,
-      to: "info@apexfreightbrokerage.com",
+      to: process.env.RESEND_TO_EMAIL || "info@apexfreightbrokerage.com",
       replyTo: email,
       subject: `[CARRIER APP] ${referenceId} | ${mcDot}`,
       html: getEmailLayout("NEW CARRIER APPLICATION", referenceId, adminContent),
@@ -95,15 +95,17 @@ export async function POST(req: NextRequest) {
 
     if (adminError) throw adminError;
 
-    // 2) User receipt
-    const { error: userError } = await resend.emails.send({
-      from: fromEmail,
-      to: email,
-      subject: `RECEIPT: Apex Carrier Application [${referenceId}]`,
-      html: getEmailLayout("APPLICATION RECEIVED", referenceId, userReceiptContent),
-    });
-
-    if (userError) throw userError;
+    // 2) User receipt (May fail in Resend test mode if recipient is not the account owner)
+    try {
+      await resend.emails.send({
+        from: fromEmail,
+        to: email,
+        subject: `RECEIPT: Apex Carrier Application [${referenceId}]`,
+        html: getEmailLayout("APPLICATION RECEIVED", referenceId, userReceiptContent),
+      });
+    } catch (userErr) {
+      console.warn("User receipt skip (test mode or unverified):", userErr);
+    }
 
     return NextResponse.json({ success: true, refId: referenceId });
   } catch (err) {
