@@ -44,22 +44,22 @@ export default function Home() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.2 }}
           >
-            <span className="text-[var(--charcoal)] font-mono text-[12px] uppercase tracking-[0.2em] mb-6 block opacity-80">
+            <span className="text-[var(--charcoal)] font-mono text-[10px] md:text-[12px] uppercase tracking-[0.2em] mb-4 md:mb-6 block opacity-80 px-4">
               Now onboarding carrier partners for active operations
             </span>
-            <h1 className="mb-8 text-5xl md:text-7xl lg:text-8xl leading-tight text-[var(--charcoal)]" style={{ fontFamily: 'var(--font-didone), "Bodoni MT", "Didot", serif' }}>
+            <h1 className="mb-6 md:mb-8 text-5xl md:text-7xl lg:text-8xl leading-none text-[var(--charcoal)]" style={{ fontFamily: 'var(--font-didone), "Bodoni MT", "Didot", serif' }}>
               Connecting Shippers<br className="hidden md:block" /> and Carriers Seamlessly
             </h1>
             <p className="text-[var(--charcoal)]/60 text-lg md:text-xl font-light max-w-2xl mx-auto mb-12">
               Technology-enabled freight brokerage providing seamless coordination between elite shippers and premium carriers through data-informed routing and real-time execution.
             </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mt-16">
-              <a href="/quote" className="premium-btn px-12 py-6 text-white font-bold uppercase tracking-[0.2em] text-[12px] w-full sm:w-auto shadow-2xl">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 mt-10 md:mt-16 w-full max-w-sm sm:max-w-none mx-auto">
+              <a href="/quote" className="premium-btn px-8 sm:px-12 py-5 sm:py-6 text-white font-bold uppercase tracking-[0.2em] text-[11px] sm:text-[12px] w-full sm:w-auto shadow-2xl">
                 <span className="relative z-10 flex items-center justify-center gap-2">
                   Request a Quote <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </span>
               </a>
-              <a href="/carrier" className="px-12 py-6 border border-[var(--charcoal)]/10 text-[var(--charcoal)] font-bold uppercase tracking-[0.2em] text-[12px] hover:bg-[var(--maroon)] hover:border-[var(--maroon)] hover:text-white transition-all duration-500 w-full sm:w-auto">
+              <a href="/carrier" className="px-8 sm:px-12 py-5 sm:py-6 border border-[var(--charcoal)]/10 text-[var(--charcoal)] font-bold uppercase tracking-[0.2em] text-[11px] sm:text-[12px] hover:bg-[var(--maroon)] hover:border-[var(--maroon)] hover:text-white transition-all duration-500 w-full sm:w-auto text-center">
                 Join Carrier Network
               </a>
             </div>
@@ -68,18 +68,18 @@ export default function Home() {
       </section>
 
       {/* Services Section */}
-      <section className="py-32 relative z-10 border-t border-[var(--text-primary)]/5 bg-transparent">
-        <div className="container mx-auto px-6">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-20">
+      <section className="py-20 md:py-32 relative z-10 border-t border-[var(--text-primary)]/5 bg-transparent">
+        <div className="container mx-auto px-6 max-w-7xl">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 md:mb-20 gap-8">
             <div>
               <div className="flex items-center gap-2 mb-4">
                 <div className="w-2 h-2 rounded-full animate-pulse bg-[var(--maroon)]" />
                 <span className="text-[10px] font-mono tracking-[0.2em] uppercase text-[var(--maroon)]/80">Data-driven Logistics</span>
               </div>
               <h2 className="mb-4 uppercase text-[var(--charcoal)]">Precision Services</h2>
-              <p className="text-[var(--charcoal)]/60 text-lg max-w-lg font-light">Comprehensive logistics solutions engineered with streamlined coordination for the modern supply chain.</p>
+              <p className="text-[var(--charcoal)]/60 text-base md:text-lg max-w-lg font-light">Comprehensive logistics solutions engineered with streamlined coordination for the modern supply chain.</p>
             </div>
-            <a href="/services" className="hidden md:flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.2em] opacity-70 hover:opacity-100 transition-opacity mt-8 md:mt-0 text-[var(--maroon)]">
+            <a href="/services" className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.2em] opacity-70 hover:opacity-100 transition-opacity text-[var(--maroon)]">
               Explore Services <ArrowRight className="w-4 h-4" />
             </a>
           </div>
@@ -106,81 +106,105 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Stats / Why Choose Us */}
-      <section id="about" className="py-32 relative bg-white text-[var(--charcoal)]">
-        <div className="container mx-auto px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
-            <div>
-              <div className="flex items-center gap-2 mb-6">
-                <div className="w-2 h-2 rounded-full animate-pulse bg-[var(--maroon)]/30" />
-                <span className="text-[10px] font-mono tracking-[0.2em] uppercase text-[var(--maroon)]/60">Modern Logistics Network</span>
-              </div>
-              <h2 className="mb-6 text-[var(--charcoal)]" style={{ letterSpacing: '-0.02em' }}>THE APEX <br /> ADVANTAGE.</h2>
-              <p className="text-[var(--charcoal)]/60 text-lg font-light mb-8 max-w-md">
-                We leverage technology and industry expertise to deliver unparalleled reliability. Your freight, handled with absolute precision.
-              </p>
-              <div className="space-y-6">
-                {[
-                  { title: "24/7 Monitoring", desc: "Round-the-clock tracking and support." },
-                  { title: "Vetted Carriers", desc: "Access to elite, compliance-verified carriers." },
-                  { title: "Market-Informed Pricing", desc: "Fair, transparent rates based on real-time data." }
-                ].map((item, i) => (
-                  <div key={i} className="flex gap-4">
-                    <div className="w-1.5 h-1.5 mt-2 bg-[var(--maroon)]/20"></div>
-                    <div>
-                      <h4 className="font-bold text-sm mb-1 text-[var(--charcoal)]">{item.title}</h4>
-                      <p className="text-[var(--charcoal)]/60 text-sm">{item.desc}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
+      {/* Advantage Section */}
+      <section className="py-20 md:py-32 bg-[var(--off-white)] border-t border-[var(--light-gray)]/30">
+        <div className="container mx-auto px-6 max-w-7xl">
+          <div className="text-center mb-16 md:mb-24">
+            <div className="flex items-center justify-center gap-2 mb-4">
+              <div className="w-2 h-2 rounded-full animate-pulse bg-[var(--maroon)]/30" />
+              <span className="text-[10px] font-mono tracking-[0.2em] uppercase text-[var(--maroon)]/60">Modern Logistics Network</span>
             </div>
-            <div className="grid grid-cols-1 gap-8 max-w-sm mx-auto lg:mx-0">
-              <div className="p-12 flex flex-col justify-center items-center text-center bg-white border border-[var(--light-gray)]/30 shadow-2xl relative overflow-hidden bg-noise">
-                <div className="absolute top-0 right-0 w-24 h-24 bg-[var(--maroon)]/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
-                <span className="text-[10px] font-mono tracking-[0.4em] text-[var(--maroon)] uppercase font-bold mb-4 opacity-60">ONBOARDING STATUS</span>
-                <span className="text-2xl font-light text-[var(--charcoal)] leading-tight uppercase tracking-tight">Now accepting quote & carrier inquiries</span>
-              </div>
+            <h2 className="uppercase text-[var(--charcoal)]">The Apex Advantage</h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
+            <div className="p-8 bg-white border border-[var(--light-gray)]/50 shadow-sm">
+              <h3 className="font-bold text-lg mb-2 text-[var(--charcoal)]">24/7 Monitoring</h3>
+              <p className="text-[var(--charcoal)]/60 text-sm">Round-the-clock tracking and support for peace of mind.</p>
+            </div>
+            <div className="p-8 bg-white border border-[var(--light-gray)]/50 shadow-sm">
+              <h3 className="font-bold text-lg mb-2 text-[var(--charcoal)]">Vetted Carriers</h3>
+              <p className="text-[var(--charcoal)]/60 text-sm">Access to elite, compliance-verified carriers for reliability.</p>
+            </div>
+            <div className="p-8 bg-white border border-[var(--light-gray)]/50 shadow-sm">
+              <h3 className="font-bold text-lg mb-2 text-[var(--charcoal)]">Market-Informed Pricing</h3>
+              <p className="text-[var(--charcoal)]/60 text-sm">Fair, transparent rates based on real-time data and trends.</p>
+            </div>
+            <div className="p-8 bg-white border border-[var(--light-gray)]/50 shadow-sm">
+              <h3 className="font-bold text-lg mb-2 text-[var(--charcoal)]">Dedicated Support</h3>
+              <p className="text-[var(--charcoal)]/60 text-sm">Personalized service from experienced logistics professionals.</p>
+            </div>
+            <div className="p-8 bg-white border border-[var(--light-gray)]/50 shadow-sm">
+              <h3 className="font-bold text-lg mb-2 text-[var(--charcoal)]">Advanced Technology</h3>
+              <p className="text-[var(--charcoal)]/60 text-sm">Streamlined processes with cutting-edge logistics software.</p>
+            </div>
+            <div className="p-8 bg-white border border-[var(--light-gray)]/50 shadow-sm">
+              <h3 className="font-bold text-lg mb-2 text-[var(--charcoal)]">Safety & Compliance</h3>
+              <p className="text-[var(--charcoal)]/60 text-sm">Adherence to the highest safety standards and regulations.</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Quote Section */}
-      <section id="quote" className="pt-32 pb-16 relative z-10 bg-white">
-        <div className="container mx-auto max-w-6xl px-6">
-          <div className="bg-white border border-[var(--cool-gray)] p-10 md:p-16 rounded-2xl relative overflow-hidden shadow-sm">
-            {/* Decorative element */}
-            <div className="absolute top-0 right-0 w-96 h-96 bg-black opacity-[0.03] rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2"></div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-5 gap-16 relative z-10">
-              <div className="lg:col-span-2">
-                <span className="text-[var(--maroon)] font-mono text-[11px] uppercase tracking-[0.2em] mb-4 block opacity-60">Ready to move?</span>
-                <h2 className="mb-6 text-4xl text-[var(--charcoal)]">REQUEST A RATE.</h2>
-                <p className="text-[var(--charcoal)]/50 font-light mb-4">
-                  Get a fast, accurate rate for your next shipment. Our team responds within 15 minutes.
+      {/* Quick Quote Section */}
+      <section className="py-20 md:py-32 border-t border-[var(--light-gray)]/50 relative overflow-hidden bg-white">
+        <div className="container mx-auto px-6 max-w-7xl relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+            >
+              <div className="relative inline-block pb-8 border-b-2 border-[var(--maroon)]/10 mb-8 w-full">
+                <div className="absolute top-0 right-0 w-24 h-24 bg-[var(--maroon)]/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 hidden md:block"></div>
+                <span className="text-[10px] font-mono tracking-[0.4em] text-[var(--maroon)] uppercase font-bold mb-4 opacity-60 block">ONBOARDING STATUS</span>
+                <h2 className="mb-6 uppercase text-[var(--charcoal)]">Submit Inquiry</h2>
+                <p className="text-[var(--charcoal)]/60 text-lg md:text-xl font-light leading-relaxed">
+                  Experiencing disruptions? Our operations team provides priority onboarding for critical freight requirements.
                 </p>
-                <div className="mt-8 pt-6 border-t border-[var(--light-gray)]/30">
-                  <p className="text-[11px] font-mono tracking-[0.2em] text-[var(--charcoal)]/40 uppercase mb-2">Prefer direct contact?</p>
-                  <a href="mailto:info@apexfreightbrokerage.com" className="text-[var(--maroon)] font-bold text-sm hover:underline transition-all">
-                    Email us for quote inquiries
-                  </a>
-                </div>
               </div>
+              <div className="mt-8 pt-6 border-t border-[var(--light-gray)]/30">
+                <p className="text-[11px] font-mono tracking-[0.2em] text-[var(--charcoal)]/40 uppercase mb-2">Prefer direct contact?</p>
+                <a href="mailto:info@apexfreightbrokerage.com" className="text-[var(--maroon)] font-bold text-sm hover:underline transition-all">
+                  Email us for quote inquiries
+                </a>
+              </div>
+            </motion.div>
 
-              <div className="lg:col-span-3">
-                <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="col-span-1">
-                    <label className={labelStyle}>Origin (City / Zip)</label>
-                    <input type="text" required placeholder="e.g. Los Angeles, CA" className={inputStyle} value={formData.origin} onChange={(e) => setFormData({ ...formData, origin: e.target.value })} />
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+            >
+              <form onSubmit={handleSubmit} className="space-y-6 md:space-y-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">
+                  <div>
+                    <label className={labelStyle}>Origin City/Zip</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. Chicago, IL"
+                      className={inputStyle}
+                      value={formData.origin}
+                      onChange={(e) => setFormData({ ...formData, origin: e.target.value })}
+                      required
+                    />
                   </div>
-
-                  <div className="col-span-1">
-                    <label className={labelStyle}>Destination (City / Zip)</label>
-                    <input type="text" required placeholder="e.g. Chicago, IL" className={inputStyle} value={formData.destination} onChange={(e) => setFormData({ ...formData, destination: e.target.value })} />
+                  <div>
+                    <label className={labelStyle}>Destination City/Zip</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. Dallas, TX"
+                      className={inputStyle}
+                      value={formData.destination}
+                      onChange={(e) => setFormData({ ...formData, destination: e.target.value })}
+                      required
+                    />
                   </div>
+                </div>
 
-                  <div className="col-span-1 md:col-span-2">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 md:gap-8">
+                  <div className="sm:col-span-1">
                     <label className={labelStyle}>Equipment Needed</label>
                     <select className={inputStyle} value={formData.equipment} onChange={(e) => setFormData({ ...formData, equipment: e.target.value })}>
                       <option className="text-white bg-[var(--maroon)]">Dry Van</option>
@@ -189,28 +213,40 @@ export default function Home() {
                       <option className="text-white bg-[var(--maroon)]">Step Deck</option>
                     </select>
                   </div>
-
-                  <div className="col-span-1">
-                    <label className={labelStyle}>Total Weight (lbs)</label>
-                    <input type="number" required placeholder="e.g. 45000" className={inputStyle} value={formData.weight} onChange={(e) => setFormData({ ...formData, weight: e.target.value })} />
+                  <div className="sm:col-span-1">
+                    <label className={labelStyle}>Weight (lbs)</label>
+                    <input
+                      type="number"
+                      placeholder="e.g. 40000"
+                      className={inputStyle}
+                      value={formData.weight}
+                      onChange={(e) => setFormData({ ...formData, weight: e.target.value })}
+                      required
+                    />
                   </div>
-
-                  <div className="col-span-1">
-                    <label className={labelStyle}>Date Ready</label>
-                    <input type="date" required className={inputStyle} value={formData.date} onChange={(e) => setFormData({ ...formData, date: e.target.value })} />
+                  <div className="sm:col-span-1">
+                    <label className={labelStyle}>Ready Date</label>
+                    <input
+                      type="date"
+                      className={inputStyle + " uppercase text-[12px]"}
+                      value={formData.date}
+                      onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+                      required
+                    />
                   </div>
+                </div>
 
-                  <div className="col-span-1 md:col-span-2 mt-8">
-                    <button type="submit" className="premium-btn w-full px-12 py-6 text-white font-bold uppercase tracking-[0.2em] text-[12px] shadow-2xl">
-                      <span className="relative z-10 text-white transition-colors duration-300">REQUEST QUOTE</span>
-                    </button>
-                    <p className="mt-6 text-center text-[10px] font-mono tracking-widest text-[var(--charcoal)]/30 uppercase font-medium">
-                      Typical response time &lt; 15 mins • Data secure & encrypted
-                    </p>
-                  </div>
-                </form>
-              </div>
-            </div>
+                <button
+                  type="submit"
+                  className="premium-btn w-full py-5 md:py-6 text-white font-bold uppercase tracking-[0.2em] text-[12px] mt-4 shadow-xl"
+                >
+                  CONTINUE TO FULL QUOTE
+                </button>
+                <p className="text-center text-[10px] text-[var(--charcoal)]/40 font-mono tracking-wider pt-2">
+                  RESPONSE TYPICALLY WITHIN 15 MINS DURING BUSINESS HOURS
+                </p>
+              </form>
+            </motion.div>
           </div>
         </div>
       </section>

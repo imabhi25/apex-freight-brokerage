@@ -144,7 +144,7 @@ const Navbar = () => {
                 className={`fixed top-0 left-0 w-full z-[70] transition-all duration-500 ${headerModeClass} ${isScrolled ? 'py-4' : 'py-8'
                     } ${isScrolled && !isMenuOpen ? 'bg-[var(--bg)]/80 backdrop-blur-md border-b border-[var(--text-charcoal)]/10 shadow-lg' : 'bg-transparent border-transparent'}`}
             >
-                <div className="container mx-auto px-6 flex justify-between items-center">
+                <div className="container mx-auto px-6 max-w-7xl flex justify-between items-center">
                     {/* Left: Branding */}
                     <Link href="/" onClick={() => setIsMenuOpen(false)} className="group cursor-pointer">
                         <span className="font-mono text-[11px] tracking-[0.4em] uppercase opacity-80 group-hover:opacity-100 transition-all duration-300 nav-hover-tech text-[var(--charcoal)]">
@@ -218,33 +218,33 @@ const Navbar = () => {
 
                         {/* Navigation Grid */}
                         <div
-                            className="flex-1 flex items-center justify-center p-6"
+                            className="flex-1 flex flex-col items-center justify-center p-6 mt-12 md:mt-0 overflow-y-auto"
                             onClick={(e) => e.stopPropagation()}
                         >
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-32 gap-y-16 max-w-6xl w-full">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 lg:gap-x-32 gap-y-12 lg:gap-y-16 max-w-6xl w-full">
                                 {navLinks.map((link) => (
                                     <motion.div key={link.id} variants={itemVariants}>
                                         <Link
                                             href={link.href}
                                             onClick={() => setIsMenuOpen(false)}
-                                            className="group flex gap-12 items-start"
+                                            className="group flex gap-6 md:gap-12 items-start"
                                         >
-                                            <span className="text-white/40 font-mono text-[10px] tracking-[0.3em] pt-6 shrink-0">
+                                            <span className="text-white/40 font-mono text-[10px] tracking-[0.3em] pt-3 md:pt-6 shrink-0">
                                                 {link.id}
                                             </span>
                                             <div className="flex flex-col items-start text-left">
                                                 <div className="flex items-center gap-4">
-                                                    <motion.span
-                                                        className="text-4xl md:text-5xl lg:text-6xl font-medium font-mono tracking-[0.25em] uppercase text-white/40 transition-all duration-700 ease-[0.16,1,0.3,1] group-hover:text-white group-hover:tracking-[0.35em] group-hover:opacity-100"
+                                                    <span
+                                                        className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-medium font-mono tracking-[0.2em] sm:tracking-[0.25em] uppercase text-white/40 transition-all duration-700 ease-[0.16,1,0.3,1] group-hover:text-white group-hover:tracking-[0.25em] md:group-hover:tracking-[0.35em] group-hover:opacity-100 break-all sm:break-normal"
                                                         style={(pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href))) ? { color: 'white' } : {}}
                                                     >
                                                         {link.title}
-                                                    </motion.span>
+                                                    </span>
                                                     {(pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href))) && (
                                                         <span className="w-1.5 h-1.5 bg-[var(--maroon)] rounded-full shrink-0 mb-1 self-center" />
                                                     )}
                                                 </div>
-                                                <span className="text-[10px] md:text-[11px] font-mono font-medium text-white/20 uppercase tracking-[0.3em] mt-6 transition-all duration-700 ease-[0.16,1,0.3,1] group-hover:text-white/50 group-hover:translate-x-2">
+                                                <span className="text-[9px] sm:text-[10px] md:text-[11px] font-mono font-medium text-white/20 uppercase tracking-[0.2em] sm:tracking-[0.3em] mt-3 md:mt-6 transition-all duration-700 ease-[0.16,1,0.3,1] group-hover:text-white/50 group-hover:translate-x-2">
                                                     {link.subtitle}
                                                 </span>
                                             </div>

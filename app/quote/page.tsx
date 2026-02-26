@@ -246,7 +246,7 @@ export default function Quote() {
 
   return (
     <div className="min-h-screen bg-white pt-32 pb-16 flex justify-center text-left relative overflow-hidden">
-      <div className="w-full max-w-7xl">
+      <div className="w-full max-w-7xl px-6">
         {isSubmitted ? (
           <SuccessMessage
             variant="quote"
@@ -281,11 +281,11 @@ export default function Quote() {
             }}
           />
         ) : (
-          <div className="space-y-24">
+          <div className="space-y-16 md:space-y-24">
             {/* Static Header Section */}
             <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-12 max-w-7xl relative z-10">
               <div className="max-w-4xl">
-                <h1 className="text-5xl md:text-7xl font-extralight mb-6 tracking-tight leading-none uppercase text-[var(--charcoal)]" style={{ fontFamily: 'var(--font-didone), serif' }}>
+                <h1 className="text-4xl sm:text-5xl md:text-7xl font-extralight mb-4 md:mb-6 tracking-tight leading-none uppercase text-[var(--charcoal)]" style={{ fontFamily: 'var(--font-didone), serif' }}>
                   REQUEST A QUOTE
                 </h1>
                 <p className="text-[var(--charcoal)]/50 text-[14px] md:text-base font-sans max-w-2xl leading-relaxed tracking-[0.05em]">
@@ -319,9 +319,9 @@ export default function Quote() {
                   animate="animate"
                   exit="exit"
                   transition={{ duration: 0.5 }}
-                  className="space-y-20"
+                  className="space-y-16 md:space-y-20"
                 >
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-32 gap-y-20">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 lg:gap-x-32 gap-y-16 md:gap-y-20">
                     <div className="relative z-0 w-full group">
                       <input
                         type="text"
@@ -440,7 +440,7 @@ export default function Quote() {
                     <div className="mt-3 h-px bg-[var(--charcoal)]/10 w-full" />
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-32 gap-y-20">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 lg:gap-x-32 gap-y-16 md:gap-y-20">
 
                     {/* Commodity — full width */}
                     <div className="relative z-0 w-full group md:col-span-2">
@@ -570,18 +570,18 @@ export default function Quote() {
                     <label className="text-[10px] font-bold text-[var(--charcoal)]/30 uppercase tracking-[0.2em] font-mono block">
                       HAZARDOUS MATERIALS?
                     </label>
-                    <div className="flex gap-4">
+                    <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
                       <button
                         type="button"
                         onClick={() => setFormData({ ...formData, isHazardous: true })}
-                        className={`px-10 py-3 text-[11px] font-bold tracking-[0.2em] font-mono transition-all duration-300 border ${formData.isHazardous ? 'bg-[var(--maroon)] text-white border-[var(--maroon)]' : 'bg-transparent text-[var(--charcoal)]/40 border-[var(--charcoal)]/10 hover:border-[var(--maroon)]/30'}`}
+                        className={`px-10 py-3 text-[11px] font-bold tracking-[0.2em] font-mono transition-all duration-300 border w-full sm:w-auto ${formData.isHazardous ? 'bg-[var(--maroon)] text-white border-[var(--maroon)]' : 'bg-transparent text-[var(--charcoal)]/40 border-[var(--charcoal)]/10 hover:border-[var(--maroon)]/30'}`}
                       >
                         YES
                       </button>
                       <button
                         type="button"
                         onClick={() => setFormData({ ...formData, isHazardous: false })}
-                        className={`px-10 py-3 text-[11px] font-bold tracking-[0.2em] font-mono transition-all duration-300 border ${!formData.isHazardous ? 'bg-[var(--maroon)] text-white border-[var(--maroon)]' : 'bg-transparent text-[var(--charcoal)]/40 border-[var(--charcoal)]/10 hover:border-[var(--maroon)]/30'}`}
+                        className={`px-10 py-3 text-[11px] font-bold tracking-[0.2em] font-mono transition-all duration-300 border w-full sm:w-auto ${!formData.isHazardous ? 'bg-[var(--maroon)] text-white border-[var(--maroon)]' : 'bg-transparent text-[var(--charcoal)]/40 border-[var(--charcoal)]/10 hover:border-[var(--maroon)]/30'}`}
                       >
                         NO
                       </button>
@@ -638,7 +638,7 @@ export default function Quote() {
                     <div className="mt-3 h-px bg-[var(--charcoal)]/10 w-full" />
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-32 gap-y-20">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 lg:gap-x-32 gap-y-16 md:gap-y-20 text-left">
                     {/* Contact Name — full width */}
                     <div className="relative z-0 w-full group md:col-span-2">
                       <input
@@ -698,24 +698,24 @@ export default function Quote() {
                   </div>
 
                   {/* Nav + Submit */}
-                  <div className="pt-8 flex gap-12 items-baseline justify-end">
+                  <div className="pt-8 flex flex-col sm:flex-row gap-6 sm:gap-12 items-center sm:items-baseline justify-end w-full">
                     <button
                       onClick={handleBack}
                       disabled={isSubmitting}
-                      className="text-[14px] font-bold tracking-[0.2em] uppercase font-mono text-[var(--charcoal)]/40 hover:text-[var(--maroon)] hover:scale-105 origin-right inline-block transition-all duration-500 ease-[0.16,1,0.3,1] disabled:opacity-30"
+                      className="text-[14px] font-bold tracking-[0.2em] uppercase font-mono text-[var(--charcoal)]/40 hover:text-[var(--maroon)] hover:scale-105 origin-right inline-block transition-all duration-500 ease-[0.16,1,0.3,1] disabled:opacity-30 w-full sm:w-auto text-center"
                     >
                       BACK
                     </button>
                     <motion.div
-                      className="inline-block"
+                      className="inline-block w-full sm:w-auto"
                     >
                       <motion.button
                         onClick={handleSubmit}
                         disabled={isSubmitting || !(formData.contactName.trim() && formData.phone.trim() && formData.jobTitle.trim())}
-                        className={`premium-btn py-6 px-16 text-white font-bold uppercase tracking-[0.2em] text-[15px] font-mono shadow-2xl ${isSubmitting || !(formData.contactName.trim() && formData.phone.trim() && formData.jobTitle.trim()) ? 'opacity-50 cursor-not-allowed' : ''}`}
+                        className={`premium-btn py-5 md:py-6 px-8 md:px-16 w-full text-white font-bold uppercase tracking-[0.15em] md:tracking-[0.2em] text-[13px] md:text-[15px] font-mono shadow-2xl ${isSubmitting || !(formData.contactName.trim() && formData.phone.trim() && formData.jobTitle.trim()) ? 'opacity-50 cursor-not-allowed' : ''}`}
                       >
                         {isSubmitting ? (
-                          <span className="flex items-center gap-3">
+                          <span className="flex items-center justify-center gap-3">
                             <span className="w-1.5 h-1.5 bg-white animate-ping rounded-full" />
                             SUBMITTING...
                           </span>

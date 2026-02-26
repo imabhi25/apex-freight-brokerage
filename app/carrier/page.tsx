@@ -185,11 +185,11 @@ export default function Carrier() {
     const labelClass = "absolute left-0 top-1/2 -translate-y-1/2 text-[12px] font-bold text-[var(--charcoal)]/50 uppercase tracking-[0.2em] font-mono transition-all duration-300 pointer-events-none peer-focus:-translate-y-[44px] peer-focus:text-[var(--maroon)] peer-[:not(:placeholder-shown)]:-translate-y-[44px]";
 
     return (
-        <div className="min-h-screen bg-white pt-40 pb-16 flex flex-col items-center text-left text-[var(--charcoal)] relative overflow-hidden">
+        <div className="min-h-screen bg-white pt-32 md:pt-40 pb-16 flex flex-col items-center text-left text-[var(--charcoal)] relative overflow-hidden">
             {/* Technical Grid — DISABLED for Muted Industrial */}
             <div className="absolute inset-0 pointer-events-none z-0 bg-grid-pattern opacity-0" />
 
-            <div className="w-full max-w-6xl relative z-10">
+            <div className="w-full max-w-6xl px-6 relative z-10">
                 <AnimatePresence mode="wait">
                     {isSubmitted ? (
                         <SuccessMessage
@@ -219,8 +219,8 @@ export default function Carrier() {
                             exit={{ opacity: 0, y: -20 }}
                             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                         >
-                            <div className="mb-24 relative z-10">
-                                <h1 className="text-5xl md:text-6xl font-extralight mb-6 tracking-tight leading-none uppercase text-[var(--charcoal)]" style={{ fontFamily: 'var(--font-didone), serif' }}>
+                            <div className="mb-16 md:mb-24 relative z-10">
+                                <h1 className="text-4xl sm:text-5xl md:text-6xl font-extralight mb-4 md:mb-6 tracking-tight leading-none uppercase text-[var(--charcoal)]" style={{ fontFamily: 'var(--font-didone), serif' }}>
                                     JOIN CARRIER NETWORK
                                 </h1>
                                 <p className="text-[var(--charcoal)]/60 text-[14px] md:text-base font-sans max-w-[520px] leading-relaxed tracking-[0.05em]">
@@ -234,9 +234,9 @@ export default function Carrier() {
                                 </div>
                             </div>
 
-                            <form onSubmit={handleSubmit} className="space-y-16" noValidate>
+                            <form onSubmit={handleSubmit} className="space-y-12 md:space-y-16" noValidate>
                                 <FadeInUpBox delay={0.1}>
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-24">
                                         <div className="relative z-0 w-full group pt-4">
                                             <input
                                                 type="text"
@@ -275,7 +275,7 @@ export default function Carrier() {
                                 </FadeInUpBox>
 
                                 <FadeInUpBox delay={0.15}>
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-24">
                                         <div className="relative z-0 w-full group pt-4">
                                             <div className="relative">
                                                 <input
@@ -394,11 +394,11 @@ export default function Carrier() {
                                 </FadeInUpBox>
 
                                 <FadeInUpBox delay={0.25}>
-                                    <div className="pt-12 flex justify-end">
+                                    <div className="pt-8 md:pt-12 flex justify-end">
                                         <motion.button
                                             type="submit"
                                             disabled={isSubmitting}
-                                            className={`premium-btn py-6 px-16 text-white font-bold uppercase tracking-[0.2em] text-[15px] font-mono shadow-2xl ${isSubmitting ? 'opacity-30 cursor-not-allowed' : ''}`}
+                                            className={`premium-btn py-5 md:py-6 px-8 md:px-16 w-full md:w-auto text-white font-bold uppercase tracking-[0.15em] md:tracking-[0.2em] text-[13px] md:text-[15px] font-mono shadow-2xl ${isSubmitting ? 'opacity-30 cursor-not-allowed' : ''}`}
                                         >
                                             {isSubmitting ? (
                                                 <span className="flex items-center gap-3">
@@ -410,7 +410,7 @@ export default function Carrier() {
                                             )}
                                         </motion.button>
                                     </div>
-                                    <p className="mt-8 text-center text-[10px] font-mono tracking-widest text-[var(--charcoal)]/40 uppercase">
+                                    <p className="mt-6 md:mt-8 text-center md:text-right text-[9px] md:text-[10px] font-mono tracking-[0.15em] md:tracking-widest text-[var(--charcoal)]/40 uppercase">
                                         Compliance Review Typically &lt; 24h • Secure Data Transmission
                                     </p>
                                 </FadeInUpBox>

@@ -31,10 +31,10 @@ function SendMessageButton({ sendState }: { sendState: SendState }) {
                 onMouseEnter={() => isIdle && setHovered(true)}
                 onMouseLeave={() => setHovered(false)}
                 disabled={sendState === "loading"}
-                className={`premium-btn flex items-center gap-4 py-8 px-16 min-w-[320px] ${sendState === "success" ? "!bg-green-600" :
+                className={`premium-btn flex items-center justify-center gap-2 sm:gap-4 py-6 sm:py-8 w-full sm:min-w-[320px] ${sendState === "success" ? "!bg-green-600" :
                     sendState === "error" ? "!bg-red-600" :
                         "text-white"
-                    } disabled:opacity-50 disabled:cursor-not-allowed uppercase font-bold font-mono tracking-[0.2em] text-[15px] shadow-2xl`}
+                    } disabled:opacity-50 disabled:cursor-not-allowed uppercase font-bold font-mono tracking-[0.15em] sm:tracking-[0.2em] text-[13px] sm:text-[15px] shadow-2xl`}
             >
                 <div className="flex items-center gap-3 h-6 w-full justify-center">
                     {sendState === "loading" && (
@@ -110,7 +110,7 @@ export default function Contact() {
             {/* Technical Grid — DISABLED for Muted Industrial */}
             <div className="absolute inset-0 pointer-events-none z-0 bg-grid-pattern opacity-0" />
 
-            <div className="w-full max-w-7xl mx-auto relative z-10">
+            <div className="w-full max-w-7xl mx-auto px-6 relative z-10">
                 <AnimatePresence mode="wait">
                     {sendState === "success" ? (
                         <SuccessMessage
@@ -140,8 +140,8 @@ export default function Contact() {
                         >
                             {/* Left Side: Heading & Info */}
                             <div className="w-full md:w-1/2 flex flex-col justify-between">
-                                <div className="mb-24 relative z-10">
-                                    <h1 className="text-5xl md:text-6xl font-extralight mb-6 tracking-tight leading-none uppercase text-[var(--charcoal)]" style={{ fontFamily: 'var(--font-didone), "Bodoni MT", "Didot", serif' }}>
+                                <div className="mb-12 md:mb-24 relative z-10">
+                                    <h1 className="text-4xl sm:text-5xl md:text-6xl font-extralight mb-4 md:mb-6 tracking-tight leading-none uppercase text-[var(--charcoal)]" style={{ fontFamily: 'var(--font-didone), "Bodoni MT", "Didot", serif' }}>
                                         GET IN TOUCH
                                     </h1>
                                     <p className="text-[var(--charcoal)]/60 text-[14px] md:text-base font-sans max-w-xl leading-relaxed tracking-[0.05em]">
@@ -158,12 +158,12 @@ export default function Contact() {
                                                 href="https://www.google.com/maps/search/?api=1&query=4670+N+El+Capitan+Ave,+Fresno,+CA+93722"
                                                 target="_blank"
                                                 rel="noopener noreferrer"
-                                                className="text-lg md:text-2xl text-[var(--text-primary)]/70 font-sans leading-relaxed hover:text-[var(--text-primary)] transition-colors block mb-8"
+                                                className="text-base md:text-lg lg:text-2xl text-[var(--text-primary)]/70 font-sans leading-relaxed hover:text-[var(--text-primary)] transition-colors block mb-8"
                                             >
                                                 4670 N El Capitan Ave,<br />Fresno, CA 93722
                                             </a>
                                             {/* Colorful Map Embed — Height matched to baseline of Message on right */}
-                                            <div className="w-full overflow-hidden border border-[var(--light-gray)] h-[380px]">
+                                            <div className="w-full overflow-hidden border border-[var(--light-gray)] h-[250px] md:h-[380px]">
                                                 <iframe
                                                     title="Apex Freight Location"
                                                     width="100%"
@@ -177,10 +177,10 @@ export default function Contact() {
                                         </div>
                                         <div>
                                             <h3 className="text-[14px] font-bold text-[var(--charcoal)]/40 uppercase tracking-[0.3em] font-mono mb-6">CONTACT</h3>
-                                            <a href="mailto:info@apexfreightbrokerage.com" className="text-lg md:text-2xl text-[var(--charcoal)]/70 font-sans hover:text-[var(--maroon)] transition-colors block mb-3">
+                                            <a href="mailto:info@apexfreightbrokerage.com" className="text-base md:text-lg lg:text-2xl text-[var(--charcoal)]/70 font-sans hover:text-[var(--maroon)] transition-colors block mb-3 break-all sm:break-normal">
                                                 info@apexfreightbrokerage.com
                                             </a>
-                                            <a href="tel:8885550199" className="text-lg md:text-2xl text-[var(--charcoal)]/70 font-sans hover:text-[var(--maroon)] transition-colors block">
+                                            <a href="tel:8885550199" className="text-base md:text-lg lg:text-2xl text-[var(--charcoal)]/70 font-sans hover:text-[var(--maroon)] transition-colors block">
                                                 888-555-0199
                                             </a>
                                         </div>
@@ -271,7 +271,7 @@ export default function Contact() {
                                                     )}
                                                 </AnimatePresence>
                                             </div>
-                                            <p className="mt-8 text-center md:text-left text-[10px] font-mono tracking-widest text-[var(--charcoal)]/40 uppercase">
+                                            <p className="mt-6 md:mt-8 text-center md:text-left text-[9px] md:text-[10px] font-mono tracking-widest text-[var(--charcoal)]/40 uppercase">
                                                 Inquiries monitored 24/7 • Response within 15 mins
                                             </p>
                                         </FadeInUpBox>

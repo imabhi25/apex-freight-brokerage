@@ -127,7 +127,7 @@ export default function ZipAutocomplete({
                             onMouseDown={() => handleSelect(city)}
                             style={{
                                 background: idx === highlightedIndex ? "var(--bg-alt)" : "transparent",
-                                padding: "12px 16px",
+                                padding: "16px 16px",
                                 cursor: "pointer",
                                 transition: "background 0.1s",
                             }}

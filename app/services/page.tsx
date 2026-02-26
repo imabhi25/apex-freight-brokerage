@@ -112,14 +112,14 @@ export default function ServicesPage() {
     const [hoveredColumn, setHoveredColumn] = useState<number | null>(null);
 
     return (
-        <div className="min-h-screen bg-white pt-40 pb-24 px-6 flex flex-col items-center text-left font-sans text-[var(--charcoal)]">
+        <div className="min-h-screen bg-white pt-32 md:pt-40 pb-24 px-6 flex flex-col items-center text-left font-sans text-[var(--charcoal)]">
             <div className="w-full max-w-7xl">
 
                 {/* Hero */}
                 <FadeInUpBox delay={0.1}>
-                    <div className="mb-24 bg-white px-6 pt-24 pb-16 mt-[-160px] relative">
+                    <div className="mb-16 md:mb-24 bg-white px-0 md:px-6 pt-16 md:pt-24 pb-12 md:pb-16 mt-[-100px] md:mt-[-160px] relative">
                         <h1
-                            className="text-6xl md:text-8xl lg:text-[140px] font-extralight text-[var(--charcoal)] tracking-[-0.05em] leading-[0.85] uppercase mb-12"
+                            className="text-5xl sm:text-6xl md:text-8xl lg:text-[140px] font-extralight text-[var(--charcoal)] tracking-tight md:tracking-[-0.05em] leading-[1] md:leading-[0.85] uppercase mb-8 md:mb-12 break-words"
                             style={{ fontFamily: 'var(--font-didone), "Bodoni MT", "Didot", serif' }}
                         >
                             Capabilities.
@@ -146,7 +146,7 @@ export default function ServicesPage() {
                                     y: hoveredColumn === idx ? -8 : 0,
                                 }}
                                 transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                                className={`pt-24 pb-24 flex flex-col justify-between cursor-default bg-white ${idx === 0 ? "md:pr-12 md:border-r border-[var(--light-gray)]" : ""
+                                className={`pt-16 md:pt-24 pb-16 md:pb-24 flex flex-col justify-between cursor-default bg-white border-b border-[var(--light-gray)] md:border-b-0 ${idx === 0 ? "md:pr-12 md:border-r" : ""
                                     } ${idx === 1 ? "md:px-12 md:border-r border-[var(--light-gray)]" : ""
                                     } ${idx === 2 ? "md:pl-12" : ""
                                     }`}
@@ -208,15 +208,15 @@ export default function ServicesPage() {
 
                 {/* Bottom CTA */}
                 <FadeInUpBox delay={0.3}>
-                    <div className="mt-20 md:mt-28 border-t border-[var(--light-gray)] pt-16 flex flex-col md:flex-row justify-between items-start gap-12">
+                    <div className="mt-16 md:mt-28 border-t-0 md:border-t border-[var(--light-gray)] pt-8 md:pt-16 flex flex-col md:flex-row justify-between items-start md:items-center gap-8 md:gap-12">
                         <p
-                            className="text-4xl md:text-6xl font-extralight text-[var(--charcoal)] tracking-tight leading-tight uppercase max-w-2xl"
+                            className="text-3xl sm:text-4xl md:text-6xl font-extralight text-[var(--charcoal)] tracking-tight leading-tight uppercase max-w-2xl"
                             style={{ fontFamily: 'var(--font-didone), "Bodoni MT", "Didot", serif' }}
                         >
                             Ready to move with precision?
                         </p>
-                        <div className="flex items-center">
-                            <Link href="/quote">
+                        <div className="flex items-center w-full md:w-auto mt-4 md:mt-0">
+                            <Link href="/quote" className="w-full md:w-auto text-center md:text-left">
                                 <StartQuoteButton />
                             </Link>
                         </div>
