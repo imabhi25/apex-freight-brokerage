@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import FadeInUpBox from "../components/FadeInUpBox";
 import SuccessMessage from "../components/SuccessMessage";
+import { ArrowRight } from "lucide-react";
 
 const SPRING = { type: "spring", stiffness: 260, damping: 20, mass: 1 } as const;
 const ELASTIC = [0.16, 1, 0.3, 1] as const;
@@ -21,17 +22,13 @@ function SendMessageButton({ sendState }: { sendState: SendState }) {
                     "Send Message";
 
     return (
-        <motion.div
-            whileHover={isIdle ? { scale: 1.05 } : {}}
-            transition={SPRING}
-            className="inline-block"
-        >
+        <div className="inline-block flex-grow sm:flex-grow-0">
             <motion.button
                 type="submit"
                 onMouseEnter={() => isIdle && setHovered(true)}
                 onMouseLeave={() => setHovered(false)}
                 disabled={sendState === "loading"}
-                className={`premium-btn flex items-center justify-center gap-2 sm:gap-4 py-6 sm:py-8 w-full sm:min-w-[320px] ${sendState === "success" ? "!bg-green-600" :
+                className={`premium-btn group flex items-center justify-center gap-2 sm:gap-4 py-6 sm:py-8 w-full sm:min-w-[320px] ${sendState === "success" ? "!bg-green-600" :
                     sendState === "error" ? "!bg-red-600" :
                         "text-white"
                     } disabled:opacity-50 disabled:cursor-not-allowed uppercase font-bold font-mono tracking-[0.15em] sm:tracking-[0.2em] text-[13px] sm:text-[15px] shadow-2xl`}
@@ -44,10 +41,15 @@ function SendMessageButton({ sendState }: { sendState: SendState }) {
                         <span className="text-white font-mono text-[13px] shrink-0">✓</span>
                     )}
 
-                    <span>{label}</span>
+                    <span className="relative z-10 flex items-center justify-center gap-2">
+                        {label}
+                        {isIdle && (
+                            <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-[5px] transition-transform duration-[320ms] ease-[0.25,1,0.5,1]" />
+                        )}
+                    </span>
                 </div>
             </motion.button>
-        </motion.div>
+        </div>
     );
 }
 
@@ -58,9 +60,11 @@ export default function Contact() {
     const [errors, setErrors] = useState<Record<string, string>>({});
     const [sendState, setSendState] = useState<SendState>("idle");
     const [currentRefId, setCurrentRefId] = useState("");
+    const [isSubmitAttempted, setIsSubmitAttempted] = useState(false);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        setIsSubmitAttempted(true);
 
         // Client-side validation
         const newErrors: Record<string, string> = {};
@@ -102,7 +106,7 @@ export default function Contact() {
         }
     };
 
-    const inputBaseClass = "block w-full h-[52px] px-0 text-[16px] font-sans text-[var(--charcoal)] bg-transparent focus:outline-none transition-all duration-300 placeholder-transparent peer border-b border-[var(--light-gray)] focus:border-[var(--maroon)] rounded-none";
+    const inputBaseClass = "block w-full h-[52px] px-0 text-[15px] font-medium font-sans text-[var(--charcoal)] bg-transparent focus:outline-none transition-all duration-300 placeholder-transparent peer border-b border-[var(--light-gray)] focus:border-[var(--maroon)] rounded-none";
     const labelClass = "absolute left-0 top-1/2 -translate-y-1/2 text-[12px] font-bold text-[var(--charcoal)]/50 uppercase tracking-[0.2em] font-mono transition-all duration-300 pointer-events-none peer-focus:-translate-y-[44px] peer-focus:text-[var(--maroon)] peer-[:not(:placeholder-shown)]:-translate-y-[44px]";
 
     return (
@@ -141,7 +145,7 @@ export default function Contact() {
                             {/* Left Side: Heading & Info */}
                             <div className="w-full md:w-1/2 flex flex-col justify-between">
                                 <div className="mb-12 md:mb-24 relative z-10">
-                                    <h1 className="text-4xl sm:text-5xl md:text-6xl font-extralight mb-4 md:mb-6 tracking-tight leading-none uppercase text-[var(--charcoal)]" style={{ fontFamily: 'var(--font-didone), "Bodoni MT", "Didot", serif' }}>
+                                    <h1 className="text-4xl sm:text-5xl md:text-6xl font-extralight mb-4 md:mb-6 tracking-tight leading-none uppercase text-[var(--charcoal)]" style={{ fontFamily: 'var(--font-didone), serif' }}>
                                         GET IN TOUCH
                                     </h1>
                                     <p className="text-[var(--charcoal)]/60 text-[14px] md:text-base font-sans max-w-xl leading-relaxed tracking-[0.05em]">
@@ -180,8 +184,8 @@ export default function Contact() {
                                             <a href="mailto:info@apexfreightbrokerage.com" className="text-base md:text-lg lg:text-2xl text-[var(--charcoal)]/70 font-sans hover:text-[var(--maroon)] transition-colors block mb-3 break-all sm:break-normal">
                                                 info@apexfreightbrokerage.com
                                             </a>
-                                            <a href="tel:8885550199" className="text-base md:text-lg lg:text-2xl text-[var(--charcoal)]/70 font-sans hover:text-[var(--maroon)] transition-colors block">
-                                                888-555-0199
+                                            <a href="tel:8183300000" className="text-base md:text-lg lg:text-2xl text-[var(--charcoal)]/70 font-sans hover:text-[var(--maroon)] transition-colors block">
+                                                818-330-0000
                                             </a>
                                         </div>
                                     </div>
@@ -189,7 +193,7 @@ export default function Contact() {
                             </div>
 
                             {/* Right Side: Form */}
-                            <div className="w-full md:w-1/2 flex flex-col justify-between">
+                            <div className="w-full md:w-1/2 flex flex-col justify-between lg:pt-[54px]">
                                 <form onSubmit={handleSubmit} className="w-full h-full flex flex-col justify-between" noValidate>
                                     <div className="w-full space-y-24">
                                         {/* Name */}
@@ -199,13 +203,17 @@ export default function Contact() {
                                                     type="text"
                                                     id="name"
                                                     value={name}
-                                                    onChange={(e) => { setName(e.target.value); if (errors.name) setErrors(prev => ({ ...prev, name: "" })); }}
-                                                    className={`${inputBaseClass}`}
+                                                    onChange={(e) => {
+                                                        setName(e.target.value);
+                                                        if (errors.name) setErrors(prev => ({ ...prev, name: "" }));
+                                                        else if (isSubmitAttempted && !e.target.value) setErrors(prev => ({ ...prev, name: "REQUIRED" }));
+                                                    }}
+                                                    className={`${inputBaseClass} ${errors.name ? 'border-[var(--maroon)] focus:border-[var(--maroon)]' : ''}`}
                                                     placeholder=" "
                                                 />
-                                                <label htmlFor="name" className={`${labelClass} ${errors.name ? 'text-red-500 peer-focus:text-red-500' : ''}`}>FULL NAME *</label>
+                                                <label htmlFor="name" className={labelClass}>FULL NAME *</label>
                                                 {errors.name && (
-                                                    <motion.p initial={{ opacity: 0, y: -5 }} animate={{ opacity: 1, y: 0 }} className="absolute -bottom-5 left-0 text-[9px] text-red-500 font-mono tracking-widest">{errors.name}</motion.p>
+                                                    <motion.p initial={{ opacity: 0, y: -5 }} animate={{ opacity: 1, y: 0 }} className="absolute -bottom-5 left-0 text-[9px] text-[var(--maroon)] font-mono tracking-widest">{errors.name}</motion.p>
                                                 )}
                                             </div>
                                         </FadeInUpBox>
@@ -218,15 +226,20 @@ export default function Contact() {
                                                     id="email"
                                                     value={email}
                                                     onChange={(e) => {
-                                                        setEmail(e.target.value);
+                                                        const val = e.target.value;
+                                                        setEmail(val);
                                                         if (errors.email || errors.emailFormat) setErrors(prev => { const n = { ...prev }; delete n.email; delete n.emailFormat; return n; });
+                                                        if (isSubmitAttempted) {
+                                                            if (!val) setErrors(prev => ({ ...prev, email: "REQUIRED" }));
+                                                            else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val) || val.includes("..")) setErrors(prev => ({ ...prev, emailFormat: "INVALID EMAIL FORMAT" }));
+                                                        }
                                                     }}
-                                                    className={`${inputBaseClass}`}
+                                                    className={`${inputBaseClass} ${(errors.email || errors.emailFormat) ? 'border-[var(--maroon)] focus:border-[var(--maroon)]' : ''}`}
                                                     placeholder=" "
                                                 />
-                                                <label htmlFor="email" className={`${labelClass} ${(errors.email || errors.emailFormat) ? 'text-red-500 peer-focus:text-red-500' : ''}`}>OFFICIAL EMAIL *</label>
+                                                <label htmlFor="email" className={labelClass}>OFFICIAL EMAIL *</label>
                                                 {(errors.email || errors.emailFormat) && (
-                                                    <motion.p initial={{ opacity: 0, y: -5 }} animate={{ opacity: 1, y: 0 }} className="absolute -bottom-5 left-0 text-[9px] text-red-500 font-mono tracking-widest">{errors.email || errors.emailFormat}</motion.p>
+                                                    <motion.p initial={{ opacity: 0, y: -5 }} animate={{ opacity: 1, y: 0 }} className="absolute -bottom-5 left-0 text-[9px] text-[var(--maroon)] font-mono tracking-widest">{errors.email || errors.emailFormat}</motion.p>
                                                 )}
                                             </div>
                                         </FadeInUpBox>
@@ -237,19 +250,24 @@ export default function Contact() {
                                                 <textarea
                                                     id="message"
                                                     value={message}
-                                                    onChange={(e) => { setMessage(e.target.value); if (errors.message) setErrors(prev => ({ ...prev, message: "" })); }}
+                                                    onChange={(e) => {
+                                                        const val = e.target.value;
+                                                        setMessage(val);
+                                                        if (errors.message) setErrors(prev => ({ ...prev, message: "" }));
+                                                        else if (isSubmitAttempted && !val) setErrors(prev => ({ ...prev, message: "REQUIRED" }));
+                                                    }}
                                                     rows={6}
-                                                    className={`block py-4 px-0 w-full text-[16px] font-sans text-[var(--charcoal)] bg-transparent focus:outline-none transition-all duration-300 placeholder-transparent peer resize-none border-b border-[var(--light-gray)] focus:border-[var(--maroon)] rounded-none`}
+                                                    className={`block py-4 px-0 w-full text-[16px] font-sans text-[var(--charcoal)] bg-transparent focus:outline-none transition-all duration-300 placeholder-transparent peer resize-none border-b border-[var(--light-gray)] focus:border-[var(--maroon)] rounded-none ${errors.message ? 'border-[var(--maroon)]' : ''}`}
                                                     placeholder=" "
                                                 />
                                                 <label
                                                     htmlFor="message"
-                                                    className={`absolute left-0 top-4 text-[12px] font-bold text-[var(--charcoal)]/50 uppercase tracking-[0.2em] font-mono transition-all duration-300 pointer-events-none peer-focus:-translate-y-[44px] peer-focus:text-[var(--maroon)] peer-[:not(:placeholder-shown)]:-translate-y-[44px] ${errors.message ? 'text-red-500' : ''}`}
+                                                    className={`absolute left-0 top-4 text-[12px] font-bold text-[var(--charcoal)]/50 uppercase tracking-[0.2em] font-mono transition-all duration-300 pointer-events-none peer-focus:-translate-y-[44px] peer-focus:text-[var(--maroon)] peer-[:not(:placeholder-shown)]:-translate-y-[44px]`}
                                                 >
                                                     MESSAGE *
                                                 </label>
                                                 {errors.message && (
-                                                    <motion.p initial={{ opacity: 0, y: -5 }} animate={{ opacity: 1, y: 0 }} className="absolute -bottom-5 left-0 text-[9px] text-red-500 font-mono tracking-widest">{errors.message}</motion.p>
+                                                    <motion.p initial={{ opacity: 0, y: -5 }} animate={{ opacity: 1, y: 0 }} className="absolute -bottom-5 left-0 text-[9px] text-[var(--maroon)] font-mono tracking-widest">{errors.message}</motion.p>
                                                 )}
                                             </div>
                                         </FadeInUpBox>

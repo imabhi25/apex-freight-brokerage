@@ -13,7 +13,6 @@ const Navbar = () => {
     const [isVisible, setIsVisible] = useState(true);
     const [lastScrollY, setLastScrollY] = useState(0);
     const [isOverHero, setIsOverHero] = useState(true);
-    const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
     const pathname = usePathname();
 
     // Handle scroll detection for sticky header and visibility
@@ -99,18 +98,18 @@ const Navbar = () => {
         visible: {
             opacity: 1,
             transition: {
-                duration: 1.2,
-                ease: [0.25, 1, 0.4, 1],
-                staggerChildren: 0.1,
-                delayChildren: 0.1,
+                duration: 0.8,
+                ease: [0.16, 1, 0.3, 1],
+                staggerChildren: 0.15,
+                delayChildren: 0.2,
             },
         },
         exit: {
             opacity: 0,
             transition: {
-                duration: 0.8,
-                ease: [0.25, 1, 0.4, 1],
-                staggerChildren: 0.05,
+                duration: 0.6,
+                ease: [0.16, 1, 0.3, 1],
+                staggerChildren: 0.08,
                 staggerDirection: -1,
                 when: "afterChildren"
             },
@@ -118,16 +117,16 @@ const Navbar = () => {
     };
 
     const itemVariants: any = {
-        hidden: { opacity: 0, y: 40 },
+        hidden: { opacity: 0, y: 80 },
         visible: {
             opacity: 1,
             y: 0,
-            transition: { duration: 1.0, ease: [0.25, 1, 0.4, 1] },
+            transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] },
         },
         exit: {
             opacity: 0,
-            y: 20,
-            transition: { duration: 0.6, ease: [0.25, 1, 0.4, 1] },
+            y: 40,
+            transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
         },
     };
 
@@ -148,9 +147,9 @@ const Navbar = () => {
             >
                 <div className="container mx-auto px-6 max-w-7xl flex justify-between items-center">
                     {/* Left: Branding */}
-                    <Link href="/" onClick={() => setIsMenuOpen(false)} className={`group cursor-pointer flex items-center transition-opacity duration-500 ${isMenuOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
+                    <Link href="/" onClick={() => setIsMenuOpen(false)} className="group cursor-pointer flex items-center">
                         <span
-                            className={`text-xl md:text-[22px] font-medium tracking-[0.08em] transition-all duration-500 ease-[0.25,1,0.5,1] group-hover:opacity-90 group-hover:scale-[1.01] origin-left text-[var(--charcoal)]`}
+                            className={`text-xl md:text-[22px] font-medium tracking-[0.08em] transition-all duration-500 ease-[0.25,1,0.5,1] group-hover:opacity-90 group-hover:scale-[1.01] origin-left ${isMenuOpen ? 'text-white' : 'text-[var(--charcoal)]'}`}
                             style={{ fontFamily: 'var(--font-didone), serif' }}
                         >
                             APEX FREIGHT
@@ -159,7 +158,7 @@ const Navbar = () => {
 
                     {/* Right: Contact & Menu */}
                     <div className="flex items-center gap-8">
-                        <a href="tel:8183300000" className={`hidden md:block font-mono text-[11px] tracking-[0.4em] transition-all duration-300 nav-hover-tech text-[var(--charcoal)] ${isMenuOpen ? 'opacity-0 pointer-events-none' : 'opacity-60 hover:opacity-100'}`}>818-330-0000</a>
+                        <a href="tel:8183300000" className="hidden md:block font-mono text-[11px] tracking-[0.4em] opacity-60 hover:opacity-100 transition-all duration-300 nav-hover-tech text-[var(--charcoal)]">818-330-0000</a>
 
                         <button
                             onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -211,33 +210,57 @@ const Navbar = () => {
                         animate="visible"
                         exit="exit"
                         variants={overlayVariants}
-                        className="fixed inset-0 z-[60] bg-[#111113] flex flex-col"
+                        className="fixed inset-0 z-[60] bg-[var(--charcoal)] flex flex-col"
                         onClick={() => setIsMenuOpen(false)}
                     >
-                        {/* Top Bar — Wordmark + Close */}
+                        {/* Overlay Spacer */}
                         <div
-                            className="container mx-auto px-8 md:px-12 lg:px-16 py-8 flex justify-between items-center opacity-0 pointer-events-none"
+                            className={`container mx-auto px-6 flex justify-between items-center opacity-0 pointer-events-none ${isScrolled ? 'py-4' : 'py-8'}`}
                         >
                             <div className="h-8"></div>
                         </div>
 
-                        {/* Main Navigation Area */}
+                        {/* Split-Screen Navigation Grid */}
                         <div
-                            className="flex-1 flex flex-col justify-center px-8 md:px-12 lg:px-20 xl:px-32 overflow-hidden"
+                            className="flex-1 flex flex-col md:flex-row h-full overflow-hidden"
                             onClick={(e) => e.stopPropagation()}
-                            onMouseLeave={() => setHoveredIdx(null)}
                         >
-                            {/* 2-Column Navigation Grid */}
-                            <nav className="grid grid-cols-1 md:grid-cols-2 gap-x-16 lg:gap-x-32 gap-y-12 md:gap-y-16 lg:gap-y-24 max-w-5xl mx-auto w-full">
-                                {navLinks.map((link, idx) => {
-                                    const isActive = pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href));
-                                    const isHovered = hoveredIdx === idx;
-                                    const isSomethingHovered = hoveredIdx !== null;
-                                    // Bright if hovered or active (when nothing else hovered)
-                                    const isBright = isHovered || (isActive && !isSomethingHovered);
-                                    const isDimmed = isSomethingHovered && !isHovered;
+                            {/* Left Side: Structural Sidebar */}
+                            <motion.div
+                                initial={{ x: -100, opacity: 0 }}
+                                animate={{ x: 0, opacity: 1 }}
+                                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
+                                className="w-full md:w-[380px] lg:w-[450px] border-r border-white/5 flex flex-col p-12 md:p-16 lg:p-20 justify-end bg-black/20"
+                            >
+                                <div className="space-y-12">
+                                    <div className="space-y-4">
+                                        <h4 className="text-[10px] font-mono tracking-[0.4em] text-white/20 uppercase font-bold">Inquiries</h4>
+                                        <div className="space-y-2">
+                                            <a href="mailto:info@apexfreightbrokerage.com" className="block text-lg text-white/60 hover:text-[var(--maroon)] transition-colors">info@apexfreightbrokerage.com</a>
+                                            <a href="tel:8183300000" className="block text-xl md:text-2xl font-medium text-white/80">818-330-0000</a>
+                                        </div>
+                                    </div>
 
-                                    return (
+                                    <div className="space-y-4">
+                                        <h4 className="text-[10px] font-mono tracking-[0.4em] text-white/20 uppercase font-bold">Headquarters</h4>
+                                        <p className="text-white/50 leading-relaxed text-[15px] font-light italic">
+                                            4670 N El Capitan Ave<br />
+                                            Fresno, CA 93722
+                                        </p>
+                                    </div>
+
+                                    <div className="pt-12 border-t border-white/5">
+                                        <span className="text-[9px] font-mono tracking-[0.2em] text-white/10 uppercase">
+                                            System Status: Operational
+                                        </span>
+                                    </div>
+                                </div>
+                            </motion.div>
+
+                            {/* Right Side: Massive Primary Links */}
+                            <div className="flex-1 flex flex-col justify-center p-12 md:p-20 lg:p-32 overflow-y-auto">
+                                <nav className="space-y-4 md:space-y-8 lg:space-y-10">
+                                    {navLinks.map((link, idx) => (
                                         <motion.div
                                             key={link.id}
                                             variants={itemVariants}
@@ -246,77 +269,31 @@ const Navbar = () => {
                                             <Link
                                                 href={link.href}
                                                 onClick={() => setIsMenuOpen(false)}
-                                                onMouseEnter={() => setHoveredIdx(idx)}
-                                                className="group flex flex-col py-2"
+                                                className="group flex gap-8 items-center"
                                             >
-                                                <div className="flex items-center">
-                                                    {/* Index Number */}
+                                                <span className="hidden md:block text-[11px] font-mono tracking-[0.3em] text-white/10 group-hover:text-white/40 transition-colors pt-2 shrink-0">
+                                                    {link.id}
+                                                </span>
+                                                <div className="flex flex-col items-start translate-x-0 group-hover:translate-x-4 transition-transform duration-700 ease-[0.16,1,0.3,1]">
                                                     <span
-                                                        className="font-mono text-[10px] sm:text-[11px] tracking-[0.4em] transition-all duration-700 ease-[0.25,1,0.4,1] mr-8 sm:mr-10 md:mr-12 w-[24px] shrink-0 text-right"
+                                                        className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-light tracking-tighter uppercase text-white/30 transition-all duration-700 ease-[0.16,1,0.3,1] group-hover:text-white group-hover:opacity-100"
                                                         style={{
-                                                            color: isDimmed ? 'rgba(255,255,255,0.1)' : isBright ? 'rgba(255,255,255,0.4)' : 'rgba(255,255,255,0.2)',
-                                                        }}
-                                                    >
-                                                        {link.id}
-                                                    </span>
-
-                                                    {/* Large Main Label */}
-                                                    <span
-                                                        className="uppercase transition-all duration-700 ease-[0.25,1,0.4,1] text-4xl sm:text-5xl md:text-[56px] lg:text-[68px] leading-none"
-                                                        style={{
-                                                            fontFamily: 'var(--font-inter), sans-serif',
-                                                            fontWeight: 600,
-                                                            letterSpacing: '0.3em',
-                                                            color: isDimmed ? 'rgba(255,255,255,0.1)' : isBright ? '#ffffff' : 'rgba(255,255,255,0.4)',
+                                                            fontFamily: 'var(--font-didone), "Bodoni MT", "Didot", serif',
+                                                            ...((pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href))) ? { color: 'white', opacity: 1 } : {})
                                                         }}
                                                     >
                                                         {link.title}
                                                     </span>
-
-                                                    {/* Red Square Indicator */}
-                                                    <motion.div
-                                                        initial={{ opacity: 0, scale: 0.5 }}
-                                                        animate={{ opacity: isBright ? 1 : 0, scale: isBright ? 1 : 0.5 }}
-                                                        transition={{ duration: 0.3 }}
-                                                        className="w-1.5 h-1.5 bg-[#ad0000] ml-2 shrink-0"
-                                                    />
-                                                </div>
-
-                                                {/* Subtitle */}
-                                                <div className="flex items-start mt-4 sm:mt-5 md:mt-6">
-                                                    {/* Spacer to align with text */}
-                                                    <span className="mr-8 sm:mr-10 md:mr-12 w-[24px] shrink-0 opacity-0 pointer-events-none">{link.id}</span>
-                                                    <span
-                                                        className="font-mono text-[9px] md:text-[10px] tracking-[0.3em] uppercase transition-all duration-700 ease-[0.25,1,0.4,1]"
-                                                        style={{
-                                                            color: isDimmed ? 'rgba(255,255,255,0.05)' : isBright ? 'rgba(255,255,255,0.4)' : 'rgba(255,255,255,0.2)',
-                                                        }}
-                                                    >
+                                                    <span className="text-[9px] sm:text-[10px] md:text-[11px] font-mono font-medium text-[var(--maroon)]/40 uppercase tracking-[0.3em] mt-2 transition-all duration-700 ease-[0.16,1,0.3,1] group-hover:text-[var(--maroon)] group-hover:tracking-[0.5em]">
                                                         {link.subtitle}
                                                     </span>
                                                 </div>
                                             </Link>
                                         </motion.div>
-                                    );
-                                })}
-                            </nav>
+                                    ))}
+                                </nav>
+                            </div>
                         </div>
-
-                        {/* Bottom Footer — Quiet Contact Info */}
-                        <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ duration: 0.8, delay: 0.5, ease: [0.25, 1, 0.4, 1] }}
-                            className="px-8 md:px-12 lg:px-20 xl:px-32 pb-10 flex flex-col sm:flex-row items-center justify-between gap-4"
-                            onClick={(e) => e.stopPropagation()}
-                        >
-                            <a href="mailto:info@apexfreightbrokerage.com" className="text-white/30 text-[11px] font-mono tracking-[0.2em] hover:text-white/60 transition-colors duration-500">
-                                info@apexfreightbrokerage.com
-                            </a>
-                            <a href="tel:8183300000" className="text-white/30 text-[11px] font-mono tracking-[0.2em] hover:text-white/60 transition-colors duration-500">
-                                818-330-0000
-                            </a>
-                        </motion.div>
                     </motion.div>
                 )}
             </AnimatePresence>

@@ -9,7 +9,7 @@ interface CityResult {
 }
 
 interface CityAutocompleteProps {
-    label: string;
+    label: React.ReactNode;
     value: string;
     onChange: (result: CityResult) => void;
     onError: (cityError: string, zipError?: string) => void;
@@ -17,6 +17,7 @@ interface CityAutocompleteProps {
     inputBaseClass: string;
     labelClass: string;
     errorClass: string;
+    compact?: boolean;
 }
 
 export default function CityAutocomplete({
@@ -28,6 +29,7 @@ export default function CityAutocomplete({
     inputBaseClass,
     labelClass,
     errorClass,
+    compact = false,
 }: CityAutocompleteProps) {
     const [inputValue, setInputValue] = useState(value);
     const [suggestions, setSuggestions] = useState<USCity[]>([]);
@@ -65,8 +67,8 @@ export default function CityAutocomplete({
             return;
         }
 
-        if (val.trim().length >= 2) {
-            const results = searchCities(val);
+        if (val.trim().length >= 1) {
+            let results = searchCities(val);
             setSuggestions(results);
             setIsOpen(results.length > 0);
         } else {
@@ -108,6 +110,7 @@ export default function CityAutocomplete({
             className="relative w-full group"
             style={{ zIndex: isOpen ? 50 : "auto" }}
         >
+            {compact && <label className={labelClass}>{label}</label>}
             <input
                 type="text"
                 value={inputValue}
@@ -117,22 +120,22 @@ export default function CityAutocomplete({
                 placeholder=" "
                 autoComplete="off"
             />
-            <label className={labelClass}>{label}</label>
+            {!compact && <label className={labelClass}>{label}</label>}
             {error && <span className={errorClass}>{error}</span>}
 
             {/* Dropdown */}
             {isOpen && suggestions.length > 0 && (
                 <ul
-                    className="absolute top-full left-0 w-full list-none p-0 m-0"
+                    className={`absolute top-full left-0 w-full list-none p-0 m-0 ${compact ? 'border-none bg-[#fdfdfd] shadow-[0_4px_12px_rgba(0,0,0,0.04)] border border-black/[0.04]' : ''}`}
                     style={{
-                        background: "var(--background)",
-                        border: "1px solid var(--border)",
+                        background: compact ? "#FAF9F6" : "var(--background)",
+                        border: compact ? "1px solid rgba(0,0,0,0.06)" : "1px solid var(--border)",
                         zIndex: 9999,
-                        maxHeight: "240px",
+                        maxHeight: compact ? "160px" : "240px",
                         overflowY: "auto",
-                        boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1)",
-                        borderRadius: "12px",
-                        marginTop: "4px"
+                        boxShadow: compact ? "0 4px 12px rgba(0, 0, 0, 0.04)" : "0 10px 15px -3px rgba(0, 0, 0, 0.1)",
+                        borderRadius: compact ? "0 0 4px 4px" : "12px",
+                        marginTop: compact ? "0" : "4px"
                     }}
                 >
                     {suggestions.map((city, idx) => (
@@ -140,20 +143,23 @@ export default function CityAutocomplete({
                             key={`${city.city}-${city.abbr}`}
                             onMouseDown={() => handleSelect(city)}
                             style={{
-                                background: idx === highlightedIndex ? "var(--bg-alt)" : "transparent",
-                                padding: "16px 16px",
+                                background: idx === highlightedIndex ? (compact ? "rgba(0,0,0,0.03)" : "var(--bg-alt)") : "transparent",
+                                padding: compact ? "12px 12px" : "16px 16px",
                                 cursor: "pointer",
                                 transition: "background 0.1s",
+                                borderBottom: compact && idx < suggestions.length - 1 ? "1px solid rgba(0,0,0,0.04)" : "none",
                             }}
                             onMouseEnter={() => setHighlightedIndex(idx)}
                             onMouseLeave={() => setHighlightedIndex(-1)}
                         >
-                            <span className="text-[14px] text-[var(--text-primary)] font-mono block uppercase tracking-wide">
+                            <span className={`${compact ? 'text-[11px]' : 'text-[14px]'} text-[var(--charcoal)] font-mono block uppercase tracking-wide font-bold`}>
                                 {city.city}, {city.abbr}
                             </span>
-                            <span className="text-[10px] text-[var(--text-secondary)] font-mono block mt-0.5 tracking-wider">
-                                {city.state} &middot; {city.zip}
-                            </span>
+                            {!compact && (
+                                <span className="text-[10px] text-[var(--text-secondary)] font-mono block mt-0.5 tracking-wider">
+                                    {city.state} &middot; {city.zip}
+                                </span>
+                            )}
                         </li>
                     ))}
                 </ul>

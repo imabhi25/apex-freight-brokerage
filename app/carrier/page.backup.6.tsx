@@ -12,7 +12,6 @@ export default function Carrier() {
     const [email, setEmail] = useState("");
     const [mcDot, setMcDot] = useState("");
     const [taxId, setTaxId] = useState("");
-    const [isSubmitAttempted, setIsSubmitAttempted] = useState(false);
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [loadingPhase, setLoadingPhase] = useState(0);
@@ -46,17 +45,12 @@ export default function Carrier() {
     const handleEmailBlur = () => {
         const error = validateEmail(email);
         if (error) {
-            if (error === "REQUIRED" && !isSubmitAttempted) return;
             setErrors((prev) => ({ ...prev, email: error }));
-        } else {
-            setErrors((prev) => ({ ...prev, email: "" }));
         }
     };
 
     const handleTaxIdBlur = () => {
-        if (!taxId && isSubmitAttempted) {
-             setErrors((prev) => ({ ...prev, taxId: "REQUIRED" }));
-        } else if (taxId && !/^\d{2}-?\d{7}$/.test(taxId)) {
+        if (taxId && !/^\d{2}-?\d{7}$/.test(taxId)) {
             setErrors((prev) => ({ ...prev, taxId: "INVALID EIN" }));
         }
     };
@@ -94,14 +88,11 @@ export default function Carrier() {
                 setIsMcVerified(false);
                 return;
             }
-        } else if (isSubmitAttempted) {
-             setErrors((prev) => ({ ...prev, mcDot: "REQUIRED" }));
         }
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setIsSubmitAttempted(true);
         const newErrors: Record<string, string> = {};
 
         if (!organization) newErrors.organization = "REQUIRED";
@@ -185,15 +176,6 @@ export default function Carrier() {
         }
     };
 
-    const isFormValid = Boolean(
-        organization.trim() &&
-        dispatcherName.trim() &&
-        email.trim() && !validateEmail(email) &&
-        mcDot.trim() && isValidAuthorityFormat(mcDot) &&
-        taxId.trim() && /^\d{2}-?\d{7}$/.test(taxId) &&
-        selectedEquipment.length > 0
-    );
-
     const toggleEquipment = (type: string) => {
         setSelectedEquipment(prev =>
             prev.includes(type)
@@ -232,7 +214,6 @@ export default function Carrier() {
                                 referenceId={currentRefId}
                                 onReset={() => {
                                     setIsSubmitted(false);
-                                    setIsSubmitAttempted(false);
                                     setOrganization("");
                                     setDispatcherName("");
                                     setEmail("");
@@ -255,8 +236,8 @@ export default function Carrier() {
                         >
                             <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
                                 {/* Left Column - Context */}
-                                <div className="lg:col-span-4 xl:col-span-5 pr-0 lg:pr-8 flex flex-col justify-start items-start pt-4">
-                                    <h1 className="mb-6 text-4xl sm:text-5xl md:text-6xl font-extralight tracking-tight leading-none uppercase text-[var(--charcoal)]" style={{ fontFamily: 'var(--font-didone), serif' }}>
+                                <div className="lg:col-span-4 xl:col-span-5 lg:sticky lg:top-32 pr-0 lg:pr-8 flex flex-col pt-12 lg:pt-[72px]">
+                                    <h1 className="mb-8 text-4xl sm:text-5xl md:text-6xl font-extralight tracking-tight leading-none uppercase text-[var(--charcoal)]" style={{ fontFamily: 'var(--font-didone), serif' }}>
                                         JOIN CARRIER NETWORK
                                     </h1>
                                     <p className="text-[var(--charcoal)]/60 text-[14px] md:text-base font-sans max-w-[420px] leading-relaxed tracking-[0.05em] mb-12">
@@ -295,7 +276,7 @@ export default function Carrier() {
                                 </div>
 
                                 {/* Right Column - Form */}
-                                <div className="lg:col-span-8 xl:col-span-7 flex flex-col items-start relative">
+                                <div className="lg:col-span-8 xl:col-span-7 flex flex-col relative">
                                     <div className="hidden lg:block absolute left-[-32px] top-4 bottom-4 w-[1px] bg-gradient-to-b from-transparent via-[var(--charcoal)]/[0.06] to-transparent" />
                                     <div className="w-full max-w-2xl">
                                         <form onSubmit={handleSubmit} className="space-y-12 md:space-y-16" noValidate>
@@ -310,13 +291,13 @@ export default function Carrier() {
                                                                 setOrganization(e.target.value);
                                                                 if (errors.organization) setErrors(prev => ({ ...prev, organization: "" }));
                                                             }}
-                                                            className={`${inputBaseClass} ${errors.organization ? 'border-[var(--maroon)]' : ''}`}
+                                                            className={`${inputBaseClass}`}
                                                             placeholder=" "
                                                         />
-                                                        <label htmlFor="organization" className={labelClass}>
-                                                            CARRIER NAME
+                                                        <label htmlFor="organization" className={`${labelClass} ${errors.organization ? 'text-red-500' : ''}`}>
+                                                            CARRIER NAME *
                                                         </label>
-                                                        {errors.organization && <span className="absolute -bottom-5 left-0 text-[10px] text-[var(--maroon)] font-mono tracking-widest">{errors.organization}</span>}
+                                                        {errors.organization && <span className="absolute -bottom-5 left-0 text-[10px] text-red-500 font-mono tracking-widest">{errors.organization}</span>}
                                                     </div>
                                                     <div className="relative z-0 w-full group pt-4">
                                                         <input
@@ -327,13 +308,13 @@ export default function Carrier() {
                                                                 setDispatcherName(e.target.value);
                                                                 if (errors.dispatcherName) setErrors(prev => ({ ...prev, dispatcherName: "" }));
                                                             }}
-                                                            className={`${inputBaseClass} ${errors.dispatcherName ? 'border-[var(--maroon)]' : ''}`}
+                                                            className={`${inputBaseClass}`}
                                                             placeholder=" "
                                                         />
-                                                        <label htmlFor="dispatcherName" className={labelClass}>
-                                                            DISPATCHER NAME
+                                                        <label htmlFor="dispatcherName" className={`${labelClass} ${errors.dispatcherName ? 'text-red-500' : ''}`}>
+                                                            DISPATCHER NAME *
                                                         </label>
-                                                        {errors.dispatcherName && <span className="absolute -bottom-5 left-0 text-[10px] text-[var(--maroon)] font-mono tracking-widest">{errors.dispatcherName}</span>}
+                                                        {errors.dispatcherName && <span className="absolute -bottom-5 left-0 text-[10px] text-red-500 font-mono tracking-widest">{errors.dispatcherName}</span>}
                                                     </div>
                                                 </div>
                                             </FadeInUpBox>
@@ -358,7 +339,7 @@ export default function Carrier() {
                                                                         setIsVerifyingMc(false);
                                                                     }
                                                                 }}
-                                                                className={`${inputBaseClass} pr-12 ${errors.mcDot ? 'border-[var(--maroon)]' : ''}`}
+                                                                className={`${inputBaseClass} pr-12`}
                                                                 placeholder=" "
                                                             />
                                                             <AnimatePresence>
@@ -373,13 +354,13 @@ export default function Carrier() {
                                                                     </motion.div>
                                                                 )}
                                                             </AnimatePresence>
-                                                            <label htmlFor="mcDot" className={labelClass}>
-                                                                MC / DOT NUMBER
+                                                            <label htmlFor="mcDot" className={`${labelClass} ${errors.mcDot ? 'text-red-500' : ''}`}>
+                                                                MC / DOT NUMBER *
                                                             </label>
                                                         </div>
                                                         <AnimatePresence>
                                                             {errors.mcDot && (
-                                                                <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="absolute -bottom-5 left-0 text-[10px] text-[var(--maroon)] font-mono tracking-widest">
+                                                                <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="absolute -bottom-5 left-0 text-[10px] text-red-500 font-mono tracking-widest uppercase">
                                                                     {errors.mcDot}
                                                                 </motion.span>
                                                             )}
@@ -401,21 +382,21 @@ export default function Carrier() {
                                                                 setTaxId(val);
                                                                 if (errors.taxId) setErrors(prev => ({ ...prev, taxId: "" }));
                                                             }}
-                                                            className={`${inputBaseClass} ${errors.taxId ? 'border-[var(--maroon)]' : ''}`}
+                                                            className={`${inputBaseClass}`}
                                                             placeholder=" "
                                                         />
-                                                        <label htmlFor="taxId" className={labelClass}>
-                                                            FEDERAL TAX ID (EIN)
+                                                        <label htmlFor="taxId" className={`${labelClass} ${errors.taxId ? 'text-red-500' : ''}`}>
+                                                            FEDERAL TAX ID (EIN) *
                                                         </label>
-                                                        {errors.taxId && <span className="absolute -bottom-5 left-0 text-[10px] text-[var(--maroon)] font-mono tracking-widest">{errors.taxId}</span>}
+                                                        {errors.taxId && <span className="absolute -bottom-5 left-0 text-[10px] text-red-500 font-mono tracking-widest">{errors.taxId}</span>}
                                                     </div>
                                                 </div>
                                             </FadeInUpBox>
 
                                             <FadeInUpBox delay={0.18}>
                                                 <div className="space-y-6">
-                                                    <label className="text-[12px] font-bold uppercase tracking-[0.2em] font-mono text-[var(--charcoal)]/40">
-                                                        EQUIPMENT TYPE
+                                                    <label className={`text-[12px] font-bold uppercase tracking-[0.2em] font-mono ${errors.equipment ? 'text-red-500' : 'text-[var(--charcoal)]/40'}`}>
+                                                        EQUIPMENT TYPE *
                                                     </label>
                                                     <div className="flex flex-wrap gap-4">
                                                         {equipmentTypes.map((type) => (
@@ -427,7 +408,7 @@ export default function Carrier() {
                                                                     if (errors.equipment) setErrors(prev => ({ ...prev, equipment: "" }));
                                                                 }}
                                                                 whileHover={{ scale: 1.05 }}
-                                                                className={`px-6 py-3 text-[11px] font-bold tracking-[0.2em] font-mono transition-all duration-300 border rounded-lg ${selectedEquipment.includes(type)
+                                                                className={`px-6 py-3 text-[11px] font-bold tracking-[0.2em] font-mono transition-all duration-300 border rounded-none ${selectedEquipment.includes(type)
                                                                     ? 'bg-[var(--maroon)]/[0.03] text-[var(--maroon)] border-[var(--maroon)]/40 shadow-sm'
                                                                     : 'bg-transparent text-[var(--charcoal)]/40 border-[var(--charcoal)]/15 hover:border-[var(--charcoal)]/30 hover:text-[var(--charcoal)]/60 hover:bg-[var(--charcoal)]/[0.01]'
                                                                     }`}
@@ -438,7 +419,7 @@ export default function Carrier() {
                                                     </div>
                                                     <AnimatePresence>
                                                         {errors.equipment && (
-                                                            <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="text-[10px] text-[var(--maroon)] font-mono tracking-widest block uppercase mt-2">
+                                                            <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="text-[10px] text-red-500 font-mono tracking-widest block uppercase mt-2">
                                                                 {errors.equipment}
                                                             </motion.span>
                                                         )}
@@ -457,53 +438,39 @@ export default function Carrier() {
                                                             setEmail(e.target.value);
                                                             if (errors.email) setErrors(prev => ({ ...prev, email: "" }));
                                                         }}
-                                                        className={`${inputBaseClass} ${errors.email ? 'border-[var(--maroon)]' : ''}`}
+                                                        className={`${inputBaseClass}`}
                                                         placeholder=" "
                                                     />
-                                                    <label htmlFor="email" className={labelClass}>
-                                                        PRIMARY DISPATCH EMAIL
+                                                    <label htmlFor="email" className={`${labelClass} ${errors.email ? 'text-red-500' : ''}`}>
+                                                        PRIMARY DISPATCH EMAIL *
                                                     </label>
-                                                    {errors.email && <span className="absolute -bottom-5 left-0 text-[10px] text-[var(--maroon)] font-mono tracking-widest">{errors.email}</span>}
+                                                    {errors.email && <span className="absolute -bottom-5 left-0 text-[10px] text-red-500 font-mono tracking-widest">{errors.email}</span>}
                                                 </div>
                                             </FadeInUpBox>
 
                                             <FadeInUpBox delay={0.25}>
                                                 <div className="pt-8 md:pt-12 flex flex-col items-end gap-4 w-full">
-                                                    <div className="flex flex-col items-end w-full group">
-                                                        {/* Optional gentle guidance text when form is incomplete */}
-                                                        <AnimatePresence>
-                                                            {!isFormValid && !isSubmitting && (
-                                                                <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} className="mb-4">
-                                                                     <p className="text-[10px] sm:text-[11px] font-sans tracking-wide text-[var(--charcoal)]/40 text-right">
-                                                                         Complete all required fields to continue.
-                                                                     </p>
-                                                                </motion.div>
-                                                            )}
-                                                        </AnimatePresence>
-
-                                                        <button
-                                                            type="submit"
-                                                            disabled={isSubmitting || !isFormValid}
-                                                            className={`inline-flex items-center justify-center sm:justify-end gap-3 text-[var(--maroon)] px-6 py-2 rounded-lg transition-all duration-500 ease-[0.25,1,0.4,1] ${(isSubmitting || !isFormValid) ? 'opacity-30 pointer-events-none' : 'hover:-translate-y-[2px] hover:scale-[1.02] hover:drop-shadow-[0_8px_16px_rgba(114,35,46,0.2)]'}`}
-                                                        >
-                                                            {isSubmitting ? (
-                                                                <span className="inline-flex items-center gap-3 text-[12px] font-mono uppercase tracking-[0.25em] font-bold whitespace-nowrap">
-                                                                    <span className="w-1.5 h-1.5 bg-[var(--maroon)] animate-ping rounded-full shrink-0" />
-                                                                    SUBMITTING...
-                                                                </span>
-                                                            ) : (
-                                                                <>
-                                                                    <span className="font-mono text-[12px] uppercase tracking-[0.25em] font-bold whitespace-nowrap">Submit Application</span>
-                                                                    <ArrowRight className="w-4 h-4 shrink-0 group-hover:translate-x-1.5 transition-transform duration-500 ease-[0.25,1,0.4,1]" />
-                                                                </>
-                                                            )}
-                                                        </button>
-                                                        
-                                                        <div className="flex flex-col items-end mt-4 sm:mt-5 transition-opacity duration-500" style={{ opacity: isFormValid ? 1 : 0 }}>
-                                                            <p className="text-[9px] font-mono tracking-[0.15em] text-[var(--charcoal)]/40 uppercase text-right leading-relaxed mb-3">
-                                                                Reviewed typically under 24 hours.<br />Carrier details remain confidential.
-                                                            </p>
-                                                        </div>
+                                                    <button
+                                                        type="submit"
+                                                        disabled={isSubmitting}
+                                                        className={`group inline-flex items-center justify-center sm:justify-end gap-3 text-[var(--maroon)] transition-all duration-500 ease-[0.25,1,0.4,1] hover:-translate-y-[2px] hover:scale-[1.02] hover:drop-shadow-[0_8px_16px_rgba(114,35,46,0.2)] ${isSubmitting ? 'opacity-40 cursor-not-allowed' : ''}`}
+                                                    >
+                                                        {isSubmitting ? (
+                                                            <span className="inline-flex items-center gap-3 text-[12px] font-mono uppercase tracking-[0.25em] font-bold whitespace-nowrap">
+                                                                <span className="w-1.5 h-1.5 bg-[var(--maroon)] animate-ping rounded-full shrink-0" />
+                                                                SUBMITTING...
+                                                            </span>
+                                                        ) : (
+                                                            <>
+                                                                <span className="font-mono text-[12px] uppercase tracking-[0.25em] font-bold whitespace-nowrap">Submit Application</span>
+                                                                <ArrowRight className="w-4 h-4 shrink-0 group-hover:translate-x-1.5 transition-transform duration-500 ease-[0.25,1,0.4,1]" />
+                                                            </>
+                                                        )}
+                                                    </button>
+                                                    <div className="flex flex-col items-end mt-4 sm:mt-5">
+                                                        <p className="text-[9px] font-mono tracking-[0.15em] text-[var(--charcoal)]/40 uppercase text-right leading-relaxed mb-3">
+                                                            Reviewed typically under 24 hours.<br />Carrier details remain confidential.
+                                                        </p>
                                                         <AnimatePresence>
                                                             {errors.submit && (
                                                                 <motion.div

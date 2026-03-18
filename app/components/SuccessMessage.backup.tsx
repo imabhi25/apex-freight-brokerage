@@ -47,11 +47,17 @@ export default function SuccessMessage({
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ type: "spring", stiffness: 260, damping: 20, mass: 1 }}
-            className="min-h-[75vh] flex flex-col justify-center items-center text-center py-24 px-6 max-w-3xl mx-auto"
+            className="min-h-[80vh] flex flex-col justify-center items-center text-center py-24 px-6 max-w-4xl mx-auto"
         >
-            {/* Status Line */}
-            <div className="mb-4 flex items-center justify-center gap-4">
-                <span className="text-[10px] font-mono font-bold tracking-[0.4em] uppercase text-[var(--charcoal)]/60">
+            {/* Pulsing Emerald Green Dot for Carrier */}
+            <div className="flex items-center gap-4 mb-10">
+                {(isCarrier || isContact || isQuote) && (
+                    <div className="relative flex items-center justify-center">
+                        <div className={`w-3 h-3 ${isCarrier ? "bg-emerald-500" : "bg-[var(--maroon)]"} rounded-full animate-pulse`} />
+                        <div className={`absolute w-6 h-6 border-2 ${isCarrier ? "border-emerald-500/30" : "border-[var(--maroon)]/30"} rounded-full animate-ping`} />
+                    </div>
+                )}
+                <span className="text-[11px] font-mono font-bold tracking-[0.4em] uppercase text-[var(--text-secondary-label)]">
                     {isCarrier ? "ONBOARDING STATUS: RECEIVED" : isQuote ? "QUOTE STATUS: RECEIVED" : "INQUIRY STATUS: RECEIVED"}
                 </span>
             </div>
@@ -61,65 +67,56 @@ export default function SuccessMessage({
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.15, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                className="text-4xl md:text-5xl lg:text-[64px] font-light text-[var(--charcoal)] mb-8 leading-[1.1] uppercase tracking-tight"
+                className="text-5xl md:text-6xl lg:text-7xl font-bold text-[var(--charcoal)] mb-8 leading-none uppercase"
                 style={{ fontFamily: 'var(--font-didone), "Bodoni MT", "Didot", serif' }}
             >
                 {headline}
             </motion.h2>
 
-            {/* Reference ID Block */}
+            {/* Monospaced Receipt ID */}
             {referenceId && (
                 <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.3 }}
-                    className="mb-8 w-full flex flex-col items-center"
+                    className="mb-10 w-full flex flex-col items-center"
                 >
-                    <span className="text-[10px] font-bold font-mono tracking-[0.3em] uppercase text-[var(--charcoal)]/50 block mb-2">
-                        REFERENCE ID
-                    </span>
-                    <span className="text-2xl md:text-[32px] font-mono tracking-wide text-[var(--charcoal)] font-medium inline-flex items-center">
+                    <span className="text-[12px] font-bold font-mono tracking-[0.3em] md:tracking-[0.4em] uppercase text-[var(--charcoal)]/60 block mb-3">REFERENCE ID</span>
+                    <span className="text-3xl md:text-4xl font-mono tracking-tight text-[var(--charcoal)] bg-[var(--maroon)]/5 px-8 py-4 border-2 border-[var(--maroon)]/20 shadow-sm inline-flex items-center">
                         {typedRefId}
                     </span>
                 </motion.div>
             )}
 
             {/* Body Text */}
-            <motion.div
+            <motion.p
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.4, duration: 0.6 }}
-                className="mb-12"
+                className="text-[var(--charcoal)]/80 text-base md:text-lg font-sans leading-relaxed md:leading-[1.8] max-w-xl mx-auto mb-16 tracking-wide whitespace-pre-line"
             >
-                <p className="text-[15px] font-sans font-normal leading-[1.8] max-w-xl mx-auto text-[var(--charcoal)]/80 tracking-wide whitespace-pre-line">
-                    {subtext}
-                </p>
-            </motion.div>
+                {subtext}
+            </motion.p>
 
             {/* Interactive Actions */}
             <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.6, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                className="flex flex-col items-center gap-6 w-full"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.6, type: "spring" }}
+                className="flex flex-col items-center gap-6 w-full max-w-sm mx-auto"
             >
-                {/* Primary Button */}
                 <button
                     onClick={onReset}
-                    className="group relative overflow-hidden inline-flex items-center justify-center gap-3 px-10 py-4 bg-[var(--charcoal)] text-white text-[12px] font-bold tracking-[0.2em] uppercase font-mono rounded-xl transition-all duration-500 ease-[0.25,1,0.4,1] hover:-translate-y-[2px] shadow-[0_4px_20px_rgba(28,28,30,0.15)] hover:shadow-[0_8px_30px_rgba(28,28,30,0.25)] origin-center w-full sm:w-auto"
+                    className="premium-btn w-full text-white py-5 px-8 uppercase font-bold font-mono tracking-[0.15em] md:tracking-[0.2em] text-[14px] shadow-xl hover:shadow-2xl transition-all"
                 >
-                    <span className="absolute inset-0 bg-[#3A3A3C] translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[0.25,1,0.4,1]" />
-                    <span className="relative z-10 flex items-center justify-center gap-2">
-                        {resetLabel}
-                    </span>
+                    {resetLabel}
                 </button>
 
-                {/* Secondary Link */}
                 <Link
                     href="/"
-                    className="text-[11px] font-mono font-bold tracking-[0.2em] uppercase text-[var(--charcoal)]/60 hover:text-[var(--maroon)] transition-colors duration-400 block pt-1 pb-1 border-b border-transparent hover:border-[var(--maroon)]/30"
+                    className="text-[12px] font-mono font-bold tracking-[0.2em] md:tracking-[0.3em] uppercase text-[var(--charcoal)]/50 hover:text-[var(--maroon)] hover:underline underline-offset-[6px] transition-all pt-2 block"
                 >
-                    RETURN TO HOME
+                    Return to Home
                 </Link>
             </motion.div>
         </motion.div>

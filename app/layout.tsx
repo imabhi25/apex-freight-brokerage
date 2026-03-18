@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { Inter, JetBrains_Mono, Bodoni_Moda } from "next/font/google";
+import { Inter, JetBrains_Mono, Yrsa } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import AIAssistant from "./components/AIAssistant";
 import PageTransition from "./components/PageTransition";
-import CustomCursor from "./components/CustomCursor";
+
 
 const inter = Inter({
   subsets: ["latin"],
@@ -17,10 +17,14 @@ const jetbrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains-mono",
 });
 
-const didone = Bodoni_Moda({
+const yrsa = Yrsa({
   subsets: ["latin"],
-  variable: "--font-didone",
+  variable: "--font-yrsa",
+  weight: ["300", "400", "500", "600", "700"],
+  style: ['normal', 'italic'],
 });
+
+ 
 
 export const metadata: Metadata = {
   title: "Apex Freight | AI-Powered Logistics Solutions",
@@ -39,11 +43,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable} ${yrsa.variable}`}>
       <body
-        className={`${inter.variable} ${jetbrainsMono.variable} ${didone.variable} font-sans antialiased bg-white text-[var(--foreground)] cursor-none`}
+        className="font-sans antialiased bg-white text-[var(--foreground)]"
       >
-        <CustomCursor />
+
         <Navbar />
         <PageTransition>{children}</PageTransition>
         <Footer />

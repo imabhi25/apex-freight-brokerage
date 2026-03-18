@@ -404,20 +404,27 @@ export const US_CITIES: USCity[] = [
     { city: "Washington", state: "District of Columbia", abbr: "DC", zip: "20001" },
 ];
 
-export function searchCities(query: string, limit = 8): USCity[] {
-    if (!query || query.trim().length < 2) return [];
+export function searchCities(query: string, limit = 20): USCity[] {
+    if (!query || query.trim().length < 1) return [];
     const q = query.toLowerCase().trim();
-    return US_CITIES.filter(
+
+    // Priority 1: city name starts with the query
+    const startsWithCity = US_CITIES.filter(
+        (c) => c.city.toLowerCase().startsWith(q)
+    );
+
+    // Priority 2: state abbreviation or state name matches
+    const stateMatches = US_CITIES.filter(
         (c) =>
-            c.city.toLowerCase().startsWith(q) ||
-            c.city.toLowerCase().includes(q) ||
-            c.abbr.toLowerCase() === q ||
-            c.state.toLowerCase().startsWith(q)
-    ).slice(0, limit);
+            !c.city.toLowerCase().startsWith(q) &&
+            (c.abbr.toLowerCase() === q || c.state.toLowerCase().startsWith(q))
+    );
+
+    return [...startsWithCity, ...stateMatches].slice(0, limit);
 }
 
-export function searchByZip(query: string, limit = 8): USCity[] {
-    if (!query || query.trim().length < 2) return [];
+export function searchByZip(query: string, limit = 20): USCity[] {
+    if (!query || query.trim().length < 1) return [];
     const q = query.trim();
     return US_CITIES.filter((c) => c.zip.startsWith(q)).slice(0, limit);
 }

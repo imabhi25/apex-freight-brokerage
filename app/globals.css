@@ -1,13 +1,16 @@
 @import "tailwindcss";
 
 :root {
+  /* Typography */
+  --font-didone: var(--font-yrsa), serif;
+
   /* Premium Maroon & White Theme */
   --maroon: #800000;
   --maroon-hover: #600000;
   --charcoal: #1C1C1E;
   --muted-gray: #8E8E93;
   --light-gray: #D1D1D6;
-  --off-white: #F9FAFB;
+  --off-white: #FCFCFD;
   --white: #FFFFFF;
 
   --midnight-blue: var(--charcoal);
@@ -40,22 +43,18 @@
   --text-secondary: var(--muted-gray);
 }
 
-::selection {
-  background-color: var(--apex-navy) !important;
-  color: #ffffff !important;
-  -webkit-text-fill-color: #ffffff !important;
+::selection,
+*::selection {
+  background-color: rgba(59, 130, 246, 0.30) !important;
+  color: #1a2744 !important;
+  -webkit-text-fill-color: #1a2744 !important;
 }
 
-::-moz-selection {
-  background-color: var(--apex-navy) !important;
-  color: #ffffff !important;
-}
-
-input::selection,
-textarea::selection {
-  background-color: var(--foreground) !important;
-  color: var(--background) !important;
-  -webkit-text-fill-color: var(--background) !important;
+::-moz-selection,
+*::-moz-selection {
+  background-color: rgba(59, 130, 246, 0.30) !important;
+  color: #1a2744 !important;
+  -webkit-text-fill-color: #1a2744 !important;
 }
 
 @theme inline {
@@ -66,7 +65,7 @@ textarea::selection {
 
   --font-sans: var(--font-inter);
   --font-mono: var(--font-jetbrains-mono);
-  --font-didone: var(--font-didone);
+  --font-didone: var(--font-yrsa);
   --color-apex-accent: var(--apex-accent);
 }
 
@@ -85,7 +84,7 @@ body {
 
 @layer base {
   * {
-    border-radius: 0 !important;
+    /* border-radius: 0 !important; */
   }
 
   h1,
@@ -136,6 +135,12 @@ body {
     display: none;
   }
 
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-didone);
+  font-weight: 200;
+  letter-spacing: -0.01em;
+}
+
   /* Header Visibility Mode */
   .header-mode-tech {
     --nav-text: var(--midnight-blue);
@@ -150,13 +155,14 @@ body {
   .btn-tech {
     background-color: var(--maroon);
     color: white;
-    transition: all 0.3s ease;
+    border-radius: 0.75rem !important;
+    transition: all 0.4s cubic-bezier(0.25, 1, 0.4, 1);
   }
 
   .btn-tech:hover {
-    background-color: var(--maroon-hover);
-    transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(128, 0, 0, 0.15);
+    background-color: var(--maroon);
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 12px 24px -6px rgba(128, 0, 0, 0.3), 0 4px 12px -4px rgba(128, 0, 0, 0.2);
   }
 
   .antigravity-shadow {
@@ -183,40 +189,36 @@ body {
     filter: contrast(150%) brightness(100%);
   }
 
-  /* Premium Button Shell */
   .premium-btn {
-    @apply relative overflow-hidden transition-all duration-500;
-    transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+    @apply relative overflow-hidden transition-all duration-500 rounded-xl;
+    transition-timing-function: cubic-bezier(0.25, 1, 0.4, 1);
     background-color: var(--maroon);
     border: 1px solid transparent;
     cursor: pointer;
+    border-radius: 0.75rem !important;
   }
 
   .premium-btn:hover {
-    @apply scale-[1.02] -translate-y-1;
-    background-color: var(--maroon-hover);
-    box-shadow: 0 20px 40px rgba(128, 0, 0, 0.12);
+    @apply scale-[1.02] -translate-y-[2px];
+    background-color: var(--maroon);
+    box-shadow: 0 16px 32px -8px rgba(128, 0, 0, 0.25), 0 8px 16px -6px rgba(128, 0, 0, 0.15);
   }
 
-  .premium-btn::after {
-    content: "";
-    @apply absolute inset-0 opacity-0 transition-opacity duration-500;
-    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.1), transparent);
+  /* Card Premium Hover */
+  .premium-card-hover {
+    transition: all 0.5s cubic-bezier(0.25, 1, 0.4, 1);
   }
 
-  .premium-btn:hover::after {
-    @apply opacity-100;
-    animation: shine 1.5s infinite;
+  .premium-card-hover:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px -10px rgba(28, 28, 30, 0.08), 0 10px 20px -5px rgba(28, 28, 30, 0.04);
+    border-color: rgba(28, 28, 30, 0.1);
   }
 
-  @keyframes shine {
-    0% {
-      transform: translateX(-100%);
-    }
-
-    100% {
-      transform: translateX(100%);
-    }
+  /* Smooth Section Transitions */
+  .section-transition {
+    mask-image: linear-gradient(to bottom, transparent, black 5%, black 95%, transparent);
+    -webkit-mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent);
   }
 }
 

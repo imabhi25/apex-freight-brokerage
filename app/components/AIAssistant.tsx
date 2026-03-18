@@ -84,7 +84,7 @@ const AIAssistant = () => {
                                     <Bot className="w-4 h-4 text-black" />
                                 </div>
                                 <div>
-                                    <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--midnight-blue)]">APEX-1 ENGINE</h4>
+                                    <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] font-mono text-[var(--midnight-blue)]">APEX-1 ENGINE</h4>
                                     <div className="flex items-center gap-1.5 mt-0.5">
                                         <div className="w-1.5 h-1.5 rounded-full animate-pulse bg-[var(--cobalt-blue)]" />
                                         <span className="text-[8px] text-[var(--midnight-blue)]/40 uppercase tracking-widest">NEURAL LINK ACTIVE</span>

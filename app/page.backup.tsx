@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Truck, Globe, Shield, Clock, Radar, ShieldCheck, BarChart3, UserCheck, Workflow, Scale, Calendar, ChevronDown } from "lucide-react";
+import { ArrowRight, Truck, Globe, Shield, Clock, Radar, ShieldCheck, BarChart3, UserCheck, Workflow, Scale, Calendar } from "lucide-react";
 import ServiceShowcase from "./components/ServiceShowcase";
 import CityAutocomplete from "./components/CityAutocomplete";
 
@@ -17,11 +17,9 @@ export default function Home() {
   });
   const [dateError, setDateError] = useState("");
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
-  const [isSubmitAttempted, setIsSubmitAttempted] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitAttempted(true);
     const newErrors: Record<string, string> = {};
     if (!formData.origin.trim()) newErrors.origin = "REQUIRED";
     if (!formData.destination.trim()) newErrors.destination = "REQUIRED";
@@ -72,9 +70,9 @@ export default function Home() {
   };
 
   // Strict Form Layout: Native Top-Labels and Open Inputs
-  const inputBaseClass = "block w-full text-[15px] font-medium font-sans text-[var(--charcoal)] bg-transparent border-0 border-b border-[var(--charcoal)]/30 pb-3 focus:border-[var(--maroon)] focus:bg-[var(--maroon)]/[0.01] focus:ring-0 focus:outline-none transition-all duration-500 ease-[0.25,1,0.4,1] placeholder:text-[var(--charcoal)]/35";
+  const inputBaseClass = "block w-full text-[15px] font-medium font-sans text-[var(--charcoal)] bg-transparent border-0 border-b border-[var(--charcoal)]/25 pb-3 focus:border-[var(--maroon)] focus:ring-0 focus:outline-none transition-all duration-300 placeholder:text-[var(--charcoal)]/35";
   const labelClass = "text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.2em] font-mono text-[var(--charcoal)]/70 block mb-4";
-  const errorClass = "text-[10px] font-bold text-[var(--maroon)] uppercase tracking-[0.1em] font-mono mt-2 block";
+  const errorClass = "text-[10px] font-bold text-red-500 uppercase tracking-[0.1em] font-mono mt-2 block";
 
   const services = [
     { icon: <Truck className="w-8 h-8" />, title: "Full Truckload", desc: "Dedicated capacity across North America with real-time tracking." },
@@ -116,7 +114,7 @@ export default function Home() {
             <span className="text-[var(--charcoal)] font-mono text-[10px] md:text-[12px] uppercase tracking-[0.3em] mb-4 md:mb-6 block opacity-70 px-4">
               Focused Freight Brokerage for North American Shipments
             </span>
-            <h1 className="mb-6 md:mb-8 text-4xl md:text-6xl lg:text-7xl font-extralight leading-[1.05] text-[var(--charcoal)] max-w-4xl mx-auto uppercase" style={{ fontFamily: 'var(--font-didone), serif' }}>
+            <h1 className="mb-6 md:mb-8 text-4xl md:text-6xl lg:text-7xl leading-[1.05] text-[var(--charcoal)] max-w-4xl mx-auto uppercase" style={{ fontFamily: 'var(--font-didone), "Bodoni MT", "Didot", serif' }}>
               PRECISION FREIGHT SOLUTIONS<br className="hidden md:block" /> FOR DRY VAN & REEFER
             </h1>
             <p className="text-[var(--charcoal)]/80 text-lg md:text-xl font-light max-w-lg mx-auto mb-12 leading-relaxed">
@@ -128,9 +126,9 @@ export default function Home() {
                   Request a Quote <ArrowRight className="w-4 h-4 group-hover:translate-x-[5px] transition-transform duration-[320ms] ease-[0.25,1,0.5,1]" />
                 </span>
               </a>
-              <a href="/carrier" className="group px-8 sm:px-12 py-5 sm:py-6 border border-[var(--charcoal)]/15 text-[var(--charcoal)] font-bold uppercase tracking-[0.2em] text-[11px] sm:text-[12px] hover:bg-[var(--charcoal)]/[0.02] hover:border-[var(--charcoal)]/30 hover:-translate-y-[2px] hover:scale-[1.02] hover:shadow-2xl transition-all duration-500 ease-[0.25,1,0.4,1] w-full sm:w-auto text-center cursor-pointer rounded-xl">
+              <a href="/carrier" className="group px-8 sm:px-12 py-5 sm:py-6 border border-[var(--charcoal)]/15 text-[var(--charcoal)] font-bold uppercase tracking-[0.2em] text-[11px] sm:text-[12px] hover:bg-[var(--charcoal)]/[0.02] hover:border-[var(--charcoal)]/30 hover:-translate-y-[2px] hover:scale-[1.01] hover:shadow-[0_15px_35px_-5px_rgba(28,28,30,0.06),0_8px_15px_-5px_rgba(28,28,30,0.04)] transition-all duration-[320ms] ease-[0.25,1,0.5,1] w-full sm:w-auto text-center cursor-pointer">
                 <span className="relative z-10 flex items-center justify-center gap-2">
-                  Join Carrier Network <ArrowRight className="w-4 h-4 group-hover:translate-x-[5px] transition-transform duration-500 ease-[0.25,1,0.4,1]" />
+                  Join Carrier Network <ArrowRight className="w-4 h-4 group-hover:translate-x-[5px] transition-transform duration-[320ms] ease-[0.25,1,0.5,1]" />
                 </span>
               </a>
             </div>
@@ -196,7 +194,7 @@ export default function Home() {
                         transition: { duration: 0.9, ease: [0.25, 1, 0.4, 1] }
                       }
                     }}
-                    className="group relative border-t border-black/[0.06] pt-10 pb-14 px-4 md:px-14 bg-transparent premium-card-hover"
+                    className="group relative border-t border-black/[0.06] pt-10 pb-14 px-4 md:px-14 bg-transparent transition-all duration-700 ease-[0.16,1,0.3,1] hover:bg-[var(--maroon)]/[0.02] hover:shadow-[0_12px_32px_-8px_rgba(0,0,0,0.06)] hover:border-[var(--maroon)]/[0.12]"
                   >
                     <div className="flex items-start gap-8 md:gap-12">
                       {/* Icon + Number Column */}
@@ -286,15 +284,11 @@ export default function Home() {
                       <CityAutocomplete
                         label="ORIGIN CITY *"
                         value={formData.origin}
-                        onChange={(res) => {
-                          setFormData({ ...formData, origin: res.city });
-                          if (formErrors.origin) setFormErrors({ ...formErrors, origin: "" });
-                          else if (isSubmitAttempted && !res.city.trim()) setFormErrors({ ...formErrors, origin: "REQUIRED" });
-                        }}
+                        onChange={(res) => { setFormData({ ...formData, origin: res.city }); if (formErrors.origin) setFormErrors({ ...formErrors, origin: "" }); }}
                         onError={() => { }}
-                        inputBaseClass={`${inputBaseClass} ${formErrors.origin ? 'border-[var(--maroon)] focus:border-[var(--maroon)]' : ''}`}
+                        inputBaseClass={inputBaseClass}
                         labelClass={labelClass}
-                        errorClass="text-[10px] font-bold text-[var(--maroon)] uppercase tracking-[0.1em] font-mono mt-1 absolute bottom-[-20px] left-0"
+                        errorClass="text-[10px] font-bold text-red-500 uppercase tracking-[0.1em] font-mono mt-1 absolute bottom-[-20px] left-0"
                         compact={true}
                         error={formErrors.origin}
                       />
@@ -305,42 +299,28 @@ export default function Home() {
                       <CityAutocomplete
                         label="DESTINATION CITY *"
                         value={formData.destination}
-                        onChange={(res) => {
-                          setFormData({ ...formData, destination: res.city });
-                          if (formErrors.destination) setFormErrors({ ...formErrors, destination: "" });
-                          else if (isSubmitAttempted && !res.city.trim()) setFormErrors({ ...formErrors, destination: "REQUIRED" });
-                        }}
+                        onChange={(res) => { setFormData({ ...formData, destination: res.city }); if (formErrors.destination) setFormErrors({ ...formErrors, destination: "" }); }}
                         onError={() => { }}
-                        inputBaseClass={`${inputBaseClass} ${formErrors.destination ? 'border-[var(--maroon)] focus:border-[var(--maroon)]' : ''}`}
+                        inputBaseClass={inputBaseClass}
                         labelClass={labelClass}
-                        errorClass="text-[10px] font-bold text-[var(--maroon)] uppercase tracking-[0.1em] font-mono mt-1 absolute bottom-[-20px] left-0"
+                        errorClass="text-[10px] font-bold text-red-500 uppercase tracking-[0.1em] font-mono mt-1 absolute bottom-[-20px] left-0"
                         compact={true}
                         error={formErrors.destination}
                       />
                       {/* Reserved error slot — keeps layout stable */}
-                      <span className="text-[10px] font-bold text-[var(--maroon)] uppercase tracking-[0.1em] font-mono mt-2 block min-h-[16px]">&nbsp;</span>
+                      <span className="text-[10px] font-bold text-red-500 uppercase tracking-[0.1em] font-mono mt-2 block min-h-[16px]">&nbsp;</span>
                     </div>
 
                     {/* Row 2/3 */}
                     <div className="flex flex-col relative z-0">
                       <label className={labelClass}>EQUIPMENT *</label>
-                      <div className="relative flex items-center">
-                        <select className={`${inputBaseClass} appearance-none cursor-pointer ${formErrors.equipment ? 'border-[var(--maroon)] focus:border-[var(--maroon)]' : ''}`} value={formData.equipment} onChange={(e) => {
-                          const val = e.target.value;
-                          setFormData({ ...formData, equipment: val });
-                          if (formErrors.equipment) setFormErrors({ ...formErrors, equipment: "" });
-                          else if (isSubmitAttempted && !val) setFormErrors({ ...formErrors, equipment: "REQUIRED" });
-                        }}>
-                          <option value="" disabled>Select Equipment</option>
-                          <option value="Dry Van">DRY VAN</option>
-                          <option value="Flatbed">FLATBED</option>
-                          <option value="Reefer">REFRIGERATED</option>
-                          <option value="Step Deck">STEP DECK</option>
-                        </select>
-                        <div className="absolute right-0 top-0 bottom-3 flex items-center text-[var(--charcoal)]/30 pointer-events-none">
-                          <ChevronDown className="w-4 h-4" />
-                        </div>
-                      </div>
+                      <select className={`${inputBaseClass} appearance-none cursor-pointer`} value={formData.equipment} onChange={(e) => { setFormData({ ...formData, equipment: e.target.value }); if (formErrors.equipment) setFormErrors({ ...formErrors, equipment: "" }); }}>
+                        <option value="" disabled>Select Equipment</option>
+                        <option value="Dry Van">DRY VAN</option>
+                        <option value="Flatbed">FLATBED</option>
+                        <option value="Reefer">REFRIGERATED</option>
+                        <option value="Step Deck">STEP DECK</option>
+                      </select>
                       <span className={`${errorClass} min-h-[16px]`}>{formErrors.equipment || ' '}</span>
                     </div>
 
@@ -349,14 +329,9 @@ export default function Home() {
                       <input
                         type="text"
                         placeholder="e.g. 40,000"
-                        className={`${inputBaseClass} ${formErrors.weight ? 'border-[var(--maroon)] focus:border-[var(--maroon)]' : ''}`}
+                        className={inputBaseClass}
                         value={formData.weight}
-                        onChange={(e) => {
-                          handleWeightChange(e);
-                          const raw = e.target.value.replace(/\D/g, "");
-                          if (formErrors.weight) setFormErrors({ ...formErrors, weight: "" });
-                          else if (isSubmitAttempted && !raw) setFormErrors({ ...formErrors, weight: "REQUIRED" });
-                        }}
+                        onChange={(e) => { handleWeightChange(e); if (formErrors.weight) setFormErrors({ ...formErrors, weight: "" }); }}
                       />
                       <span className={`${errorClass} min-h-[16px]`}>{formErrors.weight || ' '}</span>
                     </div>
@@ -367,13 +342,9 @@ export default function Home() {
                         <input
                           type="text"
                           placeholder="mm-dd-yyyy"
-                          className={`${inputBaseClass} tracking-widest text-[14px] ${formErrors.date ? 'border-[var(--maroon)] focus:border-[var(--maroon)]' : ''}`}
+                          className={`${inputBaseClass} tracking-widest text-[14px]`}
                           value={formData.date}
-                          onChange={(e) => {
-                            handleDateChange(e);
-                            if (formErrors.date) setFormErrors({ ...formErrors, date: "" });
-                            else if (isSubmitAttempted && !e.target.value) setFormErrors({ ...formErrors, date: "REQUIRED" });
-                          }}
+                          onChange={(e) => { handleDateChange(e); if (formErrors.date) setFormErrors({ ...formErrors, date: "" }); }}
                         />
                         <div className="absolute right-0 top-0 bottom-3 flex items-center text-[var(--charcoal)]/30 hover:text-[var(--maroon)] transition-colors duration-300">
                           <input
@@ -404,7 +375,7 @@ export default function Home() {
                   <div className="mt-auto pt-[47px] flex flex-col items-end">
                     <button
                       type="submit"
-                      className="group flex items-center gap-4 text-[var(--maroon)] transition-all duration-500 ease-[0.25,1,0.4,1] hover:-translate-y-[2px] hover:scale-[1.02] hover:drop-shadow-[0_8px_16px_rgba(114,35,46,0.2)] px-4 py-2 rounded-lg"
+                      className="group flex items-center gap-4 text-[var(--maroon)] hover:text-[var(--maroon-dark)] transition-all duration-500 ease-[0.25,1,0.4,1] hover:-translate-y-[2px] hover:scale-[1.02] hover:drop-shadow-[0_4px_8px_rgba(114,35,46,0.15)]"
                     >
                       <span className="font-mono text-[12px] uppercase tracking-[0.25em] font-bold">Submit Inquiry</span>
                       <ArrowRight className="w-4 h-4 group-hover:translate-x-2 transition-transform duration-500 ease-[0.25,1,0.4,1]" />

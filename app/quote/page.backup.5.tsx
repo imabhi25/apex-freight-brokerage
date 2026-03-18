@@ -36,7 +36,6 @@ export default function Quote() {
   const [isValidating, setIsValidating] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSubmitAttempted, setIsSubmitAttempted] = useState(false);
   const [loadingPhase, setLoadingPhase] = useState(0);
   const [equipOpen, setEquipOpen] = useState(false);
   const [currentRefId, setCurrentRefId] = useState("");
@@ -128,31 +127,9 @@ export default function Quote() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formData.destinationZip]);
 
-  const isStep1Valid = Boolean(
-    formData.organization.trim() &&
-    formData.email.trim() && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email) &&
-    formData.originCity.trim() && formData.originZip.trim() &&
-    formData.destinationCity.trim() && formData.destinationZip.trim()
-  );
-
-  const isStep2Valid = Boolean(
-    formData.commodity.trim() &&
-    formData.equipment.trim() &&
-    formData.weight.trim() &&
-    formData.dateReady.trim()
-  );
-
-  const isStep3Valid = Boolean(
-    formData.contactName.trim() &&
-    formData.phone.trim() && formData.phone.replace(/\D/g, "").length === 10
-  );
-
-  const isCurrentStepValid = currentStep === 1 ? isStep1Valid : currentStep === 2 ? isStep2Valid : isStep3Valid;
-
   const handleNext = async () => {
     const newErrors: Record<string, string> = {};
     setIsValidating(true);
-    setIsSubmitAttempted(true);
 
     if (currentStep === 1) {
       if (!formData.organization.trim()) newErrors.organization = "REQUIRED";
@@ -201,7 +178,6 @@ export default function Quote() {
   const handleSubmit = async () => {
     // Validate Step 3 fields
     const newErrors: Record<string, string> = {};
-    setIsSubmitAttempted(true);
     if (!formData.contactName.trim()) newErrors.contactName = "REQUIRED";
     if (!formData.phone.trim()) {
       newErrors.phone = "REQUIRED";
@@ -259,8 +235,8 @@ export default function Quote() {
     }
   };
 
-  const inputBaseClass = "block w-full h-[52px] px-0 text-[15px] font-medium font-sans text-[var(--charcoal)] bg-transparent border-b border-[var(--charcoal)]/30 focus:border-[var(--maroon)] focus:ring-0 focus:outline-none transition-colors duration-500 placeholder-transparent peer rounded-none [&:not(:placeholder-shown)]:border-[var(--charcoal)]/50";
-  const labelClass = "absolute left-0 top-1/2 -translate-y-1/2 text-[12px] font-bold text-[var(--charcoal)]/60 uppercase tracking-[0.2em] font-mono transition-all duration-500 pointer-events-none peer-focus:-translate-y-[44px] peer-focus:text-[var(--maroon)] peer-focus:text-[11px] peer-[:not(:placeholder-shown)]:-translate-y-[44px] peer-[:not(:placeholder-shown)]:text-[11px] peer-[:not(:placeholder-shown)]:text-[var(--charcoal)]/80";
+  const inputBaseClass = "block w-full h-[52px] px-0 text-[15px] font-medium font-sans text-[var(--charcoal)] bg-transparent border-b border-[var(--charcoal)]/30 focus:border-[var(--charcoal)]/80 focus:ring-0 focus:outline-none transition-colors duration-500 placeholder-transparent peer rounded-none [&:not(:placeholder-shown)]:border-[var(--charcoal)]/50";
+  const labelClass = "absolute left-0 top-1/2 -translate-y-1/2 text-[12px] font-bold text-[var(--charcoal)]/60 uppercase tracking-[0.2em] font-mono transition-all duration-500 pointer-events-none peer-focus:-translate-y-[44px] peer-focus:text-[var(--charcoal)] peer-focus:text-[11px] peer-[:not(:placeholder-shown)]:-translate-y-[44px] peer-[:not(:placeholder-shown)]:text-[11px] peer-[:not(:placeholder-shown)]:text-[var(--charcoal)]/80";
   const errorClass = "text-[10px] font-medium text-[var(--maroon)] uppercase tracking-[0.1em] font-mono mt-2 absolute flex items-center gap-1.5 opacity-90";
 
   const stepVariants = {
@@ -300,7 +276,6 @@ export default function Quote() {
                 jobTitle: "",
                 notes: "",
               });
-              setIsSubmitAttempted(false);
               setErrors({});
               setCurrentRefId("");
               window.scrollTo({ top: 0, behavior: "smooth" });
@@ -354,7 +329,7 @@ export default function Quote() {
                         <span className="text-[10px] font-mono font-bold text-[var(--charcoal)]/40 tracking-[0.3em] uppercase mb-4 block">
                           01 / 03
                         </span>
-                        <h2 className="text-[32px] md:text-[40px] font-light tracking-tight uppercase font-didone text-[var(--charcoal)] leading-[1.1] mb-6">
+                        <h2 className="text-[28px] md:text-[32px] font-bold tracking-[0.15em] uppercase font-mono text-[var(--charcoal)] leading-[1.2] mb-6">
                           THE<br />ROUTE
                         </h2>
                         <p className="text-[13px] font-mono tracking-[0.05em] text-[var(--charcoal)]/50 uppercase leading-relaxed max-w-[280px]">
@@ -364,22 +339,20 @@ export default function Quote() {
                     </div>
 
                     {/* RIGHT COLUMN: FIELDS */}
-                    <div className="lg:col-span-8 flex flex-col justify-between lg:pt-[54px]">
+                    <div className="lg:col-span-8 flex flex-col justify-between">
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 xl:gap-x-24 gap-y-16">
                         <div className="relative z-0 w-full group">
                           <input
                             type="text"
                             value={formData.organization}
                             onChange={(e) => {
-                              const val = e.target.value;
-                              setFormData({ ...formData, organization: val });
+                              setFormData({ ...formData, organization: e.target.value });
                               if (errors.organization) setErrors({ ...errors, organization: "" });
-                              else if (isSubmitAttempted && !val.trim()) setErrors({ ...errors, organization: "REQUIRED" });
                             }}
-                            className={`${inputBaseClass} ${errors.organization ? 'border-[var(--maroon)] focus:border-[var(--maroon)]' : ''}`}
+                            className={`${inputBaseClass}`}
                             placeholder=" "
                           />
-                          <label className={labelClass}>ORGANIZATION</label>
+                          <label className={labelClass}>ORGANIZATION *</label>
                           {errors.organization && <span className={errorClass}>{errors.organization}</span>}
                         </div>
                         <div className="relative z-0 w-full group">
@@ -387,55 +360,48 @@ export default function Quote() {
                             type="email"
                             value={formData.email}
                             onChange={(e) => {
-                              const val = e.target.value;
-                              setFormData({ ...formData, email: val });
+                              setFormData({ ...formData, email: e.target.value });
                               if (errors.email) setErrors({ ...errors, email: "" });
-                              if (isSubmitAttempted) {
-                                if (!val.trim()) setErrors({ ...errors, email: "REQUIRED" });
-                                else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)) setErrors({ ...errors, email: "INVALID EMAIL" });
-                              }
                             }}
-                            className={`${inputBaseClass} ${errors.email ? 'border-[var(--maroon)] focus:border-[var(--maroon)]' : ''}`}
+                            className={`${inputBaseClass}`}
                             placeholder=" "
                           />
-                          <label className={labelClass}>EMAIL ADDRESS</label>
+                          <label className={labelClass}>EMAIL ADDRESS *</label>
                           {errors.email && <span className={errorClass}>{errors.email}</span>}
                         </div>
                         {/* Origin City Autocomplete */}
                         <CityAutocomplete
-                          label="ORIGIN CITY"
+                          label="ORIGIN CITY *"
                           value={formData.originCity}
                           onChange={({ city, zip }) => {
                             setFormData(prev => ({ ...prev, originCity: city, originZip: zip }));
                             setErrors(prev => ({ ...prev, originCity: "", originZip: "" }));
-                            if (isSubmitAttempted && !city.trim()) setErrors(prev => ({ ...prev, originCity: "REQUIRED" }));
                           }}
                           onError={(cityErr) => {
                             setErrors(prev => ({ ...prev, originCity: cityErr || "" }));
                           }}
                           error={errors.originCity}
-                          inputBaseClass={`${inputBaseClass} ${errors.originCity ? 'border-[var(--maroon)] focus:border-[var(--maroon)]' : ''}`}
+                          inputBaseClass={inputBaseClass}
                           labelClass={labelClass}
                           errorClass={errorClass}
                         />
                         {/* Origin ZIP Autocomplete */}
                         <ZipAutocomplete
-                          label="ZIP CODE"
+                          label="ORIGIN ZIP CODE *"
                           value={formData.originZip}
                           onChange={(zip) => {
                             setFormData(prev => ({ ...prev, originZip: zip }));
                             setErrors(prev => ({ ...prev, originZip: "" }));
-                            if (isSubmitAttempted && !zip.trim()) setErrors(prev => ({ ...prev, originZip: "REQUIRED" }));
                           }}
                           onBlurValidate={() => validateZipCityPair(formData.originZip, formData.originCity, 'originCity', 'originZip')}
                           error={errors.originZip}
-                          inputBaseClass={`${inputBaseClass} ${errors.originZip ? 'border-[var(--maroon)] focus:border-[var(--maroon)]' : ''}`}
+                          inputBaseClass={inputBaseClass}
                           labelClass={labelClass}
                           errorClass={errorClass}
                         />
                         {/* Destination City Autocomplete */}
                         <CityAutocomplete
-                          label="DESTINATION CITY"
+                          label="DESTINATION CITY *"
                           value={formData.destinationCity}
                           onChange={({ city, zip }) => {
                             setFormData(prev => ({ ...prev, destinationCity: city, destinationZip: zip }));
@@ -451,7 +417,7 @@ export default function Quote() {
                         />
                         {/* Destination ZIP Autocomplete */}
                         <ZipAutocomplete
-                          label="ZIP CODE"
+                          label="DESTINATION ZIP CODE *"
                           value={formData.destinationZip}
                           onChange={(zip) => {
                             setFormData(prev => ({ ...prev, destinationZip: zip }));
@@ -465,20 +431,11 @@ export default function Quote() {
                         />
                       </div>
 
-                      <div className="pt-20 pb-4 flex flex-col items-end">
-                        <AnimatePresence>
-                            {!isStep1Valid && !isValidating && (
-                                <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} className="mb-4">
-                                     <p className="text-[10px] sm:text-[11px] font-sans tracking-wide text-[var(--charcoal)]/40 text-right">
-                                         Complete all required fields to continue.
-                                     </p>
-                                </motion.div>
-                            )}
-                        </AnimatePresence>
+                      <div className="pt-20 pb-4 flex justify-end">
                         <button
                           onClick={handleNext}
-                          disabled={isValidating || !isStep1Valid}
-                          className={`group relative inline-flex items-center gap-3 text-[12px] md:text-[13px] font-bold tracking-[0.2em] uppercase font-mono transition-all duration-500 ease-[0.25,1,0.4,1] origin-right ${(isValidating || !isStep1Valid) ? 'opacity-30 pointer-events-none text-[var(--charcoal)]' : 'text-[var(--charcoal)] hover:text-[var(--maroon)]'}`}
+                          disabled={isValidating || !(formData.organization.trim() && formData.email.trim() && formData.originCity.trim() && formData.originZip.trim() && formData.destinationCity.trim() && formData.destinationZip.trim())}
+                          className={`group relative inline-flex items-center gap-3 text-[12px] md:text-[13px] font-bold tracking-[0.2em] uppercase font-mono transition-all duration-500 ease-[0.25,1,0.4,1] origin-right ${(isValidating || !(formData.organization.trim() && formData.email.trim() && formData.originCity.trim() && formData.originZip.trim() && formData.destinationCity.trim() && formData.destinationZip.trim())) ? 'opacity-30 cursor-not-allowed text-[var(--charcoal)]' : 'text-[var(--charcoal)] hover:text-[var(--maroon)]'}`}
                         >
                           {isValidating ? "VALIDATING..." : (
                             <span className="flex items-center gap-4 relative z-10 transition-transform duration-500 group-hover:translate-x-[-4px]">
@@ -510,7 +467,7 @@ export default function Quote() {
                         <span className="text-[10px] font-mono font-bold text-[var(--charcoal)]/40 tracking-[0.3em] uppercase mb-4 block">
                           02 / 03
                         </span>
-                        <h2 className="text-[32px] md:text-[40px] font-light tracking-tight uppercase font-didone text-[var(--charcoal)] leading-[1.1] mb-6">
+                        <h2 className="text-[28px] md:text-[32px] font-bold tracking-[0.15em] uppercase font-mono text-[var(--charcoal)] leading-[1.2] mb-6">
                           THE<br />LOAD
                         </h2>
                         <p className="text-[13px] font-mono tracking-[0.05em] text-[var(--charcoal)]/50 uppercase leading-relaxed max-w-[280px]">
@@ -520,7 +477,7 @@ export default function Quote() {
                     </div>
 
                     {/* RIGHT COLUMN: FIELDS */}
-                    <div className="lg:col-span-8 flex flex-col justify-between lg:pt-[54px]">
+                    <div className="lg:col-span-8 flex flex-col justify-between">
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 xl:gap-x-24 gap-y-16">
 
                         {/* Commodity — full width */}
@@ -529,15 +486,13 @@ export default function Quote() {
                             type="text"
                             value={formData.commodity}
                             onChange={(e) => {
-                              const val = e.target.value;
-                              setFormData({ ...formData, commodity: val });
+                              setFormData({ ...formData, commodity: e.target.value });
                               if (errors.commodity) setErrors({ ...errors, commodity: "" });
-                              else if (isSubmitAttempted && !val.trim()) setErrors({ ...errors, commodity: "REQUIRED" });
                             }}
-                            className={`${inputBaseClass} ${errors.commodity ? 'border-[var(--maroon)] focus:border-[var(--maroon)]' : ''}`}
+                            className={`${inputBaseClass}`}
                             placeholder=" "
                           />
-                          <label className={labelClass}>COMMODITY</label>
+                          <label className={labelClass}>COMMODITY *</label>
                           {errors.commodity && <span className={errorClass}>{errors.commodity}</span>}
                         </div>
 
@@ -546,7 +501,7 @@ export default function Quote() {
                           <button
                             type="button"
                             onClick={() => setEquipOpen((o) => !o)}
-                            className={`${inputBaseClass} relative ${errors.equipment ? 'border-[var(--maroon)] focus:border-[var(--maroon)]' : ''}`}
+                            className={`${inputBaseClass} relative`}
                             style={{ paddingRight: '2rem' }}
                           >
                             <span className={`block w-full text-left truncate ${formData.equipment ? "opacity-100" : "opacity-0"}`}>
@@ -562,7 +517,7 @@ export default function Quote() {
                           <label
                             className={`absolute left-0 text-[12px] font-bold uppercase tracking-[0.2em] font-mono transition-all duration-500 pointer-events-none ${formData.equipment ? "top-1/2 -translate-y-[44px] text-[11px] text-[var(--charcoal)]/80" : "top-1/2 -translate-y-1/2 text-[var(--charcoal)]/60"}`}
                           >
-                            EQUIPMENT TYPE
+                            EQUIPMENT TYPE *
                           </label>
                           {errors.equipment && <span className={errorClass}>{errors.equipment}</span>}
 
@@ -639,12 +594,11 @@ export default function Quote() {
                               const formatted = raw ? Number(raw).toLocaleString("en-US") : "";
                               setFormData({ ...formData, weight: formatted });
                               if (errors.weight) setErrors({ ...errors, weight: "" });
-                              else if (isSubmitAttempted && !raw) setErrors({ ...errors, weight: "REQUIRED" });
                             }}
-                            className={`${inputBaseClass} ${errors.weight ? 'border-[var(--maroon)] focus:border-[var(--maroon)]' : ''}`}
+                            className={`${inputBaseClass}`}
                             placeholder=" "
                           />
-                          <label className={labelClass}>TOTAL WEIGHT (LBS)</label>
+                          <label className={labelClass}>TOTAL WEIGHT (LBS) *</label>
                           {errors.weight && <span className={errorClass}>{errors.weight}</span>}
                         </div>
                       </div>
@@ -695,34 +649,23 @@ export default function Quote() {
                       </div>
 
                       {/* Nav buttons */}
-                      <div className="pt-20 pb-4 flex flex-col items-end">
-                        <AnimatePresence>
-                            {!isStep2Valid && (
-                                <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} className="mb-4">
-                                     <p className="text-[10px] sm:text-[11px] font-sans tracking-wide text-[var(--charcoal)]/40 text-right">
-                                         Complete all required fields to continue.
-                                     </p>
-                                </motion.div>
-                            )}
-                        </AnimatePresence>
-                        <div className="flex gap-8 items-center justify-end w-full">
-                          <button
-                            onClick={handleBack}
-                            className="text-[13px] font-bold tracking-[0.2em] uppercase font-mono text-[var(--charcoal)]/50 hover:text-[var(--maroon)] hover:-translate-y-[1px] inline-block transition-all duration-500 ease-[0.16,1,0.3,1]"
-                          >
-                            BACK
-                          </button>
-                          <button
-                            onClick={handleNext}
-                            disabled={!isStep2Valid}
-                            className={`group relative inline-flex items-center gap-3 text-[12px] md:text-[13px] font-bold tracking-[0.2em] uppercase font-mono transition-all duration-500 ease-[0.25,1,0.4,1] origin-right ${isStep2Valid ? 'text-[var(--charcoal)] hover:text-[var(--maroon)]' : 'opacity-30 pointer-events-none text-[var(--charcoal)]'}`}
-                          >
-                            <span className="flex items-center gap-4 relative z-10 transition-transform duration-500 group-hover:translate-x-[-4px]">
-                              NEXT: CONTACT INFO
-                              <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-2 transition-transform duration-500 ease-[0.25,1,0.5,1]" />
-                            </span>
-                          </button>
-                        </div>
+                      <div className="pt-20 pb-4 flex gap-8 items-center justify-end">
+                        <button
+                          onClick={handleBack}
+                          className="text-[13px] font-bold tracking-[0.2em] uppercase font-mono text-[var(--charcoal)]/50 hover:text-[var(--maroon)] hover:scale-105 origin-right inline-block transition-all duration-500 ease-[0.16,1,0.3,1]"
+                        >
+                          BACK
+                        </button>
+                        <button
+                          onClick={handleNext}
+                          disabled={!(formData.commodity.trim() && formData.equipment && formData.weight.trim() && formData.cargoValue.trim())}
+                          className={`group relative inline-flex items-center gap-3 text-[12px] md:text-[13px] font-bold tracking-[0.2em] uppercase font-mono transition-all duration-500 ease-[0.25,1,0.4,1] origin-right ${(formData.commodity.trim() && formData.equipment && formData.weight.trim() && formData.cargoValue.trim()) ? 'text-[var(--charcoal)] hover:text-[var(--maroon)]' : 'opacity-30 cursor-not-allowed text-[var(--charcoal)]'}`}
+                        >
+                          <span className="flex items-center gap-4 relative z-10 transition-transform duration-500 group-hover:translate-x-[-4px]">
+                            NEXT: CONTACT INFO
+                            <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-2 transition-transform duration-500 ease-[0.25,1,0.5,1]" />
+                          </span>
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -746,7 +689,7 @@ export default function Quote() {
                         <span className="text-[10px] font-mono font-bold text-[var(--charcoal)]/40 tracking-[0.3em] uppercase mb-4 block">
                           03 / 03
                         </span>
-                        <h2 className="text-[32px] md:text-[40px] font-light tracking-tight uppercase font-didone text-[var(--charcoal)] leading-[1.1] mb-6">
+                        <h2 className="text-[28px] md:text-[32px] font-bold tracking-[0.15em] uppercase font-mono text-[var(--charcoal)] leading-[1.2] mb-6">
                           THE<br />CONTACT
                         </h2>
                         <p className="text-[13px] font-mono tracking-[0.05em] text-[var(--charcoal)]/50 uppercase leading-relaxed max-w-[280px]">
@@ -756,7 +699,7 @@ export default function Quote() {
                     </div>
 
                     {/* RIGHT COLUMN: FIELDS */}
-                    <div className="lg:col-span-8 flex flex-col justify-between lg:pt-[54px]">
+                    <div className="lg:col-span-8 flex flex-col justify-between">
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 xl:gap-x-24 gap-y-12 text-left">
                         {/* Contact Name — full width */}
                         <div className="relative z-0 w-full group md:col-span-2">
@@ -764,15 +707,13 @@ export default function Quote() {
                             type="text"
                             value={formData.contactName}
                             onChange={(e) => {
-                              const val = e.target.value;
-                              setFormData({ ...formData, contactName: val });
+                              setFormData({ ...formData, contactName: e.target.value });
                               if (errors.contactName) setErrors({ ...errors, contactName: "" });
-                              else if (isSubmitAttempted && !val.trim()) setErrors({ ...errors, contactName: "REQUIRED" });
                             }}
-                            className={`${inputBaseClass} ${errors.contactName ? 'border-[var(--maroon)] focus:border-[var(--maroon)]' : ''}`}
+                            className={`${inputBaseClass}`}
                             placeholder=" "
                           />
-                          <label className={labelClass}>CONTACT NAME</label>
+                          <label className={labelClass}>CONTACT NAME *</label>
                           {errors.contactName && <span className={errorClass}>{errors.contactName}</span>}
                         </div>
 
@@ -785,16 +726,11 @@ export default function Quote() {
                               const formatted = formatPhoneNumber(e.target.value);
                               setFormData({ ...formData, phone: formatted });
                               if (errors.phone) setErrors({ ...errors, phone: "" });
-                              if (isSubmitAttempted) {
-                                const digits = formatted.replace(/\D/g, "");
-                                if (!digits) setErrors({ ...errors, phone: "REQUIRED" });
-                                else if (digits.length !== 10) setErrors({ ...errors, phone: "INVALID PHONE" });
-                              }
                             }}
-                            className={`${inputBaseClass} ${errors.phone ? 'border-[var(--maroon)] focus:border-[var(--maroon)]' : ''}`}
+                            className={`${inputBaseClass}`}
                             placeholder="(###) ###-####"
                           />
-                          <label className={labelClass}>PHONE NUMBER</label>
+                          <label className={labelClass}>PHONE NUMBER *</label>
                           {errors.phone && <span className={errorClass}>{errors.phone}</span>}
                         </div>
 
@@ -811,67 +747,56 @@ export default function Quote() {
                         </div>
 
                         {/* Additional Notes — full width textarea */}
-                        <div className="relative z-0 w-full group md:col-span-2 pt-2">
+                        <div className="relative z-0 w-full group md:col-span-2">
                           <textarea
                             value={formData.notes}
                             rows={4}
                             onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-                            className="block w-full min-h-[140px] pt-6 pb-4 px-0 text-[15px] font-medium font-sans text-[var(--charcoal)] bg-transparent border-b border-[var(--charcoal)]/30 focus:border-[var(--maroon)] focus:ring-0 focus:outline-none transition-colors duration-500 placeholder-transparent peer resize-none [&:not(:placeholder-shown)]:border-[var(--charcoal)]/50 rounded-none"
+                            className={`${inputBaseClass} resize-none`}
                             placeholder=" "
                           />
-                          <label className="absolute left-0 top-6 text-[12px] font-bold text-[var(--charcoal)]/60 uppercase tracking-[0.2em] font-mono transition-all duration-500 pointer-events-none peer-focus:-translate-y-[32px] peer-focus:text-[var(--maroon)] peer-focus:text-[11px] peer-[:not(:placeholder-shown)]:-translate-y-[32px] peer-[:not(:placeholder-shown)]:text-[11px] peer-[:not(:placeholder-shown)]:text-[var(--charcoal)]/80">ADDITIONAL NOTES</label>
+                          <label className={labelClass}>ADDITIONAL NOTES</label>
                         </div>
                       </div>
 
                       {/* Nav + Submit */}
-                      <div className="pt-16 pb-4 flex flex-col items-end w-full">
-                        {/* Optional gentle guidance text when form is incomplete */}
-                        <AnimatePresence>
-                            {!isStep3Valid && !isSubmitting && (
-                                <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} className="mb-4">
-                                     <p className="text-[10px] sm:text-[11px] font-sans tracking-wide text-[var(--charcoal)]/40 text-right">
-                                         Complete all required fields to continue.
-                                     </p>
-                                </motion.div>
-                            )}
-                        </AnimatePresence>
+                      <div className="pt-12 mt-4 border-t border-[var(--charcoal)]/5 flex flex-col sm:flex-row gap-8 items-center justify-between w-full">
+                        {/* Supporting Info */}
+                        <div className="flex flex-col gap-2 order-2 sm:order-1 text-center sm:text-left">
+                          <p className="text-[10px] sm:text-[11px] font-mono tracking-widest text-[var(--charcoal)]/50 uppercase leading-relaxed">
+                            Reviewed by our operations team during business hours.
+                            <br className="hidden sm:block" />
+                            <span className="text-[var(--charcoal)]/30">System encrypted.</span>
+                          </p>
+                        </div>
 
                         {/* Actions */}
-                        <div className="flex items-center justify-between w-full">
+                        <div className="flex items-center gap-6 sm:gap-8 order-1 sm:order-2 w-full sm:w-auto overflow-hidden">
                           <button
                             onClick={handleBack}
                             disabled={isSubmitting}
-                            className="text-[12px] sm:text-[13px] font-bold tracking-[0.2em] uppercase font-mono text-[var(--charcoal)]/40 hover:text-[var(--maroon)] hover:-translate-y-[1px] transition-all duration-400 ease-[0.16,1,0.3,1] disabled:opacity-30 whitespace-nowrap"
+                            className="text-[12px] sm:text-[13px] font-bold tracking-[0.2em] uppercase font-mono text-[var(--charcoal)]/40 hover:text-[var(--maroon)] hover:scale-105 transition-all duration-400 ease-[0.16,1,0.3,1] disabled:opacity-30 origin-right whitespace-nowrap"
                           >
-                            <ArrowRight className="w-4 h-4 rotate-180 inline-block mr-2" />
                             BACK
                           </button>
-                          <div className="flex flex-col items-end">
-                            <button
-                              onClick={handleSubmit}
-                              disabled={isSubmitting || !isStep3Valid}
-                              className={`group inline-flex items-center justify-center sm:justify-end gap-3 text-[var(--maroon)] transition-all duration-500 ease-[0.25,1,0.4,1] ${(isSubmitting || !isStep3Valid) ? 'opacity-30 pointer-events-none' : 'hover:-translate-y-[2px] hover:scale-[1.02] hover:drop-shadow-[0_8px_16px_rgba(114,35,46,0.2)]'}`}
-                            >
-                              {isSubmitting ? (
-                                <span className="inline-flex items-center gap-3 text-[12px] font-mono uppercase tracking-[0.25em] font-bold whitespace-nowrap">
-                                  <span className="w-1.5 h-1.5 bg-[var(--maroon)] animate-ping rounded-full shrink-0" />
-                                  SUBMITTING...
-                                </span>
-                              ) : (
-                                <>
-                                  <span className="font-mono text-[12px] uppercase tracking-[0.25em] font-bold whitespace-nowrap">Submit Inquiry</span>
-                                  <ArrowRight className="w-4 h-4 shrink-0 group-hover:translate-x-1.5 transition-transform duration-500 ease-[0.25,1,0.4,1]" />
-                                </>
-                              )}
-                            </button>
-                          </div>
-                        </div>
-
-                        {/* Supporting Info */}
-                        <div className="flex flex-col items-end mt-4 sm:mt-5 transition-opacity duration-500" style={{ opacity: isStep3Valid ? 1 : 0 }}>
-                          <p className="text-[9px] font-mono tracking-[0.15em] text-[var(--charcoal)]/40 uppercase text-right leading-relaxed mb-3">
-                            Reviewed during business hours.<br />Freight details remain confidential.
-                          </p>
+                          <button
+                            onClick={handleSubmit}
+                            disabled={isSubmitting || !(formData.contactName.trim() && formData.phone.trim() && formData.jobTitle.trim())}
+                            className={`group relative overflow-hidden inline-flex items-center justify-center gap-3 px-8 sm:px-12 py-4 bg-[var(--charcoal)] text-white text-[12px] sm:text-[13px] font-bold tracking-[0.2em] uppercase font-mono transition-all duration-500 ease-[0.25,1,0.4,1] hover:-translate-y-[2px] shadow-[0_4px_20px_rgba(28,28,30,0.15)] hover:shadow-[0_8px_30px_rgba(28,28,30,0.25)] origin-right w-full sm:w-auto ${isSubmitting || !(formData.contactName.trim() && formData.phone.trim() && formData.jobTitle.trim()) ? 'opacity-40 cursor-not-allowed' : ''}`}
+                          >
+                            <span className="absolute inset-0 bg-[#3A3A3C] translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[0.25,1,0.4,1]" />
+                            {isSubmitting ? (
+                              <span className="flex items-center justify-center gap-3 relative z-10">
+                                <span className="w-1.5 h-1.5 bg-white animate-ping rounded-full" />
+                                SUBMITTING...
+                              </span>
+                            ) : (
+                              <span className="relative z-10 flex items-center justify-center gap-2">
+                                SUBMIT INQUIRY
+                                <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-[5px] transition-transform duration-[320ms] ease-[0.25,1,0.5,1]" />
+                              </span>
+                            )}
+                          </button>
                         </div>
                       </div>
                     </div>

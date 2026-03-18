@@ -4,7 +4,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { searchByZip, type USCity } from "../data/us-cities";
 
 interface ZipAutocompleteProps {
-    label: string;
+    label: React.ReactNode;
     value: string;                              // Controlled from parent
     onChange: (zip: string) => void;            // Called on every keystroke and selection
     onBlurValidate?: () => void;

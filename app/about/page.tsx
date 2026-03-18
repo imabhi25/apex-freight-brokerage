@@ -39,156 +39,190 @@ export default function About() {
             <div className="w-full max-w-7xl relative z-10">
                 {/* Header Section */}
                 <FadeInUpBox delay={0.1}>
-                    <div className="mb-16 md:mb-24">
-                        <h1
-                            className="text-6xl md:text-8xl lg:text-[140px] font-extralight text-[var(--charcoal)] tracking-[-0.05em] leading-[0.85] uppercase mb-16"
-                            style={{ fontFamily: 'var(--font-didone), "Bodoni MT", "Didot", serif' }}
-                        >
-                            Logistics,<br />Redefined.
-                        </h1>
-                        <p className="text-[var(--charcoal)]/30 text-lg md:text-xl font-light tracking-[0.3em] uppercase font-mono max-w-2xl leading-relaxed">
-                            "Absolute certainty in an uncertain world."
-                        </p>
+                    <div className="mb-32 md:mb-48 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-end">
+                        <div className="lg:col-span-7 xl:col-span-8">
+                            <h1
+                                className="text-5xl md:text-7xl lg:text-[100px] font-extralight text-[var(--charcoal)] tracking-[-0.04em] leading-[0.9] uppercase"
+                                style={{ fontFamily: 'var(--font-didone), serif' }}
+                            >
+                                Freight,<br />Managed With Precision.
+                            </h1>
+                        </div>
+                        <div className="lg:col-span-5 xl:col-span-4 lg:pb-4">
+                            <p className="text-[16px] md:text-[18px] font-medium text-[var(--charcoal)]/80 tracking-tight font-sans leading-[1.6]">
+                                We coordinate temperature-controlled, dry van, and time-critical freight with a focus on disciplined execution, trusted visibility, and commercial reliability.
+                            </p>
+                        </div>
                     </div>
                 </FadeInUpBox>
 
                 {/* Values 3-Column Grid */}
                 <FadeInUpBox delay={0.2}>
                     <div
-                        className="grid grid-cols-1 md:grid-cols-3 border-t border-[var(--light-gray)] mb-16 md:mb-24 relative z-10"
+                        className="grid grid-cols-1 md:grid-cols-3 border-t border-[var(--charcoal)]/10 mb-20 md:mb-32 relative z-10"
                         onMouseLeave={() => setHoveredColumn(null)}
                     >
                         {/* Precision */}
                         <motion.div
-                            className="pt-12 pb-16 md:pr-12 md:border-r border-[var(--light-gray)] flex flex-col justify-between h-full cursor-default"
+                            className="pt-16 md:pt-20 pb-16 md:pr-12 md:border-r border-[var(--charcoal)]/10 flex flex-col justify-between h-full cursor-default"
                             onMouseEnter={() => setHoveredColumn(0)}
-                            animate={{ opacity: hoveredColumn !== null && hoveredColumn !== 0 ? 0.4 : 1 }}
-                            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                            animate={{ opacity: hoveredColumn !== null && hoveredColumn !== 0 ? 0.3 : 1 }}
+                            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                         >
                             <div>
                                 <h2
-                                    className="text-3xl font-light text-[var(--text-charcoal)] mb-8 uppercase tracking-tight"
-                                    style={{ fontFamily: 'var(--font-didone), "Bodoni MT", "Didot", serif' }}
+                                    className="text-3xl md:text-[34px] font-light text-[var(--charcoal)] mb-6 uppercase tracking-[0.02em]"
+                                    style={{ fontFamily: 'var(--font-didone), serif' }}
                                 >
                                     Precision
                                 </h2>
-                                <p className="text-[var(--text-charcoal)]/60 text-base md:text-lg leading-relaxed tracking-wide font-light">
-                                    Every movement is coordinated for absolute accuracy. We leverage deep industry
-                                    insights and live data streams to orchestrate complex supply chains with
-                                    meticulous attention to detail.
+                                <p className="text-[var(--charcoal)]/80 text-[15px] md:text-base leading-[1.7] tracking-wide font-sans md:pr-4">
+                                    Every shipment is coordinated with disciplined attention to routing, timing, and execution so complex moves stay controlled from planning through delivery.
                                 </p>
                             </div>
                         </motion.div>
 
                         {/* Transparency */}
                         <motion.div
-                            className="pt-12 pb-16 md:px-12 md:border-r border-[var(--light-gray)] flex flex-col justify-between h-full cursor-default"
+                            className="pt-16 md:pt-20 pb-16 md:px-12 md:border-r border-[var(--charcoal)]/10 flex flex-col justify-between h-full cursor-default"
                             onMouseEnter={() => setHoveredColumn(1)}
-                            animate={{ opacity: hoveredColumn !== null && hoveredColumn !== 1 ? 0.4 : 1 }}
-                            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                            animate={{ opacity: hoveredColumn !== null && hoveredColumn !== 1 ? 0.3 : 1 }}
+                            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                         >
                             <div>
                                 <h2
-                                    className="text-3xl font-light text-[var(--text-charcoal)] mb-8 uppercase tracking-tight"
-                                    style={{ fontFamily: 'var(--font-didone), "Bodoni MT", "Didot", serif' }}
+                                    className="text-3xl md:text-[34px] font-light text-[var(--charcoal)] mb-6 uppercase tracking-[0.02em]"
+                                    style={{ fontFamily: 'var(--font-didone), serif' }}
                                 >
                                     Transparency
                                 </h2>
-                                <p className="text-[var(--text-charcoal)]/60 text-base md:text-lg leading-relaxed tracking-wide font-light">
-                                    Trust is built through visibility. Our workflow provides uncompromising clarity
-                                    into every mile, milestone, and cost, ensuring that performance is measurable
-                                    and data is reliable.
+                                <p className="text-[var(--charcoal)]/80 text-[15px] md:text-base leading-[1.7] tracking-wide font-sans md:pr-4">
+                                    We prioritize visibility across milestones, costs, and shipment status so clients can make decisions with confidence, not assumptions.
                                 </p>
                             </div>
                         </motion.div>
 
                         {/* Reliability */}
                         <motion.div
-                            className="pt-12 pb-16 md:pl-12 flex flex-col justify-between h-full cursor-default"
+                            className="pt-16 md:pt-20 pb-16 md:pl-12 flex flex-col justify-between h-full cursor-default"
                             onMouseEnter={() => setHoveredColumn(2)}
-                            animate={{ opacity: hoveredColumn !== null && hoveredColumn !== 2 ? 0.4 : 1 }}
-                            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                            animate={{ opacity: hoveredColumn !== null && hoveredColumn !== 2 ? 0.3 : 1 }}
+                            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                         >
                             <div>
                                 <h2
-                                    className="text-3xl font-light text-[var(--text-charcoal)] mb-8 uppercase tracking-tight"
-                                    style={{ fontFamily: 'var(--font-didone), "Bodoni MT", "Didot", serif' }}
+                                    className="text-3xl md:text-[34px] font-light text-[var(--charcoal)] mb-6 uppercase tracking-[0.02em]"
+                                    style={{ fontFamily: 'var(--font-didone), serif' }}
                                 >
                                     Reliability
                                 </h2>
-                                <p className="text-[var(--text-charcoal)]/60 text-base md:text-lg leading-relaxed tracking-wide font-light">
-                                    We operate in the space where certainty meets speed. Our network is vetted
-                                    for excellence, providing a fail-safe infrastructure that delivers consistent
-                                    results in an ever-shifting global market.
+                                <p className="text-[var(--charcoal)]/80 text-[15px] md:text-base leading-[1.7] tracking-wide font-sans md:pr-4">
+                                    We build dependable freight solutions through vetted carrier networks, clear communication, and consistent operational follow-through.
                                 </p>
                             </div>
                         </motion.div>
                     </div>
                 </FadeInUpBox>
 
+                {/* Operating Model Section */}
+                <FadeInUpBox delay={0.22}>
+                    <div className="mb-24 md:mb-32 border-b border-[var(--charcoal)]/10 pb-20">
+                        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16">
+                            <div className="lg:col-span-4">
+                                <h2 
+                                    className="text-[10px] font-mono tracking-[0.4em] font-bold text-[var(--maroon)] uppercase mb-6"
+                                >
+                                    OPERATING MODEL
+                                </h2>
+                                <h3 
+                                    className="text-3xl md:text-4xl lg:text-5xl font-light text-[var(--charcoal)] leading-[1.1] uppercase"
+                                    style={{ fontFamily: 'var(--font-didone), serif' }}
+                                >
+                                    Built for Modern<br />Freight Demands.
+                                </h3>
+                            </div>
+                            <div className="lg:col-span-8 lg:pt-16">
+                                <p className="text-[var(--charcoal)]/70 text-lg md:text-xl leading-[1.8] font-normal tracking-tight font-sans max-w-3xl">
+                                    Our approach centers on operational discipline. By integrating specialized capacity with proactive monitoring, we solve the common trade-offs between precision and scale. Whether moving perishable goods or urgent retail inventory, we provide the grounded execution required to protect your commitments.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </FadeInUpBox>
+
                 {/* Narrative Section */}
                 <FadeInUpBox delay={0.25}>
-                    <div className="mb-24">
+                    <div className="mb-32">
                         <h2
-                            className="text-5xl md:text-7xl font-extralight text-[var(--text-charcoal)] mb-12 uppercase tracking-tighter"
-                            style={{ fontFamily: 'var(--font-didone), "Bodoni MT", "Didot", serif' }}
+                            className="text-4xl md:text-6xl font-extralight text-[var(--charcoal)] mb-12 uppercase tracking-tight"
+                            style={{ fontFamily: 'var(--font-didone), serif' }}
                         >
-                            Built for the Bold.
+                            Built for High-Standards<br />Freight Operations.
                         </h2>
-                        <div className="max-w-3xl">
-                            <p className="text-[var(--text-charcoal)]/60 text-lg md:text-2xl leading-[1.7] font-light tracking-wide">
-                                We don't just move freight; we move economies. Apex was founded on the belief that logistics
-                                should be a competitive advantage, not a secondary concern. Our partners are visionaries
-                                who demand more than just transportation—they demand a standard of excellence that scales
-                                with their ambition.
+                        <div className="max-w-4xl">
+                            <p className="text-[var(--charcoal)]/80 text-xl md:text-2xl leading-[1.6] font-normal tracking-tight font-sans">
+                                Apex is designed for shippers who require more than just capacity. We provide disciplined execution across temperature-controlled, dry van, and time-critical freight requirements, ensuring your commitments are protected through every mile of the journey.
                             </p>
                         </div>
                     </div>
                 </FadeInUpBox>
 
-                {/* Stats Row */}
+                {/* Capabilities Grid */}
                 <FadeInUpBox delay={0.3}>
-                    {/* Managed Value */}
-                    <motion.div
-                        className="text-center md:border-r border-[var(--light-gray)] last:border-0 py-8"
-                        whileHover={{ scale: 1.05 }}
-                        transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                    >
-                        <div className="text-[10px] md:text-[11px] font-mono tracking-[0.4em] uppercase text-[var(--maroon)] font-bold mb-2">ONBOARDING</div>
-                        <div className="text-xl font-bold text-[var(--text-charcoal)] px-4">PREPARING FOR OPERATIONS</div>
-                    </motion.div>
-                    {/* Carrier Network */}
-                    <motion.div
-                        className="text-center md:border-r border-[var(--light-gray)] last:border-0 py-8"
-                        whileHover={{ scale: 1.05 }}
-                        transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                    >
-                        <div className="text-[10px] md:text-[11px] font-mono tracking-[0.4em] uppercase text-[var(--maroon)] font-bold mb-2">PARTNERSHIPS</div>
-                        <div className="text-xl font-bold text-[var(--text-charcoal)] px-4">ACCEPTING CARRIER INQUIRIES</div>
-                    </motion.div>
-                    {/* Support */}
-                    <motion.div
-                        className="text-center md:border-r border-[var(--light-gray)] last:border-0 py-8"
-                        whileHover={{ scale: 1.05 }}
-                        transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                    >
-                        <div className="text-[10px] md:text-[11px] font-mono tracking-[0.4em] uppercase text-[var(--maroon)] font-bold mb-2">SUPPORT</div>
-                        <div className="text-xl font-bold text-[var(--text-charcoal)] px-4">DIRECT COORDINATION READY</div>
-                    </motion.div>
-                    {/* Quotes */}
-                    <motion.div
-                        className="text-center md:border-r border-[var(--light-gray)] last:border-0 py-8"
-                        whileHover={{ scale: 1.05 }}
-                        transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                    >
-                        <div className="text-[10px] md:text-[11px] font-mono tracking-[0.4em] uppercase text-[var(--maroon)] font-bold mb-2">QUOTES</div>
-                        <div className="text-xl font-bold text-[var(--text-charcoal)] px-4">REQUESTS WELCOME DURING LAUNCH</div>
-                    </motion.div>
+                    <div className="mb-24">
+                        <div className="flex items-center gap-4 mb-12">
+                            <div className="w-12 h-[1px] bg-[var(--maroon)]"></div>
+                            <span className="text-[10px] font-mono tracking-[0.4em] font-bold text-[var(--charcoal)]/40 uppercase">04 / CAPABILITIES</span>
+                        </div>
+                        
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 border-t border-b border-[var(--charcoal)]/10">
+                            {/* Capacity */}
+                            <motion.div
+                                className="text-center md:border-r border-[var(--charcoal)]/10 py-12 md:py-16 px-6"
+                                whileHover={{ backgroundColor: "rgba(28, 28, 30, 0.02)" }}
+                                transition={{ duration: 0.3 }}
+                            >
+                                <div className="text-[10px] md:text-[11px] font-mono tracking-[0.4em] uppercase text-[var(--maroon)] font-bold mb-4">CAPACITY</div>
+                                <div className="text-lg md:text-xl font-bold text-[var(--text-charcoal)] leading-tight uppercase tracking-tight">TEMPERATURE-CONTROLLED &<br />DRY VAN</div>
+                            </motion.div>
+                            
+                            {/* Service */}
+                            <motion.div
+                                className="text-center lg:border-r border-[var(--charcoal)]/10 py-12 md:py-16 px-6"
+                                whileHover={{ backgroundColor: "rgba(28, 28, 30, 0.02)" }}
+                                transition={{ duration: 0.3 }}
+                            >
+                                <div className="text-[10px] md:text-[11px] font-mono tracking-[0.4em] uppercase text-[var(--maroon)] font-bold mb-4">SERVICE</div>
+                                <div className="text-lg md:text-xl font-bold text-[var(--text-charcoal)] leading-tight uppercase tracking-tight">TIME-CRITICAL &<br />EXPEDITED</div>
+                            </motion.div>
+                            
+                            {/* Execution */}
+                            <motion.div
+                                className="text-center md:border-r border-[var(--charcoal)]/10 py-12 md:py-16 px-6"
+                                whileHover={{ backgroundColor: "rgba(28, 28, 30, 0.02)" }}
+                                transition={{ duration: 0.3 }}
+                            >
+                                <div className="text-[10px] md:text-[11px] font-mono tracking-[0.4em] uppercase text-[var(--maroon)] font-bold mb-4">EXECUTION</div>
+                                <div className="text-lg md:text-xl font-bold text-[var(--text-charcoal)] leading-tight uppercase tracking-tight">DISCIPLINED CARRIER<br />COORDINATION</div>
+                            </motion.div>
+                            
+                            {/* Trust */}
+                            <motion.div
+                                className="text-center py-12 md:py-16 px-6"
+                                whileHover={{ backgroundColor: "rgba(28, 28, 30, 0.02)" }}
+                                transition={{ duration: 0.3 }}
+                            >
+                                <div className="text-[10px] md:text-[11px] font-mono tracking-[0.4em] uppercase text-[var(--maroon)] font-bold mb-4">TRUST</div>
+                                <div className="text-lg md:text-xl font-bold text-[var(--text-charcoal)] leading-tight uppercase tracking-tight">CLEAR MILESTONE<br />VISIBILITY</div>
+                            </motion.div>
+                        </div>
+                    </div>
                 </FadeInUpBox>
 
                 {/* Footer CTA */}
                 <FadeInUpBox delay={0.35}>
-                    <div className="mt-20 flex justify-center md:justify-end">
+                    <div className="mt-32 pb-12 flex flex-col items-center justify-center text-center">
+                        <p className="text-[13px] font-mono tracking-[0.3em] text-[var(--charcoal)]/40 uppercase mb-8">Ready to start a conversation?</p>
                         <WorkWithUsButton />
                     </div>
                 </FadeInUpBox>
